@@ -70,14 +70,14 @@
                             <span class="mockup__menubar-item">编辑</span>
                         </div>
                         <div class="mockup__menubar-right">
-                            <img src="/logo.png" alt="VocaMac" class="mockup__menubar-icon mockup__mic-icon">
+                            <img src="{{ "logo.png" | relURL }}" alt="VocaMac" class="mockup__menubar-icon mockup__mic-icon">
                             <span class="mockup__menubar-item" id="mockup-date">Tue 4 Mar</span>
                         </div>
                     </div>
                     <div class="mockup__popover">
                         <div class="mockup__header">
                             <div class="mockup__header-left">
-                                <img src="/logo.png" alt="VocaMac" class="mockup__app-logo">
+                                <img src="{{ "logo.png" | relURL }}" alt="VocaMac" class="mockup__app-logo">
                                 <div>
                                     <div class="mockup__app-name">VocaMac</div>
                                     <div class="mockup__model">模型：Small</div>
@@ -158,62 +158,62 @@
                 <p class="text-secondary">为重视隐私与速度的开发者及高级用户打造。</p>
             </div>
             <div class="features__grid">
-                <a href="/features/system-wide-text-injection/" class="feature-card">
+                <a href="{{ "features/system-wide-text-injection/" | relURL }}" class="feature-card">
                     <div class="feature-card__icon">⌨️</div>
                     <h3>全系统文字注入</h3>
                     <p>转写文字出现在光标处。浏览器、Slack、VS Code、表格、终端，处处可用。</p>
                 </a>
-                <a href="/features/push-to-talk/" class="feature-card">
+                <a href="{{ "features/push-to-talk/" | relURL }}" class="feature-card">
                     <div class="feature-card__icon">🎯</div>
                     <h3>按住说话</h3>
                     <p>按住快捷键录音，松手即转写。简单、可预期、没有意外。</p>
                 </a>
-                <a href="/features/double-tap-toggle/" class="feature-card">
+                <a href="{{ "features/double-tap-toggle/" | relURL }}" class="feature-card">
                     <div class="feature-card__icon">👆</div>
                     <h3>双击切换</h3>
                     <p>更喜欢切换模式？双击开始，再双击结束，由你决定。</p>
                 </a>
-                <a href="/features/smart-model-selection/" class="feature-card">
+                <a href="{{ "features/smart-model-selection/" | relURL }}" class="feature-card">
                     <div class="feature-card__icon">🧠</div>
                     <h3>智能模型推荐</h3>
                     <p>自动识别硬件（Apple Silicon、Intel、内存）并推荐最合适的 Whisper 模型。</p>
                 </a>
-                <a href="/features/apple-silicon-native/" class="feature-card">
+                <a href="{{ "features/apple-silicon-native/" | relURL }}" class="feature-card">
                     <div class="feature-card__icon">⚡</div>
                     <h3>Apple Silicon 原生</h3>
                     <p>WhisperKit 通过 CoreML + Metal + 神经网络引擎加速，在 M1/M2/M3/M4 上极速运行。</p>
                 </a>
-                <a href="/features/fully-configurable/" class="feature-card">
+                <a href="{{ "features/fully-configurable/" | relURL }}" class="feature-card">
                     <div class="feature-card__icon">⚙️</div>
                     <h3>全面可配置</h3>
                     <p>自定义快捷键、模型、语言、静音检测。带模型管理的设置窗口。</p>
                 </a>
-                <a href="/features/languages/" class="feature-card">
+                <a href="{{ "features/languages/" | relURL }}" class="feature-card">
                     <div class="feature-card__icon">🌍</div>
                     <h3>99+ 种语言</h3>
                     <p>自动检测或手动指定。英语、西语、法语、德语、中文、日语等。</p>
                 </a>
-                <a href="/features/visual-feedback/" class="feature-card">
+                <a href="{{ "features/visual-feedback/" | relURL }}" class="feature-card">
                     <div class="feature-card__icon">📊</div>
                     <h3>视觉反馈</h3>
                     <p>菜单栏图标变色、实时音量条，录音时光标旁可选指示器。</p>
                 </a>
-                <a href="/features/translation/" class="feature-card">
+                <a href="{{ "features/translation/" | relURL }}" class="feature-card">
                     <div class="feature-card__icon">🌐</div>
                     <h3>语音翻译</h3>
                     <p>说一种语言，得到另一种语言的文字。由 Whisper 驱动的内置翻译。</p>
                 </a>
-                <a href="/features/silence-detection/" class="feature-card">
+                <a href="{{ "features/silence-detection/" | relURL }}" class="feature-card">
                     <div class="feature-card__icon">🤫</div>
                     <h3>静音检测</h3>
                     <p>停止说话后自动结束录音，可调节灵敏度与静音时长。</p>
                 </a>
-                <a href="/features/launch-at-login/" class="feature-card">
+                <a href="{{ "features/launch-at-login/" | relURL }}" class="feature-card">
                     <div class="feature-card__icon">🚀</div>
                     <h3>登录时启动</h3>
                     <p>登录 Mac 时自动启动 VocaMac，需要时随时就绪。</p>
                 </a>
-                <a href="/features/clipboard-preservation/" class="feature-card">
+                <a href="{{ "features/clipboard-preservation/" | relURL }}" class="feature-card">
                     <div class="feature-card__icon">📋</div>
                     <h3>剪贴板保护</h3>
                     <p>注入文字前保存、注入后恢复剪贴板，不会覆盖原有内容。</p>
@@ -413,7 +413,7 @@
                     </div>
                     <div class="install__updating">
                         <h4>保持更新</h4>
-                        <p>VocaMac 内置更新检查。<a href="/features/github-release-updates/">了解更新机制 →</a></p>
+                        <p>VocaMac 内置更新检查。<a href="{{ "features/github-release-updates/" | relURL }}">了解更新机制 →</a></p>
                     </div>
                 </div>
             </div>

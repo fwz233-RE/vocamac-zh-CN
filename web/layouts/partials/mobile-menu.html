@@ -35,10 +35,16 @@
         }, { passive: true });
 
         // ========== Smooth Scroll ==========
-        document.querySelectorAll('a[href^="#"], a[href^="/#"]').forEach(anchor => {
+        document.querySelectorAll('a[href*="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 const href = this.getAttribute('href');
-                const hash = href.startsWith('/#') ? href.substring(1) : href;
+                const hashIndex = href.indexOf('#');
+                if (hashIndex === -1) return;
+                const hash = href.substring(hashIndex);
+                const pathPart = href.substring(0, hashIndex);
+                const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+                const linkPath = pathPart.replace(/\/$/, '') || '/';
+                if (pathPart && linkPath !== currentPath) return;
                 e.preventDefault();
                 const target = document.querySelector(hash);
                 if (target) {

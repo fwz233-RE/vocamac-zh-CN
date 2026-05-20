@@ -32,9 +32,9 @@
     <link rel="canonical" href="{{ .Permalink }}">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/x-icon" href="{{ "favicon.ico" | relURL }}">
+    <link rel="icon" type="image/png" sizes="48x48" href="{{ "favicon.png" | relURL }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ "apple-touch-icon.png" | relURL }}">
     <meta name="theme-color" content="#FFFFFF">
 
     <!-- Open Graph -->
@@ -58,7 +58,7 @@
     <meta name="twitter:image:alt" content="VocaMac - macOS 本地语音转文字">
     <meta name="twitter:creator" content="{{ .Site.Params.twitterHandle }}">
 
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="{{ "style.css" | relURL }}">
 
     <!-- Google tag (gtag.js) -->
     {{ with .Site.Params.gaID }}

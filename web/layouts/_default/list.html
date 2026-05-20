@@ -1,7 +1,7 @@
 {{ define "main" }}
 <section class="feature-hero">
     <div class="container">
-        <a href="/" class="back-link">← 返回首页</a>
+        <a href="{{ "" | relURL }}" class="back-link">← 返回首页</a>
         <h1>{{ .Title }}</h1>
         {{ with .Params.description }}<p class="feature-hero__subtitle">{{ . }}</p>{{ end }}
     </div>
