@@ -48,6 +48,9 @@ install_app() {
     fi
     cp -R "$PROJECT_DIR/VocaMac.app" "/Applications/VocaMac.app"
 
+    # Remove repo copy so Spotlight/Launchpad don't show duplicate entries
+    rm -rf "$PROJECT_DIR/VocaMac.app"
+
     echo "🚀 Launching VocaMac..."
     open "/Applications/VocaMac.app"
 
