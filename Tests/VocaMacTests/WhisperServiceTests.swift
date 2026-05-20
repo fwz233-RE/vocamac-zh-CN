@@ -1,24 +1,10 @@
 // WhisperServiceTests.swift
 // VocaMac Tests
 //
-// Tests for WhisperService: translation and hallucination filtering.
+// Tests for WhisperService: hallucination filtering.
 
 import XCTest
 @testable import VocaMac
-
-// MARK: - WhisperService Translation Tests
-
-final class WhisperServiceTranslationTests: XCTestCase {
-
-    func testTranscribeMethodAcceptsTranslateParameter() {
-        // This test verifies that the transcribe method signature includes the translate parameter
-        // The actual transcription would require a loaded model and audio data,
-        // but we're just testing that the method compiles with the translate parameter
-        let service = WhisperService()
-        XCTAssertNotNil(service)
-    }
-}
-
 
 // MARK: - WhisperService Hallucination Filtering Tests
 

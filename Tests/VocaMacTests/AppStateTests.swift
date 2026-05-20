@@ -1,32 +1,37 @@
 // AppStateTests.swift
 // VocaMac Tests
 //
-// Tests for AppState: translation toggle, onboarding, launch at login.
+// Tests for AppState: simplified Chinese toggle, onboarding, launch at login.
 
 import XCTest
 import ServiceManagement
 @testable import VocaMac
 
-// MARK: - Translation Toggle Tests
+// MARK: - Simplified Chinese Toggle Tests
 
-final class TranslationToggleTests: XCTestCase {
+final class SimplifiedChineseToggleTests: XCTestCase {
 
-    @MainActor
-    func testTranslationEnabledDefaultValue() {
-        let (appState, _) = AppState.makeTestState()
-        XCTAssertFalse(appState.translationEnabled)
+    override func setUp() {
+        super.setUp()
+        UserDefaults.standard.removeObject(forKey: "vocamac.simplifiedChineseEnabled")
     }
 
     @MainActor
-    func testTranslationEnabledCanBeToggled() {
+    func testSimplifiedChineseEnabledDefaultValue() {
         let (appState, _) = AppState.makeTestState()
-        XCTAssertFalse(appState.translationEnabled)
+        XCTAssertTrue(appState.simplifiedChineseEnabled)
+    }
 
-        appState.translationEnabled = true
-        XCTAssertTrue(appState.translationEnabled)
+    @MainActor
+    func testSimplifiedChineseEnabledCanBeToggled() {
+        let (appState, _) = AppState.makeTestState()
+        XCTAssertTrue(appState.simplifiedChineseEnabled)
 
-        appState.translationEnabled = false
-        XCTAssertFalse(appState.translationEnabled)
+        appState.simplifiedChineseEnabled = false
+        XCTAssertFalse(appState.simplifiedChineseEnabled)
+
+        appState.simplifiedChineseEnabled = true
+        XCTAssertTrue(appState.simplifiedChineseEnabled)
     }
 }
 

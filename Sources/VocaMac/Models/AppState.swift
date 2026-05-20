@@ -93,7 +93,7 @@ final class AppState: ObservableObject {
     // MARK: - User Settings (persisted via UserDefaults)
 
     @AppStorage("vocamac.hasCompletedOnboarding") var hasCompletedOnboarding: Bool = false
-    @AppStorage("vocamac.activationMode") var activationMode: ActivationMode = .doubleTapToggle
+    @AppStorage("vocamac.activationMode") var activationMode: ActivationMode = .pushToTalk
     @AppStorage("vocamac.hotKeyCode") var hotKeyCode: Int = 63  // Fn
     @AppStorage("vocamac.doubleTapThreshold") var doubleTapThreshold: Double = 0.4
     @AppStorage("vocamac.silenceThreshold") var silenceThreshold: Double = 0.01
@@ -104,7 +104,7 @@ final class AppState: ObservableObject {
     @AppStorage("vocamac.launchAtLogin") var launchAtLogin: Bool = false
     @AppStorage("vocamac.preserveClipboard") var preserveClipboard: Bool = true
     @AppStorage("vocamac.soundEffectsEnabled") var soundEffectsEnabled: Bool = true
-    @AppStorage("vocamac.translationEnabled") var translationEnabled: Bool = false
+    @AppStorage("vocamac.simplifiedChineseEnabled") var simplifiedChineseEnabled: Bool = true
     @AppStorage("vocamac.logLevel") var logLevel: String = "info"
 
     // MARK: - Services
@@ -489,8 +489,7 @@ final class AppState: ObservableObject {
             let language = selectedLanguage == "auto" ? nil : selectedLanguage
             let result = try await whisperService.transcribe(
                 audioData: audioData,
-                language: language,
-                translate: translationEnabled
+                language: language
             )
 
             lastTranscription = result
@@ -498,9 +497,13 @@ final class AppState: ObservableObject {
             // Inject text at cursor position (text is already filtered
             // by WhisperService to remove hallucination tokens like [BLANK_AUDIO])
             let trimmedText = result.text.trimmingCharacters(in: .whitespacesAndNewlines)
-            if !trimmedText.isEmpty {
+            let outputText = ChineseScriptNormalizer.apply(
+                to: trimmedText,
+                simplifiedChineseEnabled: simplifiedChineseEnabled
+            )
+            if !outputText.isEmpty {
                 textInjector.inject(
-                    text: trimmedText,
+                    text: outputText,
                     preserveClipboard: preserveClipboard
                 )
             } else {

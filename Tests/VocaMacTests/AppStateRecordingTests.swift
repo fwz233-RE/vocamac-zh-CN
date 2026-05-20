@@ -11,6 +11,11 @@ import XCTest
 @MainActor
 final class AppStateRecordingTests: XCTestCase {
 
+    override func tearDown() {
+        UserDefaults.standard.removeObject(forKey: "vocamac.simplifiedChineseEnabled")
+        super.tearDown()
+    }
+
     func testInitialState() {
         let (appState, _) = AppState.makeTestState()
 
@@ -102,11 +107,52 @@ final class AppStateRecordingTests: XCTestCase {
                      "Sound effects should be enabled by default")
     }
 
-    func testTranslationDisabledByDefault() {
+    func testSimplifiedChineseEnabledByDefault() {
+        UserDefaults.standard.removeObject(forKey: "vocamac.simplifiedChineseEnabled")
         let (appState, _) = AppState.makeTestState()
 
-        XCTAssertFalse(appState.translationEnabled,
-                      "Translation should be disabled by default")
+        XCTAssertTrue(appState.simplifiedChineseEnabled,
+                      "Simplified Chinese normalization should be enabled by default")
+    }
+
+    @MainActor
+    func testStopRecordingConvertsTraditionalChineseWhenEnabled() async {
+        let (appState, mocks) = AppState.makeTestState()
+        mocks.audioEngine.stopRecordingResult = [0.1, 0.2]
+        mocks.whisperService.mockTranscriptionResult = VocaTranscription(
+            text: " 臺灣  ",
+            duration: 0.5,
+            detectedLanguage: "zh",
+            audioLengthSeconds: 0.1,
+            modelUsed: .tiny
+        )
+        appState.simplifiedChineseEnabled = true
+        appState.isRecording = true
+        appState.appStatus = .recording
+
+        await appState.stopRecordingAndTranscribe()
+
+        XCTAssertEqual(mocks.textInjector.lastInjectedText, "台湾")
+    }
+
+    @MainActor
+    func testStopRecordingPreservesTraditionalChineseWhenDisabled() async {
+        let (appState, mocks) = AppState.makeTestState()
+        mocks.audioEngine.stopRecordingResult = [0.1, 0.2]
+        mocks.whisperService.mockTranscriptionResult = VocaTranscription(
+            text: "臺灣",
+            duration: 0.5,
+            detectedLanguage: "zh",
+            audioLengthSeconds: 0.1,
+            modelUsed: .tiny
+        )
+        appState.simplifiedChineseEnabled = false
+        appState.isRecording = true
+        appState.appStatus = .recording
+
+        await appState.stopRecordingAndTranscribe()
+
+        XCTAssertEqual(mocks.textInjector.lastInjectedText, "臺灣")
     }
 
     func testSelectedLanguageDefault() {
@@ -119,8 +165,8 @@ final class AppStateRecordingTests: XCTestCase {
     func testActivationModeDefault() {
         let (appState, _) = AppState.makeTestState()
 
-        XCTAssertEqual(appState.activationMode, .doubleTapToggle,
-                      "Default activation mode should be double-tap toggle")
+        XCTAssertEqual(appState.activationMode, .pushToTalk,
+                      "Default activation mode should be push-to-talk")
     }
 
     func testHotKeyCodeDefault() {

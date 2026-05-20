@@ -136,13 +136,12 @@ struct GeneralSettingsTab: View {
                     .foregroundStyle(.secondary)
             }
 
-            // Translation
-            Section("翻译") {
-                Toggle("启用翻译", isOn: $appState.translationEnabled)
+            Section("文本") {
+                Toggle("简体保持", isOn: $appState.simplifiedChineseEnabled)
 
-                Text(appState.translationEnabled
-                    ? "语音将被翻译为所选语言（自动检测时默认为英语）。"
-                    : "语音将按原语言转写。语言设置仅作为识别提示。")
+                Text(appState.simplifiedChineseEnabled
+                    ? "转写结果中的繁体中文将自动转为简体后再插入。"
+                    : "转写结果按识别原文插入，不进行繁简转换。")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }

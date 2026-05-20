@@ -267,14 +267,12 @@ final class MockWhisperService: SpeechTranscribing {
     var isModelLoaded: Bool = true
     var lastTranscribedAudioData: [Float]?
     var lastLanguage: String?
-    var lastTranslate: Bool?
     var mockTranscriptionResult: VocaTranscription = VocaTranscription(text: "mock transcription", duration: 1.0, detectedLanguage: "en", audioLengthSeconds: 1.0, modelUsed: .tiny)
     var shouldThrow = false
 
-    func transcribe(audioData: [Float], language: String?, translate: Bool) async throws -> VocaTranscription {
+    func transcribe(audioData: [Float], language: String?) async throws -> VocaTranscription {
         lastTranscribedAudioData = audioData
         lastLanguage = language
-        lastTranslate = translate
         if shouldThrow {
             throw WhisperError.transcriptionFailed(reason: "mock error")
         }
