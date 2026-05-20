@@ -3,7 +3,7 @@ languageCode = "zh-cn"
 title = "VocaMac - macOS 全本地语音转文字"
 
 [params]
-  description = "macOS 上 100% 离线、开源的语音转文字。由 WhisperKit + CoreML 驱动。"
+  description = "macOS 开源离线语音转文字。按住快捷键说话，文字自动出现。100% 隐私，由 WhisperKit 驱动。"
   author = "Jatin Kumar Malik"
   twitterHandle = "@jatinkrmalik"
   githubRepo = "https://github.com/fwz233-RE/vocamac-zh-CN"

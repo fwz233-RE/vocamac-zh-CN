@@ -4,7 +4,7 @@
 
 <h1 align="center">VocaMac</h1>
 
-<p align="center"><strong>Your voice, your Mac, your privacy. Open-source dictation powered by AI.</strong></p>
+<p align="center"><strong>你的声音，你的 Mac，你的隐私。由 AI 驱动的开源听写工具。</strong></p>
 
 <div align="center">
   
@@ -27,30 +27,30 @@
 
 </div>
 
-<p align="center">Speak. It types. 100% offline, open-source voice-to-text for macOS - powered by WhisperKit. No cloud, no subscriptions, no data leaves your device. Just hold a hotkey, speak, and your words appear wherever your cursor is.</p>
+<p align="center">开口说话，文字自动输入。100% 离线、开源的 macOS 语音转文字工具，由 WhisperKit 驱动。无需云端、无需订阅、数据不离开你的设备。只需按住快捷键说话，文字就会出现在光标所在位置。</p>
 
 ---
 
-## ✨ Features
+## ✨ 功能特性
 
-- **🔒 100% Local** - All audio processing happens on your machine. No internet required — the Tiny model ships bundled and works out of the box offline.
-- **⌨️ System-Wide Text Injection** - Transcribed text is typed wherever your cursor is: browsers, Slack, VS Code, spreadsheets, terminals - everywhere.
-- **🎯 Push-to-Talk** - Hold a hotkey (default: Right Option) to record. Release to transcribe.
-- **👆 Double-Tap Toggle** - Double-tap the hotkey to start/stop recording.
-- **🧠 Smart Model Selection** - Auto-detects your hardware (Apple Silicon/Intel, RAM) and recommends the best whisper model via WhisperKit.
-- **⚡ Native Apple Acceleration** - CoreML + Metal + Neural Engine acceleration on Apple Silicon. No manual setup.
-- **📊 Visual Feedback** - Menu bar icon changes color during recording and processing. Audio level indicator shows input.
-- **🔄 Auto-Updates** - Built-in update checker queries GitHub Releases on launch and lets you download and install the latest version in one click from within the app.
-- **⚙️ Configurable** - Choose hotkeys, models, languages, silence detection thresholds, and more.
+- **🔒 100% 本地处理** - 所有音频处理都在本机完成。无需联网 — Tiny 模型已内置，开箱即用、完全离线。
+- **⌨️ 系统级文字注入** - 转写结果会输入到光标所在位置：浏览器、Slack、VS Code、电子表格、终端 — 无处不在。
+- **🎯 按住说话（Push-to-Talk）** - 按住快捷键（默认：右 Option）开始录音，松开后转写。
+- **👆 双击切换** - 双击快捷键开始/停止录音。
+- **🧠 智能模型选择** - 自动检测硬件（Apple Silicon/Intel、内存），通过 WhisperKit 推荐最佳 Whisper 模型。
+- **⚡ 原生 Apple 加速** - 在 Apple Silicon 上使用 CoreML + Metal + 神经网络引擎加速，无需手动配置。
+- **📊 可视化反馈** - 录音和处理时菜单栏图标会变色，并显示音频输入电平。
+- **🔄 自动更新** - 内置更新检查器在启动时查询 GitHub Releases，可在应用内一键下载并安装最新版本。
+- **⚙️ 可配置** - 可自定义快捷键、模型、语言、静音检测阈值等。
 
 ---
 
-## 📸 Screenshots
+## 📸 截图
 
 <p align="center">
   <img src="docs/screenshots/popover-panel.png" alt="VocaMac Popover" width="400">
   <br>
-  <em>Menu bar popover with status and controls</em>
+  <em>菜单栏弹出面板，显示状态与控制项</em>
 </p>
 
 <p align="center">
@@ -58,7 +58,7 @@
   &nbsp;&nbsp;
   <img src="docs/screenshots/menu-bar-recording.png" alt="Menu Bar - Recording" width="250">
   <br>
-  <em>Menu bar icon: idle (left) and recording (right)</em>
+  <em>菜单栏图标：空闲（左）与录音中（右）</em>
 </p>
 
 <p align="center">
@@ -66,7 +66,7 @@
   &nbsp;&nbsp;
   <img src="docs/screenshots/settings-models.png" alt="Settings - Models" width="400">
   <br>
-  <em>Settings: General tab (left) and Models tab with resource monitoring (right)</em>
+  <em>设置：通用（左）与模型页，含资源监控（右）</em>
 </p>
 
 <p align="center">
@@ -74,67 +74,67 @@
   &nbsp;&nbsp;
   <img src="docs/screenshots/settings-about.png" alt="Settings - About" width="400">
   <br>
-  <em>Settings: Audio tab (left) and About tab (right)</em>
+  <em>设置：音频（左）与关于（右）</em>
 </p>
 
 <p align="center">
   <img src="docs/screenshots/cursor-indicator.png" alt="Cursor Indicator" width="400">
   <br>
-  <em>Floating mic indicator near text cursor during recording</em>
+  <em>录音时在文本光标附近显示的浮动麦克风指示器</em>
 </p>
 
 ---
 
-## 🏛️ Why WhisperKit?
+## 🏛️ 为什么选择 WhisperKit？
 
-VocaMac uses [WhisperKit](https://github.com/argmaxinc/WhisperKit) instead of raw whisper.cpp because:
+VocaMac 使用 [WhisperKit](https://github.com/argmaxinc/WhisperKit) 而非原生 whisper.cpp，原因如下：
 
 | | WhisperKit | whisper.cpp |
 |---|-----------|-------------|
-| **Language** | Pure Swift (native) | C++ (requires bridging) |
-| **Apple Silicon** | CoreML + Neural Engine | Metal only |
-| **SPM Integration** | One-line dependency | Complex vendoring |
-| **Model Format** | CoreML (optimized per device) | GGML (generic) |
-| **Streaming** | First-class async/await | Manual threading |
-| **Quality** | Same OpenAI Whisper models | Same OpenAI Whisper models |
-| **Maintenance** | Argmax Inc. (commercial) | Community |
+| **语言** | 纯 Swift（原生） | C++（需要桥接） |
+| **Apple Silicon** | CoreML + 神经网络引擎 | 仅 Metal |
+| **SPM 集成** | 一行依赖即可 | 复杂的 vendoring |
+| **模型格式** | CoreML（按设备优化） | GGML（通用） |
+| **流式处理** | 原生 async/await | 手动线程管理 |
+| **质量** | 相同的 OpenAI Whisper 模型 | 相同的 OpenAI Whisper 模型 |
+| **维护** | Argmax Inc.（商业） | 社区 |
 
-Same accuracy, dramatically better Apple platform integration.
+准确度相同，Apple 平台集成显著更好。
 
 ---
 
-## 📋 Requirements
+## 📋 系统要求
 
-- **macOS 13 (Ventura)** or later
-- **Apple Silicon** (M1/M2/M3/M4)
-- **Xcode 15+** or Swift 5.9+ (only for building from source)
+- **macOS 13（Ventura）** 或更高版本
+- **Apple Silicon**（M1/M2/M3/M4）
+- **Xcode 15+** 或 Swift 5.9+（仅源码构建时需要）
 
-### Permissions
+### 权限
 
-VocaMac requires three macOS permissions:
+VocaMac 需要三项 macOS 权限：
 
-| Permission | Why |
+| 权限 | 用途 |
 |---|---|
-| **Microphone** | Capture your voice for transcription |
-| **Accessibility** | Global hotkeys and text injection into apps |
-| **Input Monitoring** | Detect hotkey presses system-wide |
+| **麦克风** | 采集语音用于转写 |
+| **辅助功能（Accessibility）** | 全局快捷键与向其他应用注入文字 |
+| **输入监控（Input Monitoring）** | 系统级检测快捷键按下 |
 
-> **Note:** After granting Input Monitoring, a restart of VocaMac is required for it to take effect.
+> **注意：** 授予输入监控权限后，需要重启 VocaMac 才能生效。
 
 ---
 
-## 🚀 Quick Start
+## 🚀 快速开始
 
-### Option 1: Download DMG (Recommended)
+### 方式一：下载 DMG（推荐）
 
-1. **Download** the latest `VocaMac-x.x.x-arm64.dmg` from the [Releases page](https://github.com/fwz233-RE/vocamac-zh-CN/releases)
-2. **Open** the DMG and drag VocaMac to Applications
-3. **Open** VocaMac from Applications
-4. **Grant permissions**: Microphone, Accessibility, and Input Monitoring when prompted
+1. 从 [Releases 页面](https://github.com/fwz233-RE/vocamac-zh-CN/releases) 下载最新的 `VocaMac-x.x.x-arm64.dmg`
+2. **打开** DMG，将 VocaMac 拖入「应用程序」文件夹
+3. 从「应用程序」**打开** VocaMac
+4. 按提示**授予权限**：麦克风、辅助功能、输入监控
 
-> VocaMac is **Developer ID signed and notarized** by Apple — macOS will open it without any security warnings.
+> VocaMac 已通过 Apple **Developer ID 签名并公证** — macOS 可直接打开，不会出现安全警告。
 
-### Option 2: Build from Source (Recommended)
+### 方式二：从源码构建（推荐）
 
 ```bash
 git clone https://github.com/fwz233-RE/vocamac-zh-CN.git
@@ -142,9 +142,9 @@ cd vocamac
 make install
 ```
 
-This builds VocaMac, installs it to `/Applications`, and launches it. Permissions are granted directly to VocaMac, just like the DMG method.
+这会构建 VocaMac、安装到 `/Applications` 并启动应用。权限直接授予 VocaMac，与 DMG 安装方式相同。
 
-### Option 3: CLI Commands (For Developers)
+### 方式三：CLI 命令（面向开发者）
 
 ```bash
 git clone https://github.com/fwz233-RE/vocamac-zh-CN.git
@@ -152,309 +152,308 @@ cd vocamac
 make install-cli
 ```
 
-This installs two commands to `~/.local/bin`:
-- `vocamac &`: Launch VocaMac in background
-- `vocamac-build`: Rebuild from source after pulling updates
+这会将两个命令安装到 `~/.local/bin`：
+- `vocamac &`：在后台启动 VocaMac
+- `vocamac-build`：拉取更新后从源码重新构建
 
-> **Permissions note:** In CLI mode, macOS assigns permissions to your **terminal app** (Terminal, iTerm2, etc.) rather than VocaMac itself. Grant Microphone, Accessibility, and Input Monitoring to your terminal app instead.
+> **权限说明：** CLI 模式下，macOS 会将权限授予你的**终端应用**（Terminal、iTerm2 等），而非 VocaMac 本身。请将麦克风、辅助功能、输入监控权限授予你的终端应用。
 
-### First Launch
+### 首次启动
 
-1. **VocaMac appears in your menu bar** (microphone icon, no Dock icon)
-2. **Grant permissions**: Microphone, Accessibility, and Input Monitoring (see [Permissions](#permissions) above)
-3. **First model download**: WhisperKit automatically downloads the recommended model for your device (~40–500 MB depending on hardware)
-4. **Start dictating**: Hold the **Right Option** key, speak, and release. Your words appear at the cursor!
+1. **VocaMac 出现在菜单栏**（麦克风图标，无 Dock 图标）
+2. **授予权限**：麦克风、辅助功能、输入监控（见上方[权限](#权限)）
+3. **首次模型下载**：WhisperKit 会自动为你的设备下载推荐模型（约 40–500 MB，取决于硬件）
+4. **开始听写**：按住 **右 Option** 键说话，松开后文字会出现在光标处！
 
 ---
 
-## 🌙 Nightly Builds
+## 🌙 Nightly 构建
 
-Nightly builds are automated builds from the latest `main` branch, published every day at midnight UTC when there are new commits. They let you try the latest features, fixes, and improvements before they land in a stable release.
+Nightly 构建是从最新 `main` 分支自动生成的每日构建，在有新提交时于 UTC 午夜发布。你可以在稳定版发布前提前体验最新功能、修复与改进。
 
-**Why use a nightly build?**
+**为什么使用 Nightly 构建？**
 
-- **Early access** — Test new features days or weeks before the next stable release
-- **Help improve VocaMac** — Your feedback on nightly builds catches bugs before they reach everyone
-- **Fully signed & notarized** — Nightly builds are Developer ID signed and notarized by Apple, just like stable releases. No Gatekeeper warnings, no right-click workarounds
+- **抢先体验** — 在下一个稳定版发布前数天或数周即可测试新功能
+- **帮助改进 VocaMac** — 你对 Nightly 的反馈能在问题影响所有用户前被发现
+- **完整签名与公证** — Nightly 与稳定版一样经过 Developer ID 签名和 Apple 公证，无 Gatekeeper 警告，无需右键绕过
 
-**How to install:**
+**如何安装：**
 
-1. Download the latest `VocaMac-nightly-*.dmg` from the [Nightly Release](https://github.com/fwz233-RE/vocamac-zh-CN/releases/tag/nightly)
-2. Open the DMG and drag VocaMac to Applications
-3. Grant permissions when prompted (same as a stable release)
+1. 从 [Nightly Release](https://github.com/fwz233-RE/vocamac-zh-CN/releases/tag/nightly) 下载最新的 `VocaMac-nightly-*.dmg`
+2. 打开 DMG，将 VocaMac 拖入「应用程序」
+3. 按提示授予权限（与稳定版相同）
 
-**How to identify your build:**
+**如何识别你的构建版本：**
 
-Nightly builds embed the date and commit SHA in the version string. Open **Settings → About** to see something like:
+Nightly 构建会在版本字符串中嵌入日期和 commit SHA。打开 **设置 → 关于**，可看到类似内容：
 
 ```
 Version 0.5.0-nightly.20260414+abc1234 (Nightly)
 ```
 
-This helps us pinpoint the exact code you're running if you report an issue.
+这有助于我们在你报告问题时精确定位所运行的代码。
 
-**Cadence & stability:**
+**发布节奏与稳定性：**
 
-| | Stable Release | Nightly Build |
+| | 稳定版 | Nightly 构建 |
 |---|---|---|
-| **Frequency** | When ready (manual tag) | Daily at midnight UTC |
-| **Source** | Tagged commit | Latest `main` branch |
-| **Signed & notarized** | ✅ Yes | ✅ Yes |
-| **Stability** | Production-ready | May contain incomplete features or bugs |
-| **Best for** | Daily use | Testing & early feedback |
+| **频率** | 就绪时发布（手动打 tag） | 每日 UTC 午夜 |
+| **来源** | 已打 tag 的 commit | 最新 `main` 分支 |
+| **签名与公证** | ✅ 是 | ✅ 是 |
+| **稳定性** | 可用于日常生产 | 可能包含未完成功能或 bug |
+| **适合** | 日常使用 | 测试与早期反馈 |
 
-> ⚠️ **Nightly builds may be unstable.** If you encounter issues, please [open a bug report](https://github.com/fwz233-RE/vocamac-zh-CN/issues/new) — your feedback helps us ship better stable releases!
-
----
-
-## 🎮 Usage
-
-### Push-to-Talk (Default)
-
-| Action | What Happens |
-|--------|-------------|
-| **Hold Right Option** | Recording starts (menu bar icon turns red) |
-| **Speak** | Audio is captured locally |
-| **Release Right Option** | Recording stops → transcription → text injected at cursor |
-
-### Double-Tap Toggle
-
-| Action | What Happens |
-|--------|-------------|
-| **Double-tap Right Option** | Recording starts |
-| **Speak** | Audio is captured |
-| **Double-tap Right Option again** | Recording stops → transcription → text injection |
-
-Switch between modes in **Settings → General → Activation**.
+> ⚠️ **Nightly 构建可能不稳定。** 如遇问题，请[提交 bug 报告](https://github.com/fwz233-RE/vocamac-zh-CN/issues/new) — 你的反馈有助于我们发布更好的稳定版！
 
 ---
 
-## 🧠 Whisper Models
+## 🎮 使用方法
 
-VocaMac uses OpenAI Whisper models via WhisperKit's CoreML format. The app auto-detects your hardware and recommends the best model:
+### 按住说话（默认）
 
-| Model | Parameters | Size | Speed | Quality | Best For |
+| 操作 | 效果 |
+|--------|-------------|
+| **按住右 Option** | 开始录音（菜单栏图标变红） |
+| **说话** | 本地采集音频 |
+| **松开右 Option** | 停止录音 → 转写 → 在光标处注入文字 |
+
+### 双击切换
+
+| 操作 | 效果 |
+|--------|-------------|
+| **双击右 Option** | 开始录音 |
+| **说话** | 采集音频 |
+| **再次双击右 Option** | 停止录音 → 转写 → 注入文字 |
+
+可在 **设置 → 通用 → 激活方式** 中切换模式。
+
+---
+
+## 🧠 Whisper 模型
+
+VocaMac 通过 WhisperKit 的 CoreML 格式使用 OpenAI Whisper 模型。应用会自动检测硬件并推荐最佳模型：
+
+| 模型 | 参数量 | 大小 | 速度 | 质量 | 适用场景 |
 |-------|-----------|------|-------|---------|----------|
-| **Tiny** | 39M | ~0.4 GB | ⚡⚡⚡⚡⚡ | Good | Quick notes, older Macs |
-| **Base** | 74M | ~0.8 GB | ⚡⚡⚡⚡ | Better | Daily use on 8GB Macs |
-| **Small** | 244M | ~1.5 GB | ⚡⚡⚡ | Great | 16GB+ Apple Silicon |
-| **Medium** | 769M | ~2.5 GB | ⚡⚡ | Excellent | 24GB+ for high accuracy |
-| **Large v3** | 1550M | ~4.8 GB | ⚡ | Best | Maximum accuracy |
+| **Tiny** | 39M | ~0.4 GB | ⚡⚡⚡⚡⚡ | 良好 | 快速笔记、较旧 Mac |
+| **Base** | 74M | ~0.8 GB | ⚡⚡⚡⚡ | 较好 | 8GB 内存 Mac 日常使用 |
+| **Small** | 244M | ~1.5 GB | ⚡⚡⚡ | 很好 | 16GB+ Apple Silicon |
+| **Medium** | 769M | ~2.5 GB | ⚡⚡ | 优秀 | 24GB+ 高精度需求 |
+| **Large v3** | 1550M | ~4.8 GB | ⚡ | 最佳 | 最高精度 |
 
-Models are downloaded automatically from [HuggingFace](https://huggingface.co/argmaxinc/whisperkit-coreml) on first use and cached locally. Download additional models from **Settings → Models**.
-
----
-
-## ⚙️ Configuration
-
-Open Settings from the menu bar popover or with **⌘,**
-
-### General
-- **Activation mode** - Push-to-Talk or Double-Tap Toggle
-- **Hotkey** - Choose from Right Option, Right Command, Fn, function keys, etc.
-- **Language** - Auto-detect or specify (English, Spanish, French, German, Chinese, Japanese, and more)
-- **Launch at login**
-
-### Audio
-- **Max recording duration** - 30s, 60s, 120s, or 300s
-- **Silence detection** - Auto-stop recording after configurable silence
-- **Sound effects** - Toggle audio feedback for recording start/stop
-- **Input device** - Select which microphone to use
-
-### Models
-- View system info and WhisperKit's hardware recommendation
-- Download, load, and switch between models
-- See which models are supported on your device
+模型在首次使用时从 [HuggingFace](https://huggingface.co/argmaxinc/whisperkit-coreml) 自动下载并本地缓存。可在 **设置 → 模型** 中下载更多模型。
 
 ---
 
-## 🏗️ Architecture
+## ⚙️ 配置
 
-VocaMac is built with a clean, modular architecture using native Swift and SwiftUI:
+从菜单栏弹出面板打开设置，或使用 **⌘,**
+
+### 通用
+- **激活方式** - 按住说话或双击切换
+- **快捷键** - 可选右 Option、右 Command、Fn、功能键等
+- **语言** - 自动检测或指定（英语、西班牙语、法语、德语、中文、日语等）
+- **登录时启动**
+
+### 音频
+- **最长录音时长** - 30 秒、60 秒、120 秒或 300 秒
+- **静音检测** - 可配置静音时长后自动停止录音
+- **音效** - 开关录音开始/停止的音频反馈
+- **输入设备** - 选择使用的麦克风
+
+### 模型
+- 查看系统信息与 WhisperKit 的硬件推荐
+- 下载、加载与切换模型
+- 查看当前设备支持的模型
+
+---
+
+## 🏗️ 架构
+
+VocaMac 采用清晰、模块化的架构，基于原生 Swift 与 SwiftUI 构建：
 
 ```
 VocaMacApp (SwiftUI MenuBarExtra)
-├── AppState          - Central observable state
-├── HotKeyManager     - CGEventTap global hotkey listener
-├── AudioEngine       - AVAudioEngine mic capture (16kHz, mono, Float32)
-├── WhisperService    - WhisperKit async transcription wrapper
-│   └── ModelManager  - Model download, storage, device recommendations
-│       └── SystemInfo - Hardware detection & model recommendation
-├── SoundManager      - Audio feedback (start/stop recording cues)
-├── TextInjector      - Clipboard + Cmd+V text injection
-├── MenuBarView       - Status popover UI
-└── SettingsView      - Configuration tabs (General, Models, Audio, Debug, About)
+├── AppState          - 中央可观察状态
+├── HotKeyManager     - CGEventTap 全局快捷键监听
+├── AudioEngine       - AVAudioEngine 麦克风采集（16kHz，单声道，Float32）
+├── WhisperService    - WhisperKit 异步转写封装
+│   └── ModelManager  - 模型下载、存储与设备推荐
+│       └── SystemInfo - 硬件检测与模型推荐
+├── SoundManager      - 音频反馈（开始/停止录音提示音）
+├── TextInjector      - 剪贴板 + Cmd+V 文字注入
+├── MenuBarView       - 状态弹出面板 UI
+└── SettingsView      - 配置页（通用、模型、音频、调试、关于）
 ```
 
-For detailed documentation, see:
-- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) - Technical Architecture
-- [`docs/DATA_MODEL.md`](docs/DATA_MODEL.md) - Data Model & Entity Relationships
+详细文档请参阅：
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) - 技术架构
+- [`docs/DATA_MODEL.md`](docs/DATA_MODEL.md) - 数据模型与实体关系
 
 ---
 
-## 🔧 Development
+## 🔧 开发
 
-### Prerequisites
+### 前置条件
 
-- **Xcode 15+** or Swift 5.9+ toolchain
+- **Xcode 15+** 或 Swift 5.9+ 工具链
 - **macOS 13+**
 
-### Project Structure
+### 项目结构
 
 ```
 VocaMac/
-├── Package.swift                   # SPM config (WhisperKit dependency)
+├── Package.swift                   # SPM 配置（WhisperKit 依赖）
 ├── Sources/
 │   └── VocaMac/
 │       ├── App/
-│       │   └── VocaMacApp.swift    # Entry point, MenuBarExtra
+│       │   └── VocaMacApp.swift    # 入口，MenuBarExtra
 │       ├── Views/
-│       │   ├── MenuBarView.swift   # Menu bar popover
-│       │   └── SettingsView.swift  # Settings window (5 tabs)
+│       │   ├── MenuBarView.swift   # 菜单栏弹出面板
+│       │   └── SettingsView.swift  # 设置窗口（5 个标签页）
 │       ├── Services/
-│       │   ├── AudioEngine.swift   # AVAudioEngine mic capture
-│       │   ├── HotKeyManager.swift # CGEventTap global hotkeys
-│       │   ├── WhisperService.swift# WhisperKit transcription wrapper
-│       │   ├── ModelManager.swift  # Model download & management
-│       │   ├── SoundManager.swift  # Audio feedback for recording
-│       │   ├── TextInjector.swift  # Clipboard-based text injection
-│       │   └── SystemInfo.swift    # Hardware detection
+│       │   ├── AudioEngine.swift   # AVAudioEngine 麦克风采集
+│       │   ├── HotKeyManager.swift # CGEventTap 全局快捷键
+│       │   ├── WhisperService.swift# WhisperKit 转写封装
+│       │   ├── ModelManager.swift  # 模型下载与管理
+│       │   ├── SoundManager.swift  # 录音音频反馈
+│       │   ├── TextInjector.swift  # 基于剪贴板的文字注入
+│       │   └── SystemInfo.swift    # 硬件检测
 │       ├── Models/
-│       │   ├── AppState.swift      # Central observable state
-│       │   ├── TranscriptionResult.swift  # VocaTranscription type
-│       │   └── WhisperModel.swift  # ModelSize enum, WhisperModelInfo
+│       │   ├── AppState.swift      # 中央可观察状态
+│       │   ├── TranscriptionResult.swift  # VocaTranscription 类型
+│       │   └── WhisperModel.swift  # ModelSize 枚举、WhisperModelInfo
 │       └── Resources/
 ├── Tests/
 │   └── VocaMacTests/
 ├── Makefile                        # make build, install, test, clean
 ├── scripts/
-│   ├── build.sh                    # Build .app bundle (dev)
-│   ├── install.sh                  # Install to /Applications or CLI
-│   └── uninstall.sh                # Full uninstall & cleanup
-├── web/                            # Marketing website (vocamac.com)
+│   ├── build.sh                    # 构建 .app 包（开发）
+│   ├── install.sh                  # 安装到 /Applications 或 CLI
+│   └── uninstall.sh                # 完全卸载与清理
+├── web/                            # 营销网站（vocamac.com）
 ├── docs/
-│   ├── ARCHITECTURE.md             # Technical Architecture
-│   └── DATA_MODEL.md               # Data Model & Entity Relationships
-├── LICENSE                         # AGPL-3.0 License
+│   ├── ARCHITECTURE.md             # 技术架构
+│   └── DATA_MODEL.md               # 数据模型与实体关系
+├── LICENSE                         # AGPL-3.0 许可证
 └── .gitignore
 ```
 
-### Build Commands
+### 构建命令
 
 ```bash
-make install        # Build + install to /Applications (recommended)
-make install-cli    # Install CLI commands to ~/.local/bin
-make build          # Build .app bundle in repo root (dev iteration)
-make test           # Run tests
-make run            # Launch the locally built .app
-make clean          # Remove build artifacts
-make help           # Show all commands
+make install        # 构建并安装到 /Applications（推荐）
+make install-cli    # 安装 CLI 命令到 ~/.local/bin
+make build          # 在仓库根目录构建 .app 包（开发迭代）
+make test           # 运行测试
+make run            # 启动本地构建的 .app
+make clean          # 清除构建产物
+make help           # 显示所有命令
 ```
 
-### Uninstall
+### 卸载
 
-To completely remove VocaMac and all its data (downloaded models, preferences, caches):
+要完全移除 VocaMac 及其所有数据（已下载模型、偏好设置、缓存）：
 
 ```bash
 ./scripts/uninstall.sh
 ```
 
-Use `--keep-build` to preserve build artifacts:
+使用 `--keep-build` 保留构建产物：
 
 ```bash
 ./scripts/uninstall.sh --keep-build
 ```
 
-### Troubleshooting
+### 故障排除
 
-**Reset onboarding:** To re-trigger the first-launch onboarding wizard (e.g., after an upgrade or for testing), reset the onboarding flag:
+**重置引导流程：** 若要重新触发首次启动引导向导（例如升级后或测试时），重置引导标志：
 
 ```bash
 defaults delete com.vocamac.app vocamac.hasCompletedOnboarding
 ```
 
-Then relaunch VocaMac. This only clears the onboarding state; all other preferences (hotkey, language, model) are preserved.
+然后重新启动 VocaMac。这仅清除引导状态；其他偏好设置（快捷键、语言、模型）会保留。
 
-**Reset all preferences:** To start completely fresh:
+**重置所有偏好设置：** 若要完全从头开始：
 
 ```bash
 defaults delete com.vocamac.app
 ```
 
-**Reset permissions (troubleshooting):** If permissions appear stuck or aren't being recognized after an update, you can reset them from **Settings → Debug → Reset All Permissions**, or manually via Terminal:
+**重置权限（故障排除）：** 若权限显示异常或在更新后未被识别，可在 **设置 → 调试 → 重置所有权限** 中重置，或通过终端手动操作：
 
 ```bash
 tccutil reset All com.vocamac.app
 ```
 
-This clears all permission entries (Microphone, Accessibility, Input Monitoring) for VocaMac. On next launch, macOS will prompt you to re-grant them. With Developer ID signing, permissions normally persist across updates — this reset is only needed for troubleshooting.
+这会清除 VocaMac 的所有权限条目（麦克风、辅助功能、输入监控）。下次启动时，macOS 会提示你重新授权。使用 Developer ID 签名时，权限通常会在更新后保留 — 此操作仅用于故障排除。
 
-**"Update check failed (HTTP 403)" on a shared / corporate / VPN network:** VocaMac checks for new releases by calling GitHub's public REST API, which is rate-limited to **60 unauthenticated requests per hour, per source IP**. When several people share the same egress IP (common on office VPNs, NAT'd networks, or busy CI runners), that quota is collectively exhausted and GitHub returns `HTTP 403` to every client from that IP — including VocaMac.
+**在共享/企业/VPN 网络上出现「Update check failed (HTTP 403)」：** VocaMac 通过调用 GitHub 公开 REST API 检查新版本，该 API 对**每个源 IP 每小时限 60 次未认证请求**。当多人共享同一出口 IP（常见于办公室 VPN、NAT 网络或繁忙的 CI 运行器）时，该配额会被集体耗尽，GitHub 会对来自该 IP 的所有客户端（包括 VocaMac）返回 `HTTP 403`。
 
-This is **not a bug in VocaMac** and there is nothing wrong with your install. To recover:
+这**不是 VocaMac 的 bug**，你的安装也没有问题。恢复方法：
 
-1. Disconnect from the VPN (or switch to a different network, e.g. your phone's hotspot).
-2. Open VocaMac → **Settings → About → "Check for Updates…"** and wait for it to complete.
-3. Reconnect to the VPN.
+1. 断开 VPN（或切换到其他网络，例如手机热点）。
+2. 打开 VocaMac → **设置 → 关于 →「检查更新…」**，等待完成。
+3. 重新连接 VPN。
 
-After one successful check, VocaMac caches the response's `ETag` and sends it as `If-None-Match` on every subsequent request. GitHub then replies with `304 Not Modified`, which **does not count against the rate limit**, so future checks succeed even from a rate-limited IP — until a new release ships and the ETag changes (at which point one fresh `200` response per machine is needed before `304`s resume).
+一次成功检查后，VocaMac 会缓存响应的 `ETag`，并在后续每次请求中将其作为 `If-None-Match` 发送。GitHub 随后会回复 `304 Not Modified`，**不计入速率限制**，因此即使从已被限流的 IP 也能成功检查 — 直到有新版本发布且 ETag 变化（此时每台机器需要一次新的 `200` 响应，之后才会恢复 `304`）。
 
 ---
 
+## 🌐 跨平台
 
-## 🌐 Cross-Platform
+VocaMac 是 Voca 家族中的 macOS 成员：
 
-VocaMac is the macOS member of the Voca family:
-
-| Platform | Project | Status |
+| 平台 | 项目 | 状态 |
 |----------|---------|--------|
-|  Linux | [VocaLinux](https://github.com/jatinkrmalik/vocalinux) | ✅ Available |
+|  Linux | [VocaLinux](https://github.com/jatinkrmalik/vocalinux) | ✅ 可用 |
 |  macOS | [VocaMac](https://github.com/fwz233-RE/vocamac-zh-CN) | 🚀 Beta |
-| 🪟 Windows | [VocaWin](https://vocawin.com) | 📋 Planned |
+| 🪟 Windows | [VocaWin](https://vocawin.com) | 📋 计划中 |
 
-Each platform uses native technologies for the best possible integration, while sharing the same UX patterns and Whisper model family.
-
----
-
-## 🤝 Related Projects
-
-- [WhisperKit](https://github.com/argmaxinc/WhisperKit) - Swift native on-device speech recognition
-- [VocaLinux](https://github.com/jatinkrmalik/vocalinux) - Voice-to-text for Linux
-- [OpenAI Whisper](https://github.com/openai/whisper) - Original Whisper model
+各平台使用原生技术以实现最佳集成，同时共享相同的 UX 模式与 Whisper 模型家族。
 
 ---
 
-## ⚠️ Known Limitations
+## 🤝 相关项目
 
-- **Larger models require a one-time download**: VocaMac ships with the Whisper Tiny model bundled — you can dictate immediately with no internet connection. Switching to a larger model (Small, Medium, Large) requires a one-time download; all subsequent launches work fully offline.
-- **macOS only**: Requires macOS 13 (Ventura) or later.
-- **Permissions reset on rebuild (build-from-source only)**: When building from source without a Developer ID certificate, macOS resets Accessibility and Input Monitoring permissions on every rebuild due to ad-hoc signing. Release builds are Developer ID signed so permissions persist across updates.
+- [WhisperKit](https://github.com/argmaxinc/WhisperKit) - Swift 原生设备端语音识别
+- [VocaLinux](https://github.com/jatinkrmalik/vocalinux) - Linux 语音转文字
+- [OpenAI Whisper](https://github.com/openai/whisper) - 原始 Whisper 模型
 
-### Permissions and Code Signing
+---
 
-Release builds of VocaMac are **Developer ID signed and notarized** by Apple. Accessibility and Input Monitoring permissions persist across updates — no manual re-granting required.
+## ⚠️ 已知限制
 
-**For developers building from source:** If you don't have a Developer ID certificate, `build.sh` falls back to ad-hoc signing. With ad-hoc signing, macOS resets Accessibility and Input Monitoring permissions on every rebuild because the CDHash changes. This is standard macOS security behavior — all open-source apps with Accessibility (Rectangle, Maccy, AltTab, etc.) have the same limitation when ad-hoc signed.
+- **较大模型需要一次性下载**：VocaMac 内置 Whisper Tiny 模型 — 无需联网即可立即听写。切换到更大模型（Small、Medium、Large）需要一次性下载；之后所有启动均可完全离线。
+- **仅支持 macOS**：需要 macOS 13（Ventura）或更高版本。
+- **重建时权限重置（仅源码构建）**：在没有 Developer ID 证书的情况下从源码构建时，由于 ad-hoc 签名，macOS 会在每次重建后重置辅助功能与输入监控权限。正式版采用 Developer ID 签名，更新后权限会保留。
 
-**Workarounds for ad-hoc builds:**
+### 权限与代码签名
 
-| Approach | How | Permissions Persist |
+VocaMac 正式版已通过 Apple **Developer ID 签名并公证**。辅助功能与输入监控权限在更新后会保留 — 无需手动重新授权。
+
+**面向从源码构建的开发者：** 若没有 Developer ID 证书，`build.sh` 会回退到 ad-hoc 签名。ad-hoc 签名下，由于 CDHash 每次变化，macOS 会在每次重建后重置辅助功能与输入监控权限。这是 macOS 的标准安全行为 — 所有需要辅助功能的开源应用（Rectangle、Maccy、AltTab 等）在 ad-hoc 签名时都有相同限制。
+
+**ad-hoc 构建的变通方案：**
+
+| 方式 | 做法 | 权限是否持久 |
 |---|---|---|
-| **Run from Terminal** | Grant permissions to Terminal.app once, then run `make run` | ✅ Always |
-| **Re-grant manually** | System Settings → Privacy & Security after each rebuild | Per rebuild |
+| **从终端运行** | 一次性向 Terminal.app 授予权限，然后运行 `make run` | ✅ 始终有效 |
+| **手动重新授权** | 每次重建后在系统设置 → 隐私与安全性中重新授权 | 每次重建 |
 
-> **💡 Developer tip:** Add your Terminal app (Terminal.app or iTerm2) to both Accessibility and Input Monitoring in System Settings. Then run VocaMac directly from Terminal. Permissions are inherited and never reset.
+> **💡 开发者提示：** 在系统设置中将你的终端应用（Terminal.app 或 iTerm2）加入辅助功能与输入监控。然后从终端直接运行 VocaMac，权限会被继承且不会重置。
 
 ---
 
-## 📄 License
+## 📄 许可证
 
-AGPL-3.0 License - see [LICENSE](LICENSE) for details.
+AGPL-3.0 许可证 — 详见 [LICENSE](LICENSE)。
 
 ---
 
 <div align="center">
   
-Made with ❤️ for the macOS community!
+为 macOS 社区用心打造 ❤️
 
 </div>
