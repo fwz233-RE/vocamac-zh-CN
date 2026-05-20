@@ -1,62 +1,62 @@
 ---
-title: "System-Wide Text Injection"
-subtitle: "Transcribed text appears wherever your cursor is. Browsers, Slack, VS Code, spreadsheets, terminals. Everywhere."
-description: "VocaMac injects transcribed text directly at your cursor position in any macOS application using accessibility APIs. No copy-paste needed."
-keywords: "system wide dictation macOS, voice typing any app, text injection accessibility, dictation VS Code, voice to text terminal, speech to text everywhere mac"
+title: "全系统文字注入"
+subtitle: "转写结果出现在光标处。浏览器、Slack、VS Code、表格、终端——处处可用。"
+description: "VocaMac 通过辅助功能 API 将转写文字直接注入 macOS 任意应用的光标位置，无需复制粘贴。"
+keywords: "全系统听写 macOS, 任意应用语音输入, 辅助功能文字注入, VS Code 听写, 终端语音转文字, mac 随处语音输入"
 icon: "⌨️"
 ---
 
-## Dictation Without Limits
+## 听写无边界
 
-Traditional voice-to-text on macOS requires you to speak, copy the result, then paste it into your app. VocaMac skips that friction entirely. When you finish dictating, your words appear instantly at your cursor, regardless of which application you're using.
+传统 macOS 语音转文字往往要先说话、再复制、再粘贴。VocaMac 省去这些摩擦：说完话，文字立刻出现在光标处，无论你正在用哪个应用。
 
-This works in your browser, code editor, terminal, spreadsheet, or any other macOS app. No special setup per application. No compatibility lists to check. Just speak and type.
+浏览器、代码编辑器、终端、表格或其他 macOS 应用均可。无需按应用单独配置，也无需查兼容列表，开口即打。
 
-## How It Works
+## 工作原理
 
-![VocaMac popover showing transcription result](/screenshots/popover-panel.png)
+![VocaMac 弹出面板显示转写结果](/screenshots/popover-panel.png)
 
-VocaMac uses macOS accessibility APIs to detect your cursor position in the foreground application, then injects text directly into the input field. This is the same technology that powers accessibility features like VoiceOver and Switch Control.
+VocaMac 使用 macOS 辅助功能 API 检测前台应用中的光标位置，再将文字注入输入框。这与 VoiceOver、切换控制等无障碍功能所用技术相同。
 
-When you stop recording, VocaMac:
+停止录音后，VocaMac 会：
 
-1. Retrieves the cursor position from the active application
-2. Sends your transcribed text character by character via the accessibility layer
-3. Places the text exactly where your cursor is
+1. 从当前活动应用获取光标位置
+2. 通过辅助功能层逐字发送转写文本
+3. 将文字精确放在光标处
 
-The process takes just milliseconds. There is no intermediate clipboard step, which means your existing clipboard contents remain untouched.
+整个过程仅需毫秒级。不经过剪贴板中间步骤，因此不会覆盖你剪贴板里已有的内容。
 
-## Supported Applications
+## 支持的应用
 
-System-wide text injection works with any macOS application that respects standard input methods. This includes:
+只要应用接受标准文本输入并支持辅助功能 API，全系统注入即可工作，例如：
 
-- **Browsers**: Gmail, Google Docs, Notion, web-based IDEs, comment sections
-- **Code Editors**: VS Code, Xcode, Sublime Text, Nova, BBEdit, Terminal
-- **Communication**: Slack, Discord, Twitter, Mastodon, Signal, iMessage
-- **Productivity**: Microsoft Word, Google Sheets, Numbers, Notion, Apple Pages
-- **Developer Tools**: iTerm2, Zsh, Bash, Python REPLs, Git commit messages
+- **浏览器**：Gmail、Google 文档、Notion、网页 IDE、评论区
+- **代码编辑器**：VS Code、Xcode、Sublime Text、Nova、BBEdit、终端
+- **通讯**：Slack、Discord、Twitter、Mastodon、Signal、iMessage
+- **办公**：Word、Google 表格、Numbers、Notion、Pages
+- **开发工具**：iTerm2、Zsh、Bash、Python REPL、Git 提交说明
 
-If an application accepts text input and supports accessibility APIs, VocaMac can inject text into it.
+只要应用能输入文字并支持辅助功能，VocaMac 就能注入。
 
-## Beyond Copy-Paste
+## 超越复制粘贴
 
-Clipboard-based dictation creates unnecessary workflow friction. Your clipboard gets overwritten, breaking your copy-paste rhythm. You need to navigate to a dictation app, paste, then navigate back. This interruption adds up, especially when you're doing multiple short dictations throughout the day.
+基于剪贴板的听写会打断工作流：剪贴板被覆盖、节奏被打断，还要先切到听写应用再粘回去。一天里多次短句听写时，这些打断会积少成多。
 
-With system-wide injection, your workflow stays in your app. Type naturally. Speak naturally. The text appears where you need it, instantly.
+全系统注入让你始终留在当前应用里。正常打字、正常说话，文字即时出现在需要的位置。
 
-## Configuration Options
+## 配置选项
 
-VocaMac respects your preferences for text injection. Configure:
+VocaMac 尊重你对文字注入的偏好，可配置：
 
-- **Punctuation handling**: Automatically add periods, commas, or question marks at the end of dictations
-- **Capitalization**: Auto-capitalize the first letter of sentences
-- **Whitespace**: Add trailing spaces automatically for faster continuation
-- **Advanced**: Insert formatting like markdown bold or code blocks
+- **标点**：听写结束时自动添加句号、逗号或问号
+- **大小写**：句首自动大写
+- **空白**：自动在末尾加空格，便于继续输入
+- **高级**：插入 Markdown 粗体、代码块等格式
 
-These settings apply globally across all applications, ensuring consistent behavior everywhere.
+这些设置全局生效，在所有应用中行为一致。
 
-## Privacy and Control
+## 隐私与控制
 
-Text injection happens entirely on your device. VocaMac uses only local accessibility APIs provided by macOS. Your transcriptions are never sent to external servers. Your clipboard is never touched. You remain in complete control of what gets typed and when.
+文字注入完全在设备本地完成。VocaMac 仅使用 macOS 提供的本地辅助功能 API，转写不会发往外部服务器，也不会动你的剪贴板。由你完全掌控何时、输入什么内容。
 
-Enable accessibility permissions for VocaMac once, then use system-wide dictation in every app on your Mac. No per-app configuration needed. Just speak and create.
+为 VocaMac 开启一次辅助功能权限后，即可在 Mac 上每个应用中使用全系统听写，无需按应用配置。开口即可创作。

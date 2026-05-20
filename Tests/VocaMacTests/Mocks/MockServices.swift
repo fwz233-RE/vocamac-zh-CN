@@ -184,32 +184,6 @@ final class MockPermissionManager: ObservableObject, PermissionManaging {
     }
 }
 
-// MARK: - MockCursorOverlay
-
-@MainActor
-final class MockCursorOverlay: CursorOverlayManaging {
-    var showCallCount = 0
-    var hideCallCount = 0
-    var transitionCallCount = 0
-    var lastAudioLevel: Float?
-
-    func show() {
-        showCallCount += 1
-    }
-
-    func hide() {
-        hideCallCount += 1
-    }
-
-    func transitionToProcessing() {
-        transitionCallCount += 1
-    }
-
-    func updateAudioLevel(_ level: Float) {
-        lastAudioLevel = level
-    }
-}
-
 // MARK: - MockModelManager
 
 final class MockModelManager: ModelManaging {
@@ -336,7 +310,6 @@ extension AppState {
         let soundManager = MockSoundManager()
         let hotKeyManager = MockHotKeyManager()
         let permissionManager = MockPermissionManager()
-        let cursorOverlay = MockCursorOverlay()
         let modelManager = MockModelManager()
         let whisperService = MockWhisperService()
         let textInjector = MockTextInjector()
@@ -346,7 +319,6 @@ extension AppState {
             soundManager: soundManager,
             hotKeyManager: hotKeyManager,
             permissionManager: permissionManager,
-            cursorOverlay: cursorOverlay,
             modelManager: modelManager,
             whisperService: whisperService,
             textInjector: textInjector
@@ -358,7 +330,6 @@ extension AppState {
             hotKeyManager: hotKeyManager,
             modelManager: modelManager,
             soundManager: soundManager,
-            cursorOverlay: cursorOverlay,
             permissionManager: permissionManager,
             skipSystemIntegration: true
         )
@@ -371,7 +342,6 @@ struct TestMocks {
     let soundManager: MockSoundManager
     let hotKeyManager: MockHotKeyManager
     let permissionManager: MockPermissionManager
-    let cursorOverlay: MockCursorOverlay
     let modelManager: MockModelManager
     let whisperService: MockWhisperService
     let textInjector: MockTextInjector

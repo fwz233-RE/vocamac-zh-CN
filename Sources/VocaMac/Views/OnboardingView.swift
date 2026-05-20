@@ -20,16 +20,16 @@ enum OnboardingStep: Int, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .welcome: return "Welcome to VocaMac"
-        case .permissions: return "Grant Permissions"
-        case .hotkeyConfig: return "Configure Hotkey"
-        case .quickTest: return "Quick Test"
-        case .complete: return "All Set!"
+        case .welcome: return "欢迎使用 VocaMac"
+        case .permissions: return "授予权限"
+        case .hotkeyConfig: return "配置快捷键"
+        case .quickTest: return "快速测试"
+        case .complete: return "全部完成！"
         }
     }
 
     var stepNumber: String {
-        "Step \(rawValue + 1) of \(OnboardingStep.allCases.count)"
+        "第 \(rawValue + 1) 步，共 \(OnboardingStep.allCases.count) 步"
     }
 }
 
@@ -90,7 +90,7 @@ struct OnboardingView: View {
                 HStack(spacing: 12) {
                     if currentStep == .welcome {
                         Button(action: skipOnboarding) {
-                            Text("Skip Setup")
+                            Text("跳过设置")
                                 .font(.body)
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 8)
@@ -99,21 +99,21 @@ struct OnboardingView: View {
                                 .cornerRadius(8)
                         }
                         .buttonStyle(.plain)
-                        .help("Skip setup and don't show again. You can re-run it from Menu Bar → Setup Wizard.")
+                        .help("跳过设置且不再显示。可从菜单栏 → 设置向导重新运行。")
                     } else if currentStep != .complete {
                         Button(action: skipOnboarding) {
-                            Text("Skip")
+                            Text("跳过")
                                 .font(.body)
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 8)
                         }
                         .buttonStyle(.plain)
                         .foregroundStyle(.secondary)
-                        .help("Skip setup and don't show again.")
+                        .help("跳过设置且不再显示。")
                     }
                     if currentStep != .welcome {
                         Button(action: goToPreviousStep) {
-                            Text("Back")
+                            Text("上一步")
                                 .font(.body)
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 8)
@@ -129,7 +129,7 @@ struct OnboardingView: View {
 
                     if currentStep != .complete {
                         Button(action: goToNextStep) {
-                            Text(currentStep == .quickTest ? "Finish" : "Continue")
+                            Text(currentStep == .quickTest ? "完成" : "继续")
                                 .font(.body)
                                 .fontWeight(.medium)
                                 .padding(.horizontal, 20)
@@ -142,7 +142,7 @@ struct OnboardingView: View {
                         .keyboardShortcut(.defaultAction)
                     } else {
                         Button(action: completeOnboarding) {
-                            Text("Start Using VocaMac")
+                            Text("开始使用 VocaMac")
                                 .font(.body)
                                 .fontWeight(.medium)
                                 .padding(.horizontal, 20)
@@ -210,16 +210,16 @@ struct WelcomeStep: View {
                 Text("VocaMac")
                     .font(.system(size: 40, weight: .bold))
 
-                Text("Your voice, your Mac, your privacy")
+                Text("你的声音，你的 Mac，你的隐私")
                     .font(.title3)
                     .foregroundStyle(.secondary)
             }
 
             // Description
             VStack(alignment: .leading, spacing: 12) {
-                Label("Dictate directly into any app", systemImage: "doc.text")
-                Label("All processing happens on your Mac", systemImage: "lock.fill")
-                Label("No internet required, no data leaves your device", systemImage: "network.slash")
+                Label("直接在任何应用中听写", systemImage: "doc.text")
+                Label("所有处理都在你的 Mac 上完成", systemImage: "lock.fill")
+                Label("无需联网，数据不会离开你的设备", systemImage: "network.slash")
             }
             .font(.subheadline)
             .foregroundStyle(.secondary)
@@ -228,7 +228,7 @@ struct WelcomeStep: View {
 
             Spacer()
 
-            Text("This guide will set up VocaMac in just a few minutes.")
+            Text("本向导将在几分钟内完成 VocaMac 的设置。")
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -252,7 +252,7 @@ struct PermissionsStep: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            Text("VocaMac needs a few permissions to work properly.")
+            Text("VocaMac 需要以下权限才能正常工作。")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -261,24 +261,24 @@ struct PermissionsStep: View {
             VStack(spacing: 12) {
                 OnboardingPermissionRow(
                     icon: "mic.fill",
-                    name: "Microphone",
-                    description: "Record audio for transcription",
+                    name: "麦克风",
+                    description: "录制音频用于转写",
                     status: appState.micPermission,
                     action: { appState.requestMicrophonePermission() }
                 )
 
                 OnboardingPermissionRow(
                     icon: "hand.raised.fill",
-                    name: "Accessibility",
-                    description: "Monitor hotkey presses to activate recording",
+                    name: "辅助功能",
+                    description: "监听快捷键以激活录音",
                     status: appState.accessibilityPermission,
                     action: { appState.requestAccessibilityPermission() }
                 )
 
                 OnboardingPermissionRow(
                     icon: "keyboard.fill",
-                    name: "Input Monitoring",
-                    description: "Detect keyboard and mouse input for activation",
+                    name: "输入监控",
+                    description: "检测键盘和鼠标输入以激活录音",
                     status: appState.inputMonitoringPermission,
                     action: { appState.requestInputMonitoringPermission() }
                 )
@@ -292,7 +292,7 @@ struct PermissionsStep: View {
                     Image(systemName: "exclamationmark.triangle.fill")
                         .font(.caption)
                         .foregroundStyle(.yellow)
-                    Text("Some permissions are missing. VocaMac may not work correctly until all permissions are granted. You can set them later in Settings → Debug.")
+                    Text("部分权限尚未授予。在全部授权之前，VocaMac 可能无法正常工作。你也可以稍后在设置 → 调试中配置。")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -307,7 +307,7 @@ struct PermissionsStep: View {
                 Image(systemName: "info.circle.fill")
                     .font(.caption)
                     .foregroundStyle(.blue)
-                Text("You can grant these permissions in System Settings > Privacy & Security.")
+                Text("你可以在系统设置 > 隐私与安全性中授予这些权限。")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -358,7 +358,7 @@ struct OnboardingPermissionRow: View {
                         .foregroundStyle(.green)
                 } else {
                     Button(action: action) {
-                        Text(status == .notDetermined ? "Grant" : "Open Settings")
+                        Text(status == .notDetermined ? "授权" : "打开设置")
                             .font(.caption)
                             .padding(.horizontal, 12)
                             .padding(.vertical, 6)
@@ -391,7 +391,7 @@ struct ModelSelectionStep: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            Text("Choose a model based on your device and needs.")
+            Text("根据你的设备和需求选择模型。")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -406,7 +406,7 @@ struct ModelSelectionStep: View {
                     Image(systemName: "lightbulb.fill")
                         .font(.caption)
                         .foregroundStyle(.orange)
-                    Text("We recommend: **\(recommendedSize.displayName)**")
+                    Text("推荐使用：**\(recommendedSize.displayName)**")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                     Spacer()
@@ -464,7 +464,7 @@ struct ModelSelectionCard: View {
                             .font(.body)
                             .fontWeight(.semibold)
                         if isRecommended {
-                            Label("Recommended", systemImage: "star.fill")
+                            Label("推荐", systemImage: "star.fill")
                                 .font(.caption2)
                                 .foregroundStyle(.orange)
                                 .padding(.horizontal, 6)
@@ -477,7 +477,7 @@ struct ModelSelectionCard: View {
 
                     HStack(spacing: 16) {
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("Size")
+                            Text("大小")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                             Text(modelInfo.size.fileSizeDescription)
@@ -486,7 +486,7 @@ struct ModelSelectionCard: View {
                         }
 
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("Speed")
+                            Text("速度")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                             Text("\(modelInfo.size.relativeSpeed)x")
@@ -495,7 +495,7 @@ struct ModelSelectionCard: View {
                         }
 
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("Quality")
+                            Text("质量")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                             Text(modelInfo.size.qualityDescription)
@@ -528,12 +528,12 @@ struct ModelSelectionCard: View {
                     }
                 } else if modelInfo.isDownloaded {
                     if modelInfo.isActive {
-                        Label("Active", systemImage: "checkmark.circle.fill")
+                        Label("使用中", systemImage: "checkmark.circle.fill")
                             .font(.caption)
                             .foregroundStyle(.green)
                     } else {
                         Button(action: onSelect) {
-                            Text("Use This Model")
+                            Text("使用此模型")
                                 .font(.caption)
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
@@ -549,7 +549,7 @@ struct ModelSelectionCard: View {
                     } label: {
                         HStack(spacing: 4) {
                             Image(systemName: "sparkles")
-                            Text("Try Anyway")
+                            Text("仍要尝试")
                         }
                         .font(.caption)
                         .padding(.horizontal, 12)
@@ -563,7 +563,7 @@ struct ModelSelectionCard: View {
                     Button(action: onDownload) {
                         HStack(spacing: 4) {
                             Image(systemName: "arrow.down.circle")
-                            Text("Download")
+                            Text("下载")
                         }
                         .font(.caption)
                         .padding(.horizontal, 12)
@@ -585,13 +585,13 @@ struct ModelSelectionCard: View {
             RoundedRectangle(cornerRadius: 8)
                 .stroke(isRecommended ? Color.orange : Color.clear, lineWidth: 1.5)
         )
-        .alert("Use Experimental Model?", isPresented: $showForceDownloadAlert) {
-            Button("Cancel", role: .cancel) {}
-            Button("Download Anyway", role: .destructive) {
+        .alert("使用实验性模型？", isPresented: $showForceDownloadAlert) {
+            Button("取消", role: .cancel) {}
+            Button("仍要下载", role: .destructive) {
                 onDownload()
             }
         } message: {
-            Text("WhisperKit hasn't verified this model on your chip family. It will likely work but may be slower than tuned models.")
+            Text("WhisperKit 尚未验证此模型在你的芯片系列上的兼容性。它很可能可以运行，但可能比优化模型更慢。")
         }
     }
 }
@@ -603,7 +603,7 @@ struct HotkeyConfigStep: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            Text("Choose how to activate VocaMac.")
+            Text("选择如何激活 VocaMac。")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -612,12 +612,12 @@ struct HotkeyConfigStep: View {
             VStack(spacing: 16) {
                 // Activation Mode
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Activation Mode")
+                    Text("激活方式")
                         .font(.caption)
                         .fontWeight(.semibold)
                         .foregroundStyle(.secondary)
 
-                    Picker("Mode", selection: $appState.activationMode) {
+                    Picker("模式", selection: $appState.activationMode) {
                         ForEach(ActivationMode.allCases) { mode in
                             VStack(alignment: .leading) {
                                 Text(mode.displayName)
@@ -636,18 +636,18 @@ struct HotkeyConfigStep: View {
 
                 // Hotkey Selection
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Hotkey")
+                    Text("快捷键")
                         .font(.caption)
                         .fontWeight(.semibold)
                         .foregroundStyle(.secondary)
 
-                    Picker("Key", selection: $appState.hotKeyCode) {
+                    Picker("按键", selection: $appState.hotKeyCode) {
                         ForEach(KeyCodeReference.commonHotKeys, id: \.keyCode) { hotKey in
                             Text(hotKey.name).tag(hotKey.keyCode)
                         }
                     }
 
-                    Text("Press this key to start recording.")
+                    Text("按下此键开始录音。")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -656,7 +656,7 @@ struct HotkeyConfigStep: View {
                     Divider()
 
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Double-tap Speed")
+                        Text("双击速度")
                             .font(.caption)
                             .fontWeight(.semibold)
                             .foregroundStyle(.secondary)
@@ -672,7 +672,7 @@ struct HotkeyConfigStep: View {
                                 .frame(width: 40)
                         }
 
-                        Text("How fast you need to double-tap.")
+                        Text("双击按键的时间间隔要求。")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
@@ -697,7 +697,7 @@ struct QuickTestStep: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            Text("Let's test your setup with a quick recording.")
+            Text("让我们通过一次快速录音来测试你的设置。")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -713,7 +713,7 @@ struct QuickTestStep: View {
                             .font(.system(size: 48))
                             .foregroundStyle(isRecording ? .red : .blue)
 
-                        Text(isRecording ? "Recording..." : "Click to Record")
+                        Text(isRecording ? "录音中…" : "点击开始录音")
                             .font(.body)
                             .fontWeight(.semibold)
 
@@ -724,7 +724,7 @@ struct QuickTestStep: View {
                                     .frame(width: 8)
                                     .scaleEffect(1.2)
 
-                                Text("Recording audio...")
+                                Text("正在录制音频…")
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                             }
@@ -739,7 +739,7 @@ struct QuickTestStep: View {
                         HStack(spacing: 8) {
                             Image(systemName: "checkmark.circle.fill")
                                 .foregroundStyle(.green)
-                            Text("Transcription Result")
+                            Text("转写结果")
                                 .font(.caption)
                                 .fontWeight(.semibold)
                         }
@@ -755,7 +755,7 @@ struct QuickTestStep: View {
                     HStack(spacing: 8) {
                         ProgressView()
                             .scaleEffect(0.8, anchor: .center)
-                        Text("Transcribing...")
+                        Text("转写中…")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
@@ -772,7 +772,7 @@ struct QuickTestStep: View {
                 Image(systemName: "info.circle.fill")
                     .font(.caption)
                     .foregroundStyle(.blue)
-                Text("Try saying a short phrase like 'Hello world'.")
+                Text("试试说一个短句，比如「你好世界」。")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -814,25 +814,25 @@ struct CompleteStep: View {
 
             // Heading
             VStack(spacing: 8) {
-                Text("You're All Set!")
+                Text("一切就绪！")
                     .font(.title)
                     .fontWeight(.bold)
 
-                Text("VocaMac is ready to use")
+                Text("VocaMac 已准备就绪")
                     .font(.title3)
                     .foregroundStyle(.secondary)
             }
 
             // Summary
             VStack(alignment: .leading, spacing: 12) {
-                SummaryItem(icon: "mic.fill", text: "Microphone access enabled")
+                SummaryItem(icon: "mic.fill", text: "麦克风权限已启用")
                 if appState.accessibilityPermission == .granted {
-                    SummaryItem(icon: "hand.raised.fill", text: "Accessibility permission granted")
+                    SummaryItem(icon: "hand.raised.fill", text: "辅助功能权限已授予")
                 }
                 if appState.inputMonitoringPermission == .granted {
-                    SummaryItem(icon: "keyboard.fill", text: "Input monitoring enabled")
+                    SummaryItem(icon: "keyboard.fill", text: "输入监控已启用")
                 }
-                SummaryItem(icon: "keyboard", text: "Hotkey: \(KeyCodeReference.displayName(for: appState.hotKeyCode))")
+                SummaryItem(icon: "keyboard", text: "快捷键：\(KeyCodeReference.displayName(for: appState.hotKeyCode))")
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()
@@ -849,9 +849,9 @@ struct CompleteStep: View {
                         .foregroundStyle(.orange)
                         .frame(width: 20)
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("Launch at Login")
+                        Text("登录时启动")
                             .font(.subheadline)
-                        Text("Start VocaMac automatically when you log in")
+                        Text("登录 Mac 时自动启动 VocaMac")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
@@ -865,7 +865,7 @@ struct CompleteStep: View {
 
             Spacer()
 
-            Text("You can adjust settings anytime from the VocaMac menu.")
+            Text("你可以随时从 VocaMac 菜单中调整设置。")
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)

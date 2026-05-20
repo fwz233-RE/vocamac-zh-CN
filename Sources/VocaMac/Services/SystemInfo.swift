@@ -85,7 +85,7 @@ enum SystemInfo {
         var size: Int = 0
         sysctlbyname("machdep.cpu.brand_string", nil, &size, nil, 0)
 
-        guard size > 0 else { return "Unknown" }
+        guard size > 0 else { return "未知" }
 
         var brand = [CChar](repeating: 0, count: size)
         sysctlbyname("machdep.cpu.brand_string", &brand, &size, nil, 0)
@@ -103,7 +103,7 @@ enum SystemInfo {
         var size: Int = 0
         sysctlbyname("hw.model", nil, &size, nil, 0)
 
-        guard size > 0 else { return "Unknown" }
+        guard size > 0 else { return "未知" }
 
         var model = [CChar](repeating: 0, count: size)
         sysctlbyname("hw.model", &model, &size, nil, 0)

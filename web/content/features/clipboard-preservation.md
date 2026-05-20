@@ -1,135 +1,76 @@
 ---
-title: "Clipboard Preservation"
-subtitle: "Your clipboard is saved and restored after text injection. Nothing gets overwritten."
-description: "VocaMac preserves your clipboard contents during text injection. Your copied text is saved before injection and restored afterward, so nothing is lost."
-keywords: "clipboard preservation dictation, save clipboard voice typing, paste without overwrite, clipboard restore macOS, text injection clipboard, non-destructive dictation"
+title: "剪贴板保护"
+subtitle: "文字注入前保存、注入后恢复剪贴板，不会覆盖原有内容。"
+description: "VocaMac 在文字注入时保护剪贴板：注入前保存、注入后恢复，不丢失你已复制的内容。"
+keywords: "听写剪贴板保护, 语音输入保留剪贴板, 粘贴不覆盖, macOS 剪贴板恢复, 文字注入剪贴板, 非破坏性听写"
 icon: "📋"
 ---
 
-## The Problem
+## 问题所在
 
-Most voice dictation apps use a simple approach to inject text into your document: they paste the transcribed words directly using keyboard commands (Cmd+V). This works, but it has a critical flaw.
+许多听写应用用 Cmd+V 粘贴转写文字，简单有效，但有一个关键缺陷：**粘贴会覆盖剪贴板**。你若刚复制了链接、代码片段或重要笔记，它们会被听写内容替换。
 
-When you paste, macOS uses your clipboard. The text you want to inject goes into the clipboard, then gets pasted into your document. But here's the issue: **whatever was on your clipboard before gets overwritten**. If you had copied a link, a code snippet, or an important note, it's gone.
+典型场景：
 
-Imagine this scenario:
+1. 复制要引用的代码：`function getData() { ... }`
+2. 在编辑器里开始听写
+3. VocaMac 转写并粘贴
+4. 剪贴板变成听写文字
+5. 稍后想粘贴那段代码，却发现已丢失
 
-1. You copy a code snippet you want to reference: `function getData() { ... }`
-2. You open a text editor and start dictating
-3. VocaMac transcribes your words and pastes them
-4. Your clipboard now contains the dictation text
-5. You try to paste that code snippet later, only to discover it's gone
+这很烦人，也完全可以避免。
 
-This is inconvenient. This is frustrating. And it's completely preventable.
+## VocaMac 的解法
 
-## How VocaMac Solves It
+VocaMac 使用 **剪贴板保护**，确保原有内容不丢失：
 
-VocaMac uses **clipboard preservation** to ensure your original clipboard contents are never lost. The process is simple but elegant:
+1. **注入前**：将当前剪贴板保存到临时存储
+2. **注入文字**：把转写内容写入剪贴板并 Cmd+V 粘贴到文档
+3. **注入后**：恢复原有剪贴板内容
 
-1. **Before injecting text**: VocaMac saves whatever is currently on your clipboard to temporary storage
-2. **Inject the transcribed text**: VocaMac pastes the dictated words into your document (using your clipboard)
-3. **After injection**: VocaMac restores your original clipboard contents
+结果：听写文字进入文档，剪贴板与听写前一致。过程在毫秒级完成，无闪烁、无感知延迟。
 
-The end result: your dictated words appear in your document, and your clipboard is exactly as it was before you started dictating.
+## 底层流程
 
-This happens in milliseconds. You won't see any flickering or delay. It's seamless.
+**步骤 1：获取焦点**  
+通过辅助功能 API 定位当前活动文本框（光标所在处）。
 
-## How Text Injection Works Under the Hood
+**步骤 2：准备文字**  
+整理 WhisperKit 输出：补标点、去多余空格、格式化。
 
-Text injection in VocaMac relies on macOS's accessibility APIs. Here's what happens when you dictate:
+**步骤 3：处理剪贴板**  
+读取 `NSPasteboard` → 保存 → 写入转写文字 → 模拟 Cmd+V。
 
-**Step 1: Grab focus**
+**步骤 4：恢复剪贴板**  
+粘贴完成后恢复原内容，回到空闲状态。全程通常不到 100 毫秒。
 
-VocaMac uses the Accessibility API to identify the currently active text field (the place where your cursor is).
+## 开关
 
-**Step 2: Prepare the text**
+默认开启，是安全、明智的默认。极少需要时可在 **设置 → 通用 → 文字注入 → 保护剪贴板** 关闭；会略快但有丢失剪贴板风险，建议保持开启。
 
-The transcribed text from WhisperKit is cleaned up: punctuation is added where appropriate, extra spaces are removed, and the text is formatted for readability.
+## 边界情况
 
-**Step 3: Handle the clipboard**
+- **空剪贴板**：听写前为空，恢复后仍为空  
+- **听写过程中新复制**：恢复的是*开始录音时*的内容，新复制项会按系统行为保留  
+- **剪贴板管理器 / iCloud**：VocaMac 不绕过这些工具，按正常保存/恢复序列工作  
+- **注入失败**：即使粘贴失败也会恢复原剪贴板  
 
-Here's where clipboard preservation comes in. VocaMac:
-- Reads the current clipboard using `NSPasteboard`
-- Saves it to a temporary variable
-- Writes the transcribed text to the clipboard
-- Simulates a paste command (Cmd+V) to inject the text into the active field
+## 为何重要
 
-**Step 4: Restore the clipboard**
+对经常复制参考、代码或资料的写作者、开发者、研究者而言，可放心听写而不怕丢剪贴板；配合剪贴板管理工具的用户同样受益。
 
-Immediately after the paste completes, VocaMac:
-- Checks that the paste was successful
-- Restores the original clipboard contents
-- Returns to idle state
+## 与其他工具对比
 
-The entire process takes less than 100 milliseconds, and your original clipboard is never lost.
-
-## Enabling and Disabling
-
-Clipboard preservation is enabled by default in VocaMac. It's the smart, safe default.
-
-If you ever need to disable it (though this is rare), you can do so in **Settings → General → Text Injection → Preserve Clipboard**.
-
-When disabled, VocaMac will inject text without saving and restoring your clipboard. This is slightly faster but carries the risk of losing your clipboard contents. We recommend keeping it enabled.
-
-## Edge Cases and Reliability
-
-VocaMac's clipboard preservation handles several edge cases gracefully:
-
-**Empty clipboard**
-
-If your clipboard is empty when you start dictating, VocaMac will restore it to empty after injection. No problem.
-
-**Clipboard changes during dictation**
-
-If you copy something new while VocaMac is in the middle of recording, your clipboard will contain the new item (as expected). VocaMac restores whatever was on the clipboard at the moment recording *started*, so the new item is preserved.
-
-**Multiple pastes**
-
-If VocaMac needs to inject text into multiple locations (in a future multi-cursor feature, for example), it will restore the original clipboard only after all injections are complete.
-
-**Clipboard managers and sync**
-
-If you use a clipboard manager or iCloud clipboard, VocaMac respects those tools:
-- Clipboard managers see the save and restore sequence
-- iCloud clipboard will sync with your iPad and iPhone during that process
-- VocaMac doesn't bypass or interfere with these systems
-
-**Failed injection**
-
-In rare cases where the paste fails (an app doesn't respond to the accessibility API), VocaMac will still restore your original clipboard. Nothing is lost.
-
-## Why This Matters
-
-Clipboard preservation is a small feature that makes a big difference in daily workflows:
-
-**Creative professionals**: writers, designers, and developers who frequently copy and paste references, code, or inspiration can dictate freely without losing their clipboard
-
-**Knowledge workers**: researchers, students, and analysts can have multiple sources open, copy relevant snippets, and dictate notes without losing those snippets
-
-**Power users**: anyone with a clipboard manager or custom clipboard workflow benefits from VocaMac's non-destructive approach
-
-**Peace of mind**: you can dictate without worrying about accidentally losing something important
-
-## Comparison with Other Dictation Tools
-
-Many voice-to-text apps on macOS handle clipboard carelessly. VocaMac is one of the few that prioritizes your data integrity. Here's how we compare:
-
-| Feature | VocaMac | Typical App |
+| 功能 | VocaMac | 典型应用 |
 |---------|---------|-------------|
-| **Preserves clipboard** | Yes | No |
-| **Works offline** | Yes | No |
-| **Adjustable silence detection** | Yes | Rare |
-| **Menu bar integration** | Yes | No |
-| **Open source** | Yes | No |
+| **保护剪贴板** | 是 | 否 |
+| **离线工作** | 是 | 否 |
+| **可调静音检测** | 是 | 少见 |
+| **菜单栏集成** | 是 | 否 |
+| **开源** | 是 | 否 |
 
-Clipboard preservation is just one example of how VocaMac is designed with your workflow in mind, not against it.
+剪贴板保护只是 VocaMac 站在你工作流一侧、而非对立面的一例。
 
-## Technical Implementation
+## 技术实现
 
-For developers interested in how this works, VocaMac's clipboard preservation is implemented using:
-
-- **NSPasteboard**: Apple's standard API for reading and writing clipboard contents
-- **Accessibility APIs**: to detect the active text field and simulate paste commands
-- **Timing precision**: ensuring operations happen in the correct order without race conditions
-
-The implementation is part of VocaMac's open source codebase. If you're curious, you can review the exact implementation on GitHub.
+基于 `NSPasteboard`、辅助功能 API 与精确时序，实现见 GitHub 开源代码库。

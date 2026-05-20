@@ -19,17 +19,17 @@ enum UpdateCheckerError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidResponse:
-            return "Invalid response from update server"
+            return "更新服务器响应无效"
         case .invalidStatusCode(let statusCode):
-            return "Update check failed (HTTP \(statusCode))"
+            return "更新检查失败（HTTP \(statusCode)）"
         case .noDMGAsset:
-            return "No DMG asset found in latest release"
+            return "最新版本中未找到 DMG 安装包"
         case .failedToMoveDownload:
-            return "Failed to store downloaded update"
+            return "无法保存下载的更新"
         case .checksumMismatch:
-            return "Downloaded update failed integrity verification"
+            return "下载的更新未通过完整性校验"
         case .downloadCancelled:
-            return "Download was cancelled"
+            return "下载已取消"
         }
     }
 }
@@ -53,7 +53,7 @@ final class UpdateChecker: ObservableObject {
     /// Stored when an update is found so views can reference it across state transitions.
     private(set) var lastKnownUpdateInfo: UpdateInfo?
 
-    private let apiURL = URL(string: "https://api.github.com/repos/jatinkrmalik/vocamac/releases/latest")!
+    private let apiURL = URL(string: "https://api.github.com/repos/fwz233-RE/vocamac-zh-CN/releases/latest")!
     private let checkInterval: TimeInterval = 24 * 60 * 60
     private let lastCheckKey = "vocamac.update.lastCheck"
     private let skippedVersionKey = "vocamac.update.skippedVersion"

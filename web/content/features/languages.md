@@ -1,75 +1,55 @@
 ---
-title: "99+ Languages"
-subtitle: "Auto-detect or specify. English, Spanish, French, German, Chinese, Japanese, and many more."
-description: "VocaMac supports 99+ languages for speech recognition powered by OpenAI's Whisper model. Auto-detect the spoken language or set it manually for best accuracy."
-keywords: "multilingual dictation macOS, whisper language support, speech to text languages, auto detect language voice, multilingual voice typing mac, foreign language dictation"
+title: "99+ 种语言"
+subtitle: "自动检测或手动指定。英语、西语、法语、德语、中文、日语等。"
+description: "VocaMac 基于 OpenAI Whisper 支持 99+ 种语言识别，可自动检测或手动设置以获得最佳准确度。"
+keywords: "多语言听写 macOS, whisper 语言支持, 语音转文字语言, 自动检测语言, mac 多语言语音输入, 外语听写"
 icon: "🌍"
 ---
 
-## Speak in Your Language
+## 用你的语言说话
 
-![VocaMac Settings showing language configuration](/screenshots/settings-general.png)
+![VocaMac 语言设置](/screenshots/settings-general.png)
 
-VocaMac supports over 99 languages. Whether you dictate in English, Spanish, Mandarin, Arabic, or any of dozens of other languages, the app understands you. More importantly, it transcribes with high accuracy regardless of which language you're using.
+VocaMac 支持 99 种以上语言。无论英语、西语、普通话、阿拉伯语还是其他语言，都能理解并以高准确度转写。
 
-This capability comes from OpenAI's Whisper model, one of the most advanced speech recognition systems ever created. Whisper was trained on 680,000 hours of multilingual audio data. It understands not just major languages, but regional dialects, accents, and linguistic variations.
+能力来自 OpenAI Whisper——在 68 万小时多语言数据上训练，不仅覆盖主要语言，也理解方言、口音与变体。
 
-For people who work across languages, this is transformative. No more switching between different apps for different languages. No more cloud services that only support a handful of languages. VocaMac handles all of them with a single, elegant interface.
+跨语言工作者无需为不同语言换 App，也无需只用少数语言的云服务。VocaMac 用统一界面处理全部。
 
-## Auto-Detection or Manual Selection
+## 自动检测或手动选择
 
-VocaMac offers two approaches to language handling. You can let the app automatically detect which language you're speaking, or you can manually specify a language for consistent accuracy.
+可让应用自动识别语言，或手动指定以获得稳定准确度。
 
-Auto-detection is powerful for multilingual environments. If you're bilingual or trilingual, you might mix languages within the same conversation. VocaMac listens, analyzes what you're saying, and transcribes accurately without any configuration. Speak English one moment, switch to Spanish the next, and the app follows along naturally.
+自动检测适合多语环境：双语/三语混说时，VocaMac 分析并准确转写，无需配置。说完整句/短语时效果最好；极短词偶发可能误判，日常对话中相当可靠。
 
-For best results with auto-detection, speak complete phrases or sentences. Single words or very short utterances might occasionally confuse the language detector. But in normal conversation, auto-detection is remarkably accurate.
+手动选择适合确定只用某一语言：打开设置选语言，转写针对该语言优化，切换即时、无需重启或下载。
 
-Manual language selection is ideal when you know you'll be dictating in a specific language. Open settings, choose your language, and enjoy transcription optimized for that particular language. The app uses this information to improve accuracy and context understanding.
+## 支持的语言
 
-Switching languages is instant. No restarts. No downloads. Just open settings, select a different language, and start speaking.
+包括但不限于：英语、西班牙语、法语、德语、意大利语、葡萄牙语、俄语、中文（普通话与粤语）、日语、韩语、阿拉伯语、希伯来语、土耳其语、荷兰语、希腊语、波兰语、罗马尼亚语、瑞典语、芬兰语、丹麦语、挪威语、捷克语、匈牙利语、斯洛伐克语、保加利亚语、克罗地亚语、塞尔维亚语、斯洛文尼亚语、立陶宛语、拉脱维亚语、爱沙尼亚语、泰语、越南语、印尼语、菲律宾语、南非荷兰语等。
 
-## Supported Languages
+主流语言、地区语言与较少使用语言均有支持。
 
-The full list of supported languages includes:
+## 各语言准确度
 
-English, Spanish, French, German, Italian, Portuguese, Russian, Chinese (Mandarin and Cantonese), Japanese, Korean, Arabic, Hebrew, Turkish, Dutch, Greek, Polish, Romanian, Swedish, Finnish, Danish, Norwegian, Czech, Hungarian, Slovak, Bulgarian, Croatian, Serbian, Slovenian, Lithuanian, Latvian, Estonian, Thai, Vietnamese, Indonesian, Filipino, Afrikaans, and many more.
+训练数据保证跨语言稳定表现。英语因数据最多通常最高；西语、法语、德语、中文、日语等亦表现优秀。较小语言略低但仍可用；更大模型（small/medium/large）可进一步提升，尤其对非英语。
 
-Major world languages are represented. Regional languages are included. Less commonly spoken languages have support too. Whether you're dictating in a major commercial language or a less common one, Whisper can handle it.
+口音处理良好：英式/澳式/美式英语、西班牙与拉美西语等无需额外配置。
 
-## Accuracy Across Languages
+## 模型与语言
 
-Whisper's training data ensures consistent accuracy across languages. English, being the most represented language in the training set, achieves the highest accuracy. But Spanish, French, German, Chinese, and Japanese all achieve excellent results.
+所有 Whisper 尺寸（base、small、medium、large）均支持 99+ 语言，按准确度需求与硬件选择即可。
 
-Smaller languages have slightly lower accuracy, but still remain highly usable. The base Whisper model performs admirably even on less commonly supported languages. Larger models (small, medium, large) improve accuracy further, especially for non-English languages.
+Base 对多数语言已够用；Small 对非英语提升明显；Medium 接近人声、适合严肃多语工作；Large 最准但更慢，适合法律、医疗、学术等要求极高的场景。
 
-Regional accents are handled well. Whether you speak British English, Australian English, or American English, the transcription is accurate. The same applies to Spanish speakers from Spain, Latin America, or elsewhere. Whisper recognizes regional variations without requiring manual configuration.
+## 多语工作流示例
 
-## Model Performance by Language
+翻译工作者将语言设为西语听写，一小时后改法语继续，秒级切换。国际团队中有人用英语、有人用母语，开启自动检测即可自然协作。
 
-All Whisper model sizes (base, small, medium, large) support all 99+ languages. The choice of which model to use depends on your accuracy needs and hardware.
+传统工具里繁琐的语言切换，在 VocaMac 里只需开口。
 
-The base model, despite its size, handles most languages well. For casual dictation in any language, it's sufficient.
+## 任何语言都保护隐私
 
-The small model noticeably improves accuracy, especially for non-English languages. If you frequently dictate in Spanish, French, German, or Asian languages, the small model is a worthwhile upgrade.
+无论哪种语言，语音都不离开 Mac，本地处理。与必须将语音发到境外服务器的云服务不同，VocaMac 让语音留在你的设备上。
 
-The medium model achieves near-human accuracy and is particularly strong with non-English languages. It's the sweet spot for serious, multilingual work.
-
-The large model is the most accurate but requires more processing time. For languages where perfection matters (legal documents, medical transcription, academic writing), it's worth the extra seconds of processing.
-
-## Real-World Multilingual Workflow
-
-Imagine you're a translator working on Spanish documents. You open VocaMac, set the language to Spanish, and begin dictating. The app transcribes with accuracy that rivals human typists.
-
-An hour later, you switch projects. Now you're reviewing French content. Change the language setting to French, and you're ready to dictate again. The transition takes seconds.
-
-Or picture yourself working internationally. Your team uses English, but you're collaborating with colleagues who prefer working in their native languages. Enable auto-detection and speak naturally. VocaMac adapts to whoever is dictating.
-
-These scenarios that would be cumbersome with traditional dictation tools feel natural with VocaMac. You don't think about language switching. You just speak, and the app keeps up.
-
-## Privacy in Any Language
-
-Regardless of which language you choose, your voice never leaves your Mac. VocaMac processes everything locally. Whether you're dictating in English, Mandarin, Arabic, or any other language, complete privacy is guaranteed.
-
-This is a critical distinction from cloud-based services. Those systems must send your voice to remote servers to perform transcription, even if those servers are in other countries. With VocaMac, your voice stays on your device, transcribed by software running in your own Mac.
-
-VocaMac brings professional-quality, multilingual dictation to your Mac while respecting your privacy and your choice of language. Speak your language. VocaMac listens.
+专业级多语言听写，尊重隐私与语言选择。说你的语言，VocaMac 在听。

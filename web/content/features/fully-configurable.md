@@ -1,73 +1,57 @@
 ---
-title: "Fully Configurable"
-subtitle: "Choose hotkeys, models, languages, silence detection. Settings window with model management."
-description: "VocaMac is fully configurable with a comprehensive settings window. Customize hotkeys, choose Whisper models, set languages, tune silence detection, and more."
-keywords: "configurable dictation app, custom hotkey voice typing, whisper model settings, silence detection settings, voice to text preferences macOS"
+title: "全面可配置"
+subtitle: "自定义快捷键、模型、语言、静音检测。带模型管理的设置窗口。"
+description: "VocaMac 提供完整的设置窗口：自定义快捷键、选择 Whisper 模型、设置语言、调节静音检测等。"
+keywords: "可配置听写应用, 自定义快捷键语音输入, whisper 模型设置, 静音检测设置, macOS 语音转文字偏好"
 icon: "⚙️"
 ---
 
-## Make VocaMac Your Own
+## 按你的方式使用
 
-![VocaMac Settings - General tab](/screenshots/settings-general.png)
+![VocaMac 设置 - 通用](/screenshots/settings-general.png)
 
-VocaMac understands that everyone has different preferences. Some people use dictation occasionally. Others rely on it for hours every day. Some work in quiet offices. Others dictate in bustling environments. The app adapts to your workflow through comprehensive, intuitive settings.
+VocaMac 明白每个人习惯不同：有人偶尔听写，有人每天数小时；有人在安静办公室，有人在嘈杂环境。应用通过清晰、直观的设置适应你的工作流。
 
-Every major aspect of VocaMac can be customized. Hotkeys, audio behavior, transcription models, languages, and more. The settings window is organized into clear tabs that match how you think about the app.
+快捷键、音频行为、转写模型、语言等均可自定义。设置窗口按标签页组织，与使用 App 的思路一致。
 
-## Hotkey Configuration
+## 快捷键
 
-Your hotkey is how you activate VocaMac. The app respects your preference for how you work and lets you choose exactly which key combination suits your workflow best.
+快捷键是激活 VocaMac 的方式。你可选择最顺手的组合：Control-Space、Command-Shift-L 或完全不同的组合。点击热键选择器，按下想要的键即可。
 
-Maybe you prefer Control-Space. Perhaps Command-Shift-L feels more natural. You might want something completely different. The settings window presents a simple, elegant hotkey selector. Click, press the keys you want to use, and you're done.
+只要 VocaMac 在运行，快捷键在 Mac 任意位置都有效——邮件、Slack、浏览器或任何应用。
 
-The hotkey works from anywhere on your Mac. Launch VocaMac from Mail, from Slack, from a web browser, or from any application. As long as VocaMac is running, your hotkey is active and ready.
+## 模型管理
 
-## Model Management
+VocaMac 包含多种 Whisper 模型，在速度与准确度之间取舍不同。设置中可完全控制 Mac 上安装哪些模型。
 
-VocaMac includes multiple Whisper models, each offering different tradeoffs between speed and accuracy. The settings window gives you full control over which models are available on your Mac.
+Base 模型约 140MB，转写几乎跟得上说话，适合快速笔记或速度优先。Small、Medium 准确度更高，转写稍慢，适合重要文档、采访等字字要紧的场景。
 
-The base model is tiny (just 140 megabytes) and transcribes nearly as fast as you can speak. It's perfect for quick notes or when speed matters more than perfect accuracy.
+界面显示各模型占用空间：下载需要的、删除不用的、即时切换，始终掌控磁盘上的内容。
 
-The small and medium models offer progressively better accuracy at the cost of slightly longer transcription times. They're ideal for important documents, interviews, or situations where every word needs to be perfect.
+## 音频设置
 
-The model management interface shows how much disk space each model uses. Download the models you want. Delete the ones you don't need. Switch between models instantly. You're always in control of what's installed on your Mac.
+音频行为决定听写体验。VocaMac 提供麦克风与静音检测的细粒度控制。
 
-## Audio Settings
+按环境调节静音阈值：安静办公室可用较敏感阈值，嘈杂环境可提高以避免误触发。调节后说几句测试，即可看到响应。
 
-Audio behavior can make or break the dictation experience. VocaMac includes granular controls for how it handles microphone input and silence detection.
+可配置最长录音时长，避免意外长时间录音。还可选择输入设备（外接麦、USB 耳机、AirPods Pro 等），VocaMac 会记住选择。
 
-Set the silence detection threshold to match your environment. In a quiet office, a sensitive threshold works well. In a noisier space, you might want to increase it to avoid accidental transcriptions. Adjust the threshold, speak a few test words, and instantly see how the app responds.
+## 语言与转写
 
-Configure the maximum recording duration. If you prefer shorter bursts of dictation, set a reasonable limit. The app will automatically stop recording when you reach it, preventing accidental marathon recording sessions.
+设置主要语言可提高准确度；若多语言混用，可开启自动检测，应用会识别你正在说的语言。语言设置跨会话保留，切换立即生效。
 
-Choose your audio input device. If you use an external microphone, a USB headset, or an AirPods Pro, select it directly from the settings. VocaMac remembers your choice and uses it every time.
+## 通用偏好
 
-## Language and Transcription Settings
+通用标签包含微调工作流的选项：默认保留剪贴板内容；可选录音时在菜单栏显示指示；可选录音/转写音效；可登录时自动启动 VocaMac。
 
-Set your primary language for more accurate transcription. If you dictate in multiple languages, enable auto-detection. The app will listen to what you're saying and automatically recognize which language you're using.
+## 关于
 
-Language settings are remembered across sessions. Switch languages whenever you need to. The change takes effect immediately.
+关于页显示版本、文档链接与系统信息，便于了解当前运行版本与获取帮助。
 
-## General Preferences
+## 简洁设计
 
-The General tab includes behavior options that fine-tune how VocaMac fits into your workflow.
+选项丰富但不压人。VocaMac 遵循 Apple 的「强大默认值」哲学：开箱即用对多数人已足够；需要时再进设置细调。
 
-Preserve clipboard content. By default, VocaMac doesn't overwrite what's already in your clipboard. If you copy something before dictating, it will be safe.
+相关选项分组清晰，说明简短，数秒即可修改且立即生效，无需重启或编辑配置文件。
 
-Show a cursor indicator while recording. A subtle visual indicator in the menu bar helps you know when VocaMac is listening.
-
-Enable sound effects for recording and transcription. Some people love the audio feedback. Others prefer silence. Choose what works for you.
-
-Launch VocaMac automatically when you log in. The app is most useful when it's always available, so auto-launch makes sense for most users.
-
-## About Tab
-
-The About tab shows your app version, links to documentation, and quick access to system information. It's your reference point for understanding what you're running and where to find help.
-
-## Designed for Simplicity
-
-All of these options exist, but none of them overwhelm you. VocaMac follows Apple's philosophy of powerful defaults. The out-of-the-box settings work beautifully for most people. The settings window is there for those who want to customize.
-
-Everything is organized logically. Related options are grouped together. Explanations are clear and concise. You can make changes in seconds, and they take effect immediately. No restarts needed. No confusing configuration files to edit.
-
-Whether you're fine-tuning every detail or accepting sensible defaults, VocaMac gives you the control you need to make it work exactly how you want.
+无论逐项微调还是接受默认，你都能让 VocaMac 完全按你的方式工作。

@@ -1,71 +1,69 @@
 ---
-title: "Smart Model Selection"
-subtitle: "Auto-detects your hardware (Apple Silicon, Intel, RAM) and recommends the optimal Whisper model."
-description: "VocaMac automatically detects your Mac hardware and recommends the best Whisper model for your system. Choose from Tiny to Large v3 based on your needs."
-keywords: "whisper model selection, auto detect hardware macOS, apple silicon whisper, coreml speech model, best whisper model mac, RAM based model recommendation"
+title: "智能模型推荐"
+subtitle: "自动识别硬件（Apple Silicon、Intel、内存）并推荐最合适的 Whisper 模型。"
+description: "VocaMac 自动检测 Mac 硬件并推荐最佳 Whisper 模型。可按需在 Tiny 到 Large v3 之间选择。"
+keywords: "whisper 模型选择, macOS 硬件检测, apple silicon whisper, coreml 语音模型, mac 最佳 whisper 模型, 按内存推荐模型"
 icon: "🧠"
 ---
 
-## Intelligent Hardware Detection
+## 智能硬件检测
 
-Every Mac is different. A MacBook Air with Apple Silicon has different capabilities than an Intel Mac mini with 8GB RAM. VocaMac detects your exact hardware configuration and recommends the Whisper model that delivers the best balance of accuracy and speed on your specific machine.
+每台 Mac 都不同。8GB 内存的 Apple Silicon MacBook Air 与 8GB Intel Mac mini 能力各异。VocaMac 检测处理器类型（Apple Silicon 或 Intel）、CPU 核心数、GPU 与已安装内存，并推荐在准确度与速度之间平衡最佳的模型档位。
 
-On first launch, VocaMac analyzes your processor type (Apple Silicon or Intel), CPU core count, GPU availability, and installed RAM. It then suggests the optimal model tier. You remain free to choose any model, but the recommendation gets you great results immediately without guesswork.
+首次启动会分析硬件并给出建议。你仍可自由选择任意模型，但推荐能让你无需猜测即可获得出色效果。
 
-## Five Model Tiers
+## 五档模型
 
-![VocaMac Settings showing model management and system info](/screenshots/settings-models.png)
+![VocaMac 设置中的模型管理与系统信息](/screenshots/settings-models.png)
 
-VocaMac supports five Whisper model sizes, from lightweight to highly accurate. Each model is optimized for CoreML and runs entirely on your Mac.
+VocaMac 支持五种 Whisper 模型，从轻量到高精度，均针对 CoreML 优化并在 Mac 本地运行。
 
-**Tiny (39 MB)**
-The fastest option with minimal memory overhead. Suitable for Macs with 4-8GB RAM or when you prioritize speed over perfect accuracy. Transcription completes in real-time or faster. Accuracy drops slightly compared to larger models, but remains acceptable for casual note-taking and quick messages.
+**Tiny（39 MB）**  
+最快、内存占用最小。适合 4–8GB 内存或更看重速度的场景。转写可实时甚至更快，准确度略低于大模型，但日常笔记与短消息足够。
 
-**Base (140 MB)**
-A solid middle ground. Runs efficiently on any Mac with 8GB RAM or more. Offers noticeably better accuracy than Tiny while maintaining very fast transcription speeds. This is often the recommended model for most users.
+**Base（140 MB）**  
+稳健折中。8GB 及以上内存的 Mac 均可流畅运行，比 Tiny 明显更准且仍很快，常作为多数用户的推荐。
 
-**Small (465 MB)**
-For users with 16GB RAM seeking higher accuracy. Transcription speeds remain fast on modern Macs. Accuracy improves substantially. Recommended for professional writing, coding, and applications where precision matters.
+**Small（465 MB）**  
+面向 16GB 内存、追求更高准确度。在现代 Mac 上仍很快，专业写作、编程等场景值得选用。
 
-**Medium (1.5 GB)**
-High accuracy for demanding use cases. Requires 16GB RAM or more. Transcription remains reasonably fast on Apple Silicon Macs. Excellent for technical documentation, medical transcription, and content creation where every word counts.
+**Medium（1.5 GB）**  
+高准确度，适合要求高的场景，建议 16GB 及以上内存。Apple Silicon 上速度仍可接受，适合技术文档、医疗转写等字字要紧的用途。
 
-**Large v3 (3 GB)**
-The most accurate model available. Peak performance on Apple Silicon Macs with 32GB or more RAM. Transcription speed may reach 2-3 seconds per minute of audio. Use when maximum accuracy is essential and speed is secondary.
+**Large v3（3 GB）**  
+最高准确度，32GB 及以上 Apple Silicon 表现最佳。速度可能约 2–3 秒/分钟音频，在极致准确度优先于速度时使用。
 
-## Hardware-Based Recommendations
+## 基于硬件的建议
 
-VocaMac provides tailored suggestions:
+VocaMac 会给出针对性建议，例如：
 
-- **MacBook Air with Apple Silicon (8GB)**: Base or Small model recommended
-- **MacBook Pro with Apple Silicon (16GB)**: Small or Medium model recommended
-- **Mac mini with Intel (8GB RAM)**: Tiny or Base model recommended
-- **Mac Studio with Apple Silicon (32GB)**: Medium or Large v3 model recommended
+- **Apple Silicon MacBook Air（8GB）**：推荐 Base 或 Small
+- **Apple Silicon MacBook Pro（16GB）**：推荐 Small 或 Medium
+- **Intel Mac mini（8GB）**：推荐 Tiny 或 Base
+- **Apple Silicon Mac Studio（32GB）**：推荐 Medium 或 Large v3
 
-These recommendations balance your hardware capabilities with practical transcription speeds. Your actual choice depends on your accuracy requirements and tolerance for processing time.
+建议综合硬件能力与实际转写速度；最终选择取决于你对准确度与耗时的要求。
 
-## Downloading and Switching Models
+## 下载与切换模型
 
-Models download on-demand. First use of a model triggers a download (requires internet connection). Subsequent launches use the cached model. Each model includes a checksum verification to ensure integrity.
+模型按需下载。首次使用某模型需联网，之后使用本地缓存，并带校验和验证完整性。
 
-Switch models instantly in VocaMac settings. No restart required. Your next recording uses the newly selected model. You can maintain multiple models on disk and switch between them based on context. Recording a technical meeting? Switch to Small. Quick email dictation? Use Tiny.
+在设置中可即时切换，无需重启，下次录音即用新模型。可同时保留多个模型并按场景切换：技术会议用 Small，快速邮件用 Tiny。
 
-Model storage uses your local disk space. VocaMac shows disk usage for each model. Delete unused models to reclaim space.
+界面显示各模型占用空间，可删除不用的模型释放磁盘。
 
-## CoreML Optimization
+## CoreML 优化
 
-All Whisper models in VocaMac are converted to Apple's CoreML format. This optimization ensures:
+VocaMac 中的 Whisper 模型均转换为 Apple CoreML 格式，带来：
 
-- Native execution on Apple Silicon using Neural Engine
-- Efficient Intel compatibility through Intel AMX (Apple Mac compatible) instructions
-- Minimal energy consumption (important for battery life on laptops)
-- No cloud dependencies or external API calls
-- Complete privacy (all processing happens locally)
+- Apple Silicon 上通过神经网络引擎原生执行
+- Intel Mac 通过兼容指令高效运行
+- 更低能耗，利于笔记本续航
+- 无云依赖、无外部 API
+- 完全隐私，处理均在本地
 
-CoreML models leverage your Mac's specialized ML hardware. Apple Silicon Macs see dramatic speed improvements compared to generic ML frameworks. You get the best possible performance from your hardware.
+CoreML 充分利用 Mac 的机器学习硬件；Apple Silicon 相较通用框架速度提升显著。
 
-## Choose Your Balance
+## 由你最终决定
 
-VocaMac trusts you to make the final choice. The automatic recommendation helps you start immediately, but you control which model runs on your Mac. Prioritize speed on some machines. Prioritize accuracy on others. Change your preference whenever your needs evolve.
-
-Your dictation workflow adapts to your hardware and preferences. That is the VocaMac approach.
+自动推荐帮你快速上手，但选用哪个模型由你掌控。有的机器偏速度，有的偏精度，需求变化时随时调整。听写工作流随硬件与偏好而变——这就是 VocaMac 的方式。

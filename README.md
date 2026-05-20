@@ -8,21 +8,21 @@
 
 <div align="center">
   
-[![Build & Test](https://github.com/jatinkrmalik/vocamac/actions/workflows/ci.yml/badge.svg)](https://github.com/jatinkrmalik/vocamac/actions/workflows/ci.yml)
+[![Build & Test](https://github.com/fwz233-RE/vocamac-zh-CN/actions/workflows/ci.yml/badge.svg)](https://github.com/fwz233-RE/vocamac-zh-CN/actions/workflows/ci.yml)
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Platform: macOS](https://img.shields.io/badge/Platform-macOS%2013%2B-lightgrey.svg)](https://github.com/jatinkrmalik/vocamac)
+[![Platform: macOS](https://img.shields.io/badge/Platform-macOS%2013%2B-lightgrey.svg)](https://github.com/fwz233-RE/vocamac-zh-CN)
 [![Swift 5.9+](https://img.shields.io/badge/Swift-5.9%2B-orange.svg)](https://swift.org)
-[![Release](https://img.shields.io/github/v/release/jatinkrmalik/vocamac?include_prereleases&label=Release)](https://github.com/jatinkrmalik/vocamac/releases)
-[![Nightly](https://img.shields.io/badge/Nightly-download-blueviolet)](https://github.com/jatinkrmalik/vocamac/releases/tag/nightly)
+[![Release](https://img.shields.io/github/v/release/fwz233-RE/vocamac-zh-CN?include_prereleases&label=Release)](https://github.com/fwz233-RE/vocamac-zh-CN/releases)
+[![Nightly](https://img.shields.io/badge/Nightly-download-blueviolet)](https://github.com/fwz233-RE/vocamac-zh-CN/releases/tag/nightly)
 
 [![Powered by WhisperKit](https://img.shields.io/badge/Powered%20by-WhisperKit-blueviolet.svg)](https://github.com/argmaxinc/WhisperKit)
-[![Apple Silicon](https://img.shields.io/badge/Apple%20Silicon-Optimized-black.svg?logo=apple&logoColor=white)](https://github.com/jatinkrmalik/vocamac)
-[![Privacy](https://img.shields.io/badge/Privacy-100%25%20Local-brightgreen.svg)](https://github.com/jatinkrmalik/vocamac)
-[![Works Offline](https://img.shields.io/badge/Works-Offline-success.svg)](https://github.com/jatinkrmalik/vocamac)
+[![Apple Silicon](https://img.shields.io/badge/Apple%20Silicon-Optimized-black.svg?logo=apple&logoColor=white)](https://github.com/fwz233-RE/vocamac-zh-CN)
+[![Privacy](https://img.shields.io/badge/Privacy-100%25%20Local-brightgreen.svg)](https://github.com/fwz233-RE/vocamac-zh-CN)
+[![Works Offline](https://img.shields.io/badge/Works-Offline-success.svg)](https://github.com/fwz233-RE/vocamac-zh-CN)
 
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/jatinkrmalik/vocamac/pulls)
-[![GitHub Issues](https://img.shields.io/github/issues/jatinkrmalik/vocamac)](https://github.com/jatinkrmalik/vocamac/issues)
-[![GitHub Stars](https://img.shields.io/github/stars/jatinkrmalik/vocamac?style=social)](https://github.com/jatinkrmalik/vocamac/stargazers)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/fwz233-RE/vocamac-zh-CN/pulls)
+[![GitHub Issues](https://img.shields.io/github/issues/fwz233-RE/vocamac-zh-CN)](https://github.com/fwz233-RE/vocamac-zh-CN/issues)
+[![GitHub Stars](https://img.shields.io/github/stars/fwz233-RE/vocamac-zh-CN?style=social)](https://github.com/fwz233-RE/vocamac-zh-CN/stargazers)
 [![Twitter Follow](https://img.shields.io/twitter/follow/jatinkrmalik?style=social)](https://x.com/intent/user?screen_name=jatinkrmalik)
 
 </div>
@@ -127,7 +127,7 @@ VocaMac requires three macOS permissions:
 
 ### Option 1: Download DMG (Recommended)
 
-1. **Download** the latest `VocaMac-x.x.x-arm64.dmg` from the [Releases page](https://github.com/jatinkrmalik/vocamac/releases)
+1. **Download** the latest `VocaMac-x.x.x-arm64.dmg` from the [Releases page](https://github.com/fwz233-RE/vocamac-zh-CN/releases)
 2. **Open** the DMG and drag VocaMac to Applications
 3. **Open** VocaMac from Applications
 4. **Grant permissions**: Microphone, Accessibility, and Input Monitoring when prompted
@@ -137,7 +137,7 @@ VocaMac requires three macOS permissions:
 ### Option 2: Build from Source (Recommended)
 
 ```bash
-git clone https://github.com/jatinkrmalik/vocamac.git
+git clone https://github.com/fwz233-RE/vocamac-zh-CN.git
 cd vocamac
 make install
 ```
@@ -147,7 +147,7 @@ This builds VocaMac, installs it to `/Applications`, and launches it. Permission
 ### Option 3: CLI Commands (For Developers)
 
 ```bash
-git clone https://github.com/jatinkrmalik/vocamac.git
+git clone https://github.com/fwz233-RE/vocamac-zh-CN.git
 cd vocamac
 make install-cli
 ```
@@ -179,7 +179,7 @@ Nightly builds are automated builds from the latest `main` branch, published eve
 
 **How to install:**
 
-1. Download the latest `VocaMac-nightly-*.dmg` from the [Nightly Release](https://github.com/jatinkrmalik/vocamac/releases/tag/nightly)
+1. Download the latest `VocaMac-nightly-*.dmg` from the [Nightly Release](https://github.com/fwz233-RE/vocamac-zh-CN/releases/tag/nightly)
 2. Open the DMG and drag VocaMac to Applications
 3. Grant permissions when prompted (same as a stable release)
 
@@ -203,7 +203,7 @@ This helps us pinpoint the exact code you're running if you report an issue.
 | **Stability** | Production-ready | May contain incomplete features or bugs |
 | **Best for** | Daily use | Testing & early feedback |
 
-> ⚠️ **Nightly builds may be unstable.** If you encounter issues, please [open a bug report](https://github.com/jatinkrmalik/vocamac/issues/new) — your feedback helps us ship better stable releases!
+> ⚠️ **Nightly builds may be unstable.** If you encounter issues, please [open a bug report](https://github.com/fwz233-RE/vocamac-zh-CN/issues/new) — your feedback helps us ship better stable releases!
 
 ---
 
@@ -409,7 +409,7 @@ VocaMac is the macOS member of the Voca family:
 | Platform | Project | Status |
 |----------|---------|--------|
 |  Linux | [VocaLinux](https://github.com/jatinkrmalik/vocalinux) | ✅ Available |
-|  macOS | [VocaMac](https://github.com/jatinkrmalik/vocamac) | 🚀 Beta |
+|  macOS | [VocaMac](https://github.com/fwz233-RE/vocamac-zh-CN) | 🚀 Beta |
 | 🪟 Windows | [VocaWin](https://vocawin.com) | 📋 Planned |
 
 Each platform uses native technologies for the best possible integration, while sharing the same UX patterns and Whisper model family.

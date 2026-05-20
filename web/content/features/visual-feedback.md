@@ -1,83 +1,58 @@
 ---
-title: "Visual Feedback"
-subtitle: "Menu bar icon changes color. Audio level indicator shows input. Cursor indicator near your caret while recording."
-description: "VocaMac provides clear visual feedback during recording with a color-changing menu bar icon, real-time audio level indicator, and an optional floating cursor indicator."
-keywords: "recording indicator macOS, visual feedback dictation, menu bar recording icon, cursor indicator voice typing, audio level meter mac, recording status indicator"
+title: "视觉反馈"
+subtitle: "菜单栏图标变色、实时音量条、录音时光标旁可选指示器。"
+description: "VocaMac 通过变色菜单栏图标、实时音量条与可选浮动光标指示器，清晰展示录音状态。"
+keywords: "macOS 录音指示, 听写视觉反馈, 菜单栏录音图标, 光标指示器语音输入, mac 音量条, 录音状态指示"
 icon: "📊"
 ---
 
-## Always Know What's Happening
+## 始终清楚当前状态
 
-Voice dictation works best when you have complete clarity about your recording state. VocaMac provides three layers of visual feedback so you're never uncertain about whether you're recording, what your audio input looks like, or exactly where your text will appear.
+听写体验取决于你是否明确知道是否在录音、输入电平如何、文字将出现在哪里。VocaMac 提供三层视觉反馈，消除猜测。
 
-## Menu Bar Icon
+## 菜单栏图标
 
-![VocaMac menu bar in idle state](/screenshots/menu-bar-idle.png)
-![VocaMac menu bar while recording](/screenshots/menu-bar-recording.png)
+![空闲状态](/screenshots/menu-bar-idle.png)
+![录音中](/screenshots/menu-bar-recording.png)
 
-The VocaMac menu bar icon is your primary indicator of recording status. It changes color instantly to show what's happening:
+菜单栏图标是主要状态指示，颜色即时变化：
 
-- **Blue (idle)**: VocaMac is running and ready to use. No recording is active. This is the default state when you're not speaking.
-- **Green (recording)**: You are actively recording. Audio is flowing into the microphone and will be transcribed when you stop. This provides instant visual confirmation that your hotkey press was recognized.
-- **Red (error)**: A problem occurred during transcription, audio capture, or model processing. The error message appears in the popover panel with details on how to resolve it.
+- **蓝色（空闲）**：运行中、可听写，未在录音  
+- **绿色（录音）**：正在录音，麦克风有输入，松手/停止后将转写  
+- **红色（错误）**：转写、采集或模型出错，弹出面板有说明  
 
-These color changes happen instantly. The moment you press your activation hotkey, the icon turns green. The moment you release, it returns to blue. This immediate feedback eliminates the guesswork that plagues other voice apps.
+按下快捷键瞬间变绿，松开恢复蓝色，反馈即时。
 
-## Real-Time Audio Level Indicator
+## 实时音量条
 
-![VocaMac popover panel showing status and audio level](/screenshots/popover-panel.png)
+![弹出面板中的状态与音量](/screenshots/popover-panel.png)
 
-The popover panel displays a live audio level meter while you're recording. This horizontal bar shows your microphone's input volume in real time, helping you understand whether you're speaking loudly enough, too softly, or at an ideal level.
+录音时弹出面板显示水平音量条，实时反映麦克风输入，便于确认音量是否合适、麦克风是否正常、环境是否影响质量。
 
-The audio level indicator serves multiple purposes:
+录音结束条消失，无需猜测输入是否正常。
 
-- **Confidence building**: see your voice being captured as you speak
-- **Troubleshooting**: if levels are flat or minimal, your microphone may not be working or properly configured
-- **Microphone testing**: adjust your distance from the mic or speak louder if levels are consistently low
-- **Acoustic feedback**: understand how your environment is affecting audio quality
+## 浮动光标指示器
 
-The meter updates continuously while recording and disappears when you finish. No guessing games with your input levels.
+![录音时光标旁的指示器](/screenshots/cursor-indicator.png)
 
-## Floating Cursor Indicator
+可选在文本光标旁显示小麦克风图标，多窗口、全屏或菜单栏隐藏时尤其有用：明确文字将插入的位置与当前活动输入框。
 
-![VocaMac cursor indicator near text caret during recording](/screenshots/cursor-indicator.png)
+可在 **设置 → 通用 → 视觉反馈 → 显示光标指示器** 开关，有人爱额外确认，有人只信菜单栏图标。
 
-VocaMac can optionally display a small floating microphone icon that appears near your text cursor while you're recording. This is especially useful when working across multiple windows, fullscreen apps, or when your menu bar is hidden.
+## 为何重要
 
-The cursor indicator provides:
+听写比打字多一轮：说→处理→转写→插入。缺少反馈会像「盲飞」。研究表明，即时视觉确认能显著提升信心、减少修改。三层反馈覆盖：
 
-- **Context awareness**: you can see exactly where your text will be inserted, even when the menu bar isn't visible
-- **Window-specific confirmation**: in applications with multiple text fields, it shows which field is active for dictation
-- **Minimal distraction**: the icon is small and subtle, placed just below your cursor position
+- **菜单栏**：全局状态  
+- **音量条**：证明声音被采集  
+- **光标指示器**：输出位置上下文  
 
-You can enable or disable the cursor indicator anytime in **Settings → General → Visual Feedback → Show Cursor Indicator**. Some users love it for extra reassurance. Others prefer the menu bar icon alone. The choice is yours.
+共同构成接近键盘输入的直接感。
 
-## Why Visual Feedback Matters
+## 组合使用
 
-Voice dictation introduces a layer of abstraction between you and your text input. Unlike typing, where you see each keystroke appear instantly, dictation requires a round trip: speak, process, transcribe, insert. Without clear visual feedback, you're flying blind.
+全屏编辑时常见：瞥见菜单栏为绿、弹出面板音量条在动、光标旁指示器闪烁——三者互相印证。任一信号异常即可调设置或检查音频。
 
-Studies on speech interfaces show that users feel significantly more confident and make fewer corrections when they receive immediate visual confirmation of recording state. The three-layer feedback system in VocaMac addresses this:
+## 可访问性
 
-- **Menu bar icon**: global, always visible status
-- **Audio level**: real-time proof that your voice is being captured
-- **Cursor indicator**: contextual placement of your output
-
-Together, these create a complete feedback loop that matches the directness of keyboard input.
-
-## Combining Feedback Sources
-
-Many users rely on all three feedback sources simultaneously. While recording in a fullscreen text editor:
-
-1. You glance at the menu bar and see the icon is green (recording is active)
-2. You see the audio level meter climbing in the popover (your voice is being captured)
-3. You see the cursor indicator blinking near your text field (this is where your words will appear)
-
-Each feedback source reinforces the others, creating absolute confidence that your dictation is working as expected.
-
-If any of these signals is missing or unclear, you can adjust settings or check your audio configuration. VocaMac's feedback system makes troubleshooting straightforward.
-
-## Accessibility and Visibility
-
-The color-coded menu bar icon uses high-contrast colors (blue, green, red) that are easily distinguishable. The audio level meter provides both visual and spatial feedback. Together with the cursor indicator, VocaMac ensures that visual feedback is clear and actionable for all users.
-
-You control what's visible and when. Customize your feedback experience in Settings to match your preferences and workflow.
+蓝/绿/红高对比易区分；音量条提供视觉与空间信息。可在设置中按需定制可见反馈。

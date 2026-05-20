@@ -29,7 +29,7 @@ final class SettingsWindowManager: ObservableObject {
             backing: .buffered,
             defer: false
         )
-        window.title = "VocaMac Settings"
+        window.title = "VocaMac 设置"
         window.contentView = NSHostingView(rootView: settingsView)
         window.center()
         window.isReleasedWhenClosed = false
@@ -87,7 +87,7 @@ final class OnboardingWindowManager: ObservableObject {
             backing: .buffered,
             defer: false
         )
-        window.title = "Welcome to VocaMac"
+        window.title = "欢迎使用 VocaMac"
         window.contentView = NSHostingView(rootView: onboardingView)
         window.center()
         window.isReleasedWhenClosed = false
@@ -232,9 +232,9 @@ struct VocaMacApp: App {
 /// the actual color in the menu bar.
 ///
 /// States:
-///   • idle       → system default (template mic, adapts to menu bar appearance)
+///   • idle       → system template mic (white/black, adapts to menu bar appearance)
 ///   • recording  → red filled mic (non-template, colored)
-///   • processing → orange spinner (non-template, colored)
+///   • processing → purple spinner (non-template, colored)
 ///   • error      → yellow warning (non-template, colored)
 struct MenuBarIcon: View {
     let appStatus: AppStatus
@@ -249,11 +249,18 @@ struct MenuBarIcon: View {
 
         guard let baseImage = NSImage(systemSymbolName: iconName, accessibilityDescription: "VocaMac")?
             .withSymbolConfiguration(config) else {
-            // Fallback to a basic mic if symbol lookup fails
-            return NSImage(systemSymbolName: "mic", accessibilityDescription: "VocaMac") ?? NSImage()
+            let fallback = NSImage(systemSymbolName: "mic", accessibilityDescription: "VocaMac") ?? NSImage()
+            fallback.isTemplate = appStatus == .idle
+            return fallback
         }
 
-        // Tint the icon with the status color
+        // Idle: use the system template icon so it matches other menu bar items.
+        if appStatus == .idle {
+            baseImage.isTemplate = true
+            return baseImage
+        }
+
+        // Active states: tint with status color
         let tintColor = nsColor
         let size = baseImage.size
 
@@ -282,7 +289,7 @@ struct MenuBarIcon: View {
 
     private var nsColor: NSColor {
         switch appStatus {
-        case .idle:       return NSColor(red: 0, green: 0.478, blue: 1.0, alpha: 1.0)
+        case .idle:       return .labelColor
         case .recording:  return .systemRed
         case .processing: return NSColor(red: 0.749, green: 0.353, blue: 0.949, alpha: 1.0) // #BF5AF2
         case .error:      return .systemYellow

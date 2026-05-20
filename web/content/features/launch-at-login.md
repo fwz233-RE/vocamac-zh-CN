@@ -1,110 +1,71 @@
 ---
-title: "Launch at Login"
-subtitle: "Start VocaMac automatically when you log in. Always ready when you need it."
-description: "VocaMac can start automatically when you log into your Mac using the modern SMAppService API. Always ready in your menu bar without manual launching."
-keywords: "launch at login macOS, auto start menu bar app, SMAppService, startup app mac, always ready dictation, login item macOS app"
+title: "登录时启动"
+subtitle: "登录 Mac 时自动启动 VocaMac，需要时随时就绪。"
+description: "VocaMac 可使用现代 SMAppService API 在登录时自动启动，无需手动打开，菜单栏始终就绪。"
+keywords: "macOS 登录时启动, 菜单栏应用自动启动, SMAppService, mac 开机启动应用, 听写始终就绪, macOS 登录项"
 icon: "🚀"
 ---
 
-## How It Works
+## 工作原理
 
-Launch at Login is a simple but powerful feature: VocaMac starts automatically when you log into your Mac. You'll never have to manually launch the app. It's always there in your menu bar, ready to dictate.
+登录时启动很简单：登录 Mac 后 VocaMac 自动运行，无需手动打开，菜单栏里始终待命。
 
-VocaMac uses macOS's modern **SMAppService API** to register itself as a login item. This is Apple's recommended way to add apps to the login sequence, and it works seamlessly with System Settings on macOS 13 and later.
+VocaMac 使用 macOS 13+ 推荐的 **SMAppService API** 注册为登录项，与系统设置无缝配合。
 
-When you enable Launch at Login in VocaMac's settings, the app registers itself with the system. The next time you log in (or restart your Mac), VocaMac will launch automatically and appear in your menu bar. No dialogue boxes. No extra windows. It simply starts and waits for you to dictate.
+在设置中开启后，下次登录或重启会自动启动并出现在菜单栏，无多余对话框或窗口，安静等待你听写。
 
-## Enabling Launch at Login
+## 如何开启
 
-![VocaMac Settings showing Launch at Login toggle](/screenshots/settings-general.png)
+![VocaMac 设置中的「登录时启动」开关](/screenshots/settings-general.png)
 
-There are two ways to enable this feature:
+两种方式：
 
-**Via Settings**
+**通过设置**  
+1. 点击菜单栏图标打开 VocaMac  
+2. 在弹出面板选择 **设置**  
+3. 进入 **通用 → 登录时启动**  
+4. 打开开关  
 
-1. Open VocaMac and click the menu bar icon
-2. Select **Settings** from the popover
-3. Go to **General → Launch at Login**
-4. Toggle the switch to enable
+**通过设置向导**  
+首次设置时，向导会询问是否开启，勾选即可。
 
-**Via Setup Wizard**
+开启后，下次登录或重启会自动启动。
 
-If you're setting up VocaMac for the first time, the Setup Wizard will offer to enable Launch at Login. Just check the box during initial setup.
+## 与系统设置同步
 
-Once enabled, the app will start automatically on your next login or restart.
+VocaMac 的开关与 **系统设置 → 通用 → 登录项** 双向同步。在任一处开启或关闭，另一处会反映相同状态。
 
-## Sync with System Settings
+可自行验证：在 VocaMac 中开启后，到系统设置的「允许在登录项中」列表查看，应能看到 VocaMac；也可仅在系统设置中关闭。
 
-VocaMac's Launch at Login toggle is always in sync with macOS System Settings. If you enable Launch at Login in VocaMac, it will also appear in:
+## 菜单栏始终可用
 
-**System Settings → General → Login Items**
+开启后无启动等待：登录瞬间图标出现，设置（激活方式、快捷键、静音阈值等）已加载，辅助功能权限通常沿用上次会话，WhisperKit 模型已缓存，转写很快。
 
-You can manage it from either place. If you disable it in System Settings, VocaMac's toggle will reflect that change. This bidirectional sync ensures you always have a single source of truth.
+打开任意文本框、按下快捷键即可开始，无需等 App 启动或加载界面。
 
-You can verify this yourself:
+## 轻量资源占用
 
-1. Enable Launch at Login in VocaMac
-2. Open **System Settings → General → Login Items**
-3. Scroll to the "Allow in the Login Items" section
-4. VocaMac will be listed there
+VocaMac 设计为后台应用，空闲时占用极低：
 
-If you ever want to disable it, you can do so from System Settings without opening VocaMac.
+- **内存**：约 50–100 MB  
+- **CPU**：非录音时接近零  
+- **电池**：影响可忽略  
+- **网络**：除非下载新模型，否则无网络活动  
 
-## Always Available in Your Menu Bar
+登录时启动不会明显拖慢开机，工作时也几乎无感知占用。
 
-With Launch at Login enabled, VocaMac is always available. There's no startup delay. The moment you log in, the app is ready:
+## 为何使用
 
-- The menu bar icon appears instantly (along with your other menu bar apps)
-- All your settings are loaded (activation mode, hotkey, silence thresholds, etc.)
-- Accessibility permissions are already granted (from your previous session)
-- The WhisperKit model is cached, so transcription is fast
+- **方便**：重启后不必记得手动打开  
+- **可靠**：不会中途发现没开 App 而无法听写  
+- **一致**：设置跨重启保留  
+- **省心**：少一件事要管  
+- **专业工作流**：全天依赖听写的人尤其需要始终在线  
 
-This means you can start dictating immediately. No waiting for the app to launch. No loading screens. Just open any text field and press your hotkey.
+## 如何关闭
 
-## Lightweight Resource Usage
+在 VocaMac **通用 → 登录时启动** 关闭，或在系统设置登录项中移除即可。应用仍在「应用程序」中，可随时手动启动。
 
-VocaMac is designed to be a background app. It uses minimal system resources when idle:
+## 技术说明
 
-- **Memory**: approximately 50-100 MB at rest
-- **CPU**: near zero when not recording
-- **Battery**: negligible impact on battery life
-- **Network**: no network activity unless you're downloading a new model
-
-With Launch at Login enabled, VocaMac won't slow down your Mac's startup time or consume meaningful resources while you work. It sits quietly in the background until you need it.
-
-## Why Use Launch at Login?
-
-Enabling this feature has several benefits:
-
-**Convenience**: no need to manually launch VocaMac after every restart or login
-
-**Reliability**: you won't accidentally forget to launch the app and lose dictation access mid-session
-
-**Consistency**: all your settings are preserved across restarts
-
-**Simplicity**: one less thing to think about; VocaMac just works
-
-**Professional workflow**: for users who rely on voice dictation throughout the day, having it always available is essential
-
-## Disabling Launch at Login
-
-If you ever decide you don't want VocaMac to start automatically, you can disable it anytime:
-
-1. Open VocaMac settings
-2. Go to **General → Launch at Login**
-3. Toggle the switch to disable
-
-Or disable it directly in **System Settings → General → Login Items → Allow in the Login Items** section.
-
-VocaMac will no longer start at login, but it will still be in your Applications folder and ready to launch manually whenever you want.
-
-## Technical Details
-
-VocaMac uses the **SMAppService** API from the ServiceManagement framework, which is the modern, recommended approach for login items on macOS 13 and later. This API is:
-
-- **More reliable** than older helper app approaches
-- **Transparent** in System Settings
-- **Secure** since it doesn't require elevated privileges
-- **Reversible** at any time with a simple toggle
-
-If you're curious about how this works under the hood, VocaMac's source code is open and available on GitHub. The implementation is straightforward and uses no workarounds or hacks.
+使用 ServiceManagement 的 **SMAppService**（macOS 13+ 推荐方式），比旧 helper 更可靠、在系统设置中透明、无需提权、可随时开关。实现见 GitHub 开源仓库，无 hack。

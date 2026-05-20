@@ -150,17 +150,17 @@ final class WhisperModelInfoTests: XCTestCase {
             size: .tiny, filePath: nil, isDownloaded: false,
             isActive: false, isSupported: true
         )
-        XCTAssertEqual(model.statusDescription, "Not Downloaded")
+        XCTAssertEqual(model.statusDescription, "未下载")
 
         model.isDownloaded = true
-        XCTAssertEqual(model.statusDescription, "Downloaded")
+        XCTAssertEqual(model.statusDescription, "已下载")
 
         model.isActive = true
-        XCTAssertEqual(model.statusDescription, "Active")
+        XCTAssertEqual(model.statusDescription, "使用中")
 
         model.isActive = false
         model.downloadProgress = 0.5
-        XCTAssertEqual(model.statusDescription, "Downloading (50%)")
+        XCTAssertEqual(model.statusDescription, "下载中（50%）")
     }
 
     func testLoadingState() {
@@ -169,7 +169,7 @@ final class WhisperModelInfoTests: XCTestCase {
             isActive: false, isSupported: true
         )
         model.isLoading = true
-        XCTAssertEqual(model.statusDescription, "Loading…")
+        XCTAssertEqual(model.statusDescription, "加载中…")
         XCTAssertEqual(model.statusIconName, "arrow.trianglehead.2.clockwise")
     }
 

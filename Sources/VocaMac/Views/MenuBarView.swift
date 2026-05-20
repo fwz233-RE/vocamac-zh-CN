@@ -131,19 +131,19 @@ struct MenuBarView: View {
 
                 if let model = appState.currentModel {
                     // Model is loaded and ready
-                    Text("Model: \(model.size.displayName)")
+                    Text("模型：\(model.size.displayName)")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 } else if appState.whisperService.isModelLoaded {
                     // Loaded but currentModel wasn't set (shouldn't happen, but safety net)
-                    Text("Model: \(appState.whisperService.loadedModelName ?? "Loaded")")
+                    Text("模型：\(appState.whisperService.loadedModelName ?? "已加载")")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 } else if let downloadingModel = appState.availableModels.first(where: { $0.downloadProgress != nil }),
                           let progress = downloadingModel.downloadProgress {
                     // A model is being downloaded — show progress
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Downloading \(downloadingModel.size.displayName)… \(Int(progress * 100))%")
+                        Text("正在下载 \(downloadingModel.size.displayName)… \(Int(progress * 100))%")
                             .font(.subheadline)
                             .foregroundStyle(.orange)
                         ProgressView(value: progress)
@@ -152,12 +152,12 @@ struct MenuBarView: View {
                     }
                 } else if let loadingModel = appState.availableModels.first(where: { $0.isLoading }) {
                     // A model is being loaded (already downloaded, now initializing)
-                    Text("Loading \(loadingModel.size.displayName)…")
+                    Text("正在加载 \(loadingModel.size.displayName)…")
                         .font(.subheadline)
                         .foregroundStyle(.orange)
                 } else {
                     // Fallback: no model loaded and nothing actively in progress
-                    Text("No model loaded")
+                    Text("未加载模型")
                         .font(.subheadline)
                         .foregroundStyle(.orange)
                 }
@@ -171,9 +171,9 @@ struct MenuBarView: View {
                     icon: "cpu",
                     value: String(format: "%.0f%%", processMonitor.cpuUsage),
                     details: [
-                        ("CPU Usage", String(format: "%.1f%%", processMonitor.cpuUsage)),
-                        ("Threads", "\(processMonitor.threadCount)"),
-                        ("Cores", "\(ProcessInfo.processInfo.activeProcessorCount)"),
+                        ("CPU 使用率", String(format: "%.1f%%", processMonitor.cpuUsage)),
+                        ("线程", "\(processMonitor.threadCount)"),
+                        ("核心数", "\(ProcessInfo.processInfo.activeProcessorCount)"),
                     ]
                 )
 
@@ -181,9 +181,9 @@ struct MenuBarView: View {
                     icon: "memorychip",
                     value: formattedMemory(processMonitor.memoryMB),
                     details: [
-                        ("Resident", String(format: "%.1f MB", processMonitor.memoryMB)),
-                        ("Peak", String(format: "%.1f MB", processMonitor.memoryPeakMB)),
-                        ("System", "\(ProcessInfo.processInfo.physicalMemory / (1024 * 1024 * 1024)) GB"),
+                        ("常驻内存", String(format: "%.1f MB", processMonitor.memoryMB)),
+                        ("峰值", String(format: "%.1f MB", processMonitor.memoryPeakMB)),
+                        ("系统内存", "\(ProcessInfo.processInfo.physicalMemory / (1024 * 1024 * 1024)) GB"),
                     ]
                 )
             }
@@ -223,7 +223,7 @@ struct MenuBarView: View {
                         await appState.stopRecordingAndTranscribe()
                     }
                 } label: {
-                    Label("Stop Recording", systemImage: "stop.circle.fill")
+                    Label("停止录音", systemImage: "stop.circle.fill")
                         .font(.callout)
                         .foregroundStyle(.red)
                 }
@@ -242,7 +242,7 @@ struct MenuBarView: View {
                 Button {
                     appState.forceRecovery()
                 } label: {
-                    Label("Reset to Idle", systemImage: "arrow.counterclockwise.circle")
+                    Label("重置为就绪", systemImage: "arrow.counterclockwise.circle")
                         .font(.callout)
                         .foregroundStyle(.orange)
                 }
@@ -256,7 +256,7 @@ struct MenuBarView: View {
     private func transcriptionSection(_ result: VocaTranscription) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text("Last Transcription")
+                Text("上次转写")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
 
@@ -270,7 +270,7 @@ struct MenuBarView: View {
                         .font(.subheadline)
                 }
                 .buttonStyle(.plain)
-                .help("Copy to clipboard")
+                .help("复制到剪贴板")
             }
 
             Text(result.text)
@@ -282,9 +282,9 @@ struct MenuBarView: View {
                 .cornerRadius(8)
 
             HStack {
-                Text("\(String(format: "%.1f", result.audioLengthSeconds))s audio")
+                Text("\(String(format: "%.1f", result.audioLengthSeconds)) 秒音频")
                 Text("•")
-                Text("\(String(format: "%.1f", result.duration))s to transcribe")
+                Text("转写耗时 \(String(format: "%.1f", result.duration)) 秒")
                 Text("•")
                 Text(result.detectedLanguage)
             }
@@ -297,21 +297,21 @@ struct MenuBarView: View {
 
     private var permissionsSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Permissions Required")
+            Text("需要权限")
                 .font(.subheadline)
                 .foregroundStyle(.orange)
 
             if appState.micPermission != .granted {
                 permissionButton(
-                    label: appState.micPermission == .denied ? "Open Microphone Settings" : "Grant Microphone Access",
+                    label: appState.micPermission == .denied ? "打开麦克风设置" : "授予麦克风权限",
                     icon: "mic.badge.xmark",
                     isDenied: appState.micPermission == .denied,
                     action: { appState.requestMicrophonePermission() }
                 )
 
                 Text(appState.micPermission == .denied
-                     ? "Denied. Enable in System Settings → Privacy & Security → Microphone."
-                     : "Required to capture your voice for transcription.")
+                     ? "已拒绝。请在系统设置 → 隐私与安全性 → 麦克风中启用。"
+                     : "需要麦克风权限以采集语音进行转写。")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -319,13 +319,13 @@ struct MenuBarView: View {
 
             if appState.accessibilityPermission != .granted {
                 permissionButton(
-                    label: "Grant Accessibility Access",
+                    label: "授予辅助功能权限",
                     icon: "lock.shield",
                     isDenied: appState.accessibilityPermission == .denied,
                     action: { appState.requestAccessibilityPermission() }
                 )
 
-                Text("Required for global hotkeys and text injection. Opens System Settings.")
+                Text("全局快捷键和文字注入需要此权限。将打开系统设置。")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -333,13 +333,13 @@ struct MenuBarView: View {
 
             if appState.inputMonitoringPermission != .granted {
                 permissionButton(
-                    label: "Grant Input Monitoring",
+                    label: "授予输入监控权限",
                     icon: "keyboard",
                     isDenied: appState.inputMonitoringPermission == .denied,
                     action: { appState.requestInputMonitoringPermission() }
                 )
 
-                Text("Required to detect hotkey presses system-wide. Enable VocaMac in the list.")
+                Text("需要此权限以在全系统范围内检测快捷键。请在列表中启用 VocaMac。")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -368,7 +368,7 @@ struct MenuBarView: View {
             } label: {
                 HStack {
                     Image(systemName: "gear")
-                    Text("Settings")
+                    Text("设置")
                     Spacer()
                     Text("⌘,")
                         .foregroundStyle(.secondary)
@@ -390,7 +390,7 @@ struct MenuBarView: View {
             } label: {
                 HStack {
                     Image(systemName: "wand.and.stars")
-                    Text("Setup Wizard")
+                    Text("设置向导")
                     Spacer()
                 }
                 .font(.body)
@@ -410,7 +410,7 @@ struct MenuBarView: View {
             } label: {
                 HStack {
                     Image(systemName: "power")
-                    Text("Quit VocaMac")
+                    Text("退出 VocaMac")
                     Spacer()
                     Text("⌘Q")
                         .foregroundStyle(.secondary)
@@ -434,10 +434,10 @@ struct MenuBarView: View {
 
     private var statusText: String {
         switch appState.appStatus {
-        case .idle:       return "Ready"
-        case .recording:  return "Recording..."
-        case .processing: return "Transcribing..."
-        case .error:      return appState.errorMessage ?? "Error"
+        case .idle:       return "就绪"
+        case .recording:  return "录音中…"
+        case .processing: return "转写中…"
+        case .error:      return appState.errorMessage ?? "错误"
         }
     }
 
@@ -454,9 +454,9 @@ struct MenuBarView: View {
         let keyName = KeyCodeReference.displayName(for: appState.hotKeyCode)
         switch appState.activationMode {
         case .pushToTalk:
-            return "Hold \(keyName)"
+            return "按住 \(keyName)"
         case .doubleTapToggle:
-            return "Double-tap \(keyName)"
+            return "双击 \(keyName)"
         }
     }
 

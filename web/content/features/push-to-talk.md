@@ -1,81 +1,81 @@
 ---
-title: "Push-to-Talk"
-subtitle: "Hold a hotkey to record. Release to transcribe. Simple, predictable, no surprises."
-description: "Push-to-Talk mode in VocaMac lets you hold a hotkey to record and release to transcribe. The fastest, most intuitive way to dictate on macOS."
-keywords: "push to talk macOS, voice dictation hotkey, hold to record, speech to text shortcut, VocaMac push to talk"
+title: "按住说话"
+subtitle: "按住快捷键录音，松手即转写。简单、可预期、没有意外。"
+description: "VocaMac 的按住说话模式：按住快捷键开始录音，松开后自动转写。在 macOS 上最直观、最高效的听写方式。"
+keywords: "按住说话 macOS, 语音听写快捷键, 按住录音, 语音转文字快捷键, VocaMac 按住说话"
 icon: "🎯"
 ---
 
-## How It Works
+## 工作原理
 
-Push-to-Talk is the default activation mode in VocaMac. It's designed to feel as natural as using a walkie-talkie: **hold to speak, release to transcribe**.
+按住说话是 VocaMac 的默认激活方式，用起来像对讲机一样自然：**按住说话，松手转写**。
 
-1. **Press and hold** your chosen hotkey (Right Option ⌥ by default)
-2. **Speak** naturally while the key is held down
-3. **Release** the key when you're done
-4. **Text appears** at your cursor, wherever you're typing
+1. **按住**你选择的快捷键（默认为右 Option ⌥）
+2. **说话**，按键保持按下
+3. **松开**快捷键表示结束
+4. **文字出现**在光标处，无论你正在哪个应用里输入
 
-The entire flow takes less than a second from release to text appearing on screen. There's no delay, no loading spinner, no waiting. Just your words, typed out.
+从松手到文字出现在屏幕上，通常不到一秒。没有加载圈、没有等待，只有你的话语被打成字。
 
-## Why Push-to-Talk?
+## 为什么选择按住说话？
 
-Most voice dictation apps use a click-to-start, click-to-stop model. That sounds simple, but in practice it creates ambiguity: *Am I recording right now? Did I forget to stop?*
+许多语音听写应用采用「点一下开始、再点一下结束」。听起来简单，实际却容易让人困惑：*我现在在录音吗？是不是忘了停？*
 
-Push-to-Talk eliminates that entirely:
+按住说话彻底消除这种模糊：
 
-- **No ambiguity**: if your finger is on the key, you're recording. If it's not, you're not.
-- **No forgotten recordings**: release the key and recording stops automatically.
-- **Instant feedback**: the menu bar icon turns green the moment you press, and returns to normal when you release.
-- **Muscle memory**: after a few uses, it becomes second nature. Like holding Shift to capitalize.
+- **状态清晰**：手指在键上就是在录，不在就不录
+- **不会忘停**：松手即停，录音自动结束
+- **即时反馈**：按下瞬间菜单栏图标变绿，松开恢复
+- **形成肌肉记忆**：用几次就会像按住 Shift 大写一样自然
 
-## Choosing Your Hotkey
+## 选择快捷键
 
-![VocaMac Settings showing activation mode and hotkey configuration](/screenshots/settings-general.png)
+![VocaMac 设置中的激活方式与快捷键](/screenshots/settings-general.png)
 
-VocaMac supports a wide range of hotkeys for Push-to-Talk activation:
+VocaMac 支持多种按住说话快捷键：
 
-- **Right Option (⌥)** - the default, ergonomic and rarely used by other apps
-- **Left Option (⌥)** - if you prefer the left side
-- **Right Command (⌘)** - for Command-key enthusiasts
-- **Right Shift (⇧)** - another good ergonomic choice
-- **Function keys (F5-F12)** - if you prefer dedicated keys
-- **Fn key** - the function key itself
+- **右 Option (⌥)** — 默认，顺手且很少与其他应用冲突
+- **左 Option (⌥)** — 若你更习惯左侧
+- **右 Command (⌘)** — 偏爱 Command 的用户
+- **右 Shift (⇧)** — 同样符合人体工学
+- **功能键 (F5–F12)** — 喜欢独立按键时
+- **Fn 键** — 使用 Fn 本身
 
-You can change your hotkey anytime in **Settings → General → Activation Key**.
+随时可在 **设置 → 通用 → 激活键** 中更改。
 
-## Visual Feedback
+## 视觉反馈
 
-While recording, VocaMac gives you clear visual cues so you always know what's happening:
+录音时，VocaMac 会给出清晰提示：
 
-- **Menu bar icon** turns green to indicate active recording
-- **Audio level indicator** shows real-time input volume in the popover
-- **Cursor indicator** (optional) shows a floating mic icon near your text cursor
+- **菜单栏图标**变绿表示正在录音
+- **弹出面板**中的音量条显示实时输入电平
+- **光标指示器**（可选）在文本光标旁显示浮动麦克风图标
 
-## Works Everywhere
+## 随处可用
 
-Push-to-Talk works in any application that accepts text input:
+按住说话适用于任何接受文字输入的应用：
 
-- Text editors and IDEs (VS Code, Xcode, Sublime Text)
-- Browsers (Chrome, Safari, Firefox, Arc)
-- Communication apps (Slack, Teams, Discord)
-- Productivity apps (Notes, Pages, Google Docs)
-- Terminal emulators
-- Email clients
+- 文本编辑器与 IDE（VS Code、Xcode、Sublime Text）
+- 浏览器（Chrome、Safari、Firefox、Arc）
+- 通讯应用（Slack、Teams、Discord）
+- 效率工具（备忘录、Pages、Google 文档）
+- 终端模拟器
+- 邮件客户端
 
-VocaMac injects text at your cursor position using macOS accessibility APIs, so it works system-wide without any app-specific integrations.
+VocaMac 通过 macOS 辅助功能 API 在光标处注入文字，全系统可用，无需为每个应用单独集成。
 
-## Compared to Double-Tap Toggle
+## 与双击切换对比
 
-VocaMac also offers a **Double-Tap Toggle** mode as an alternative. Here's how they compare:
+VocaMac 还提供 **双击切换** 作为替代。对比如下：
 
-| | Push-to-Talk | Double-Tap Toggle |
+| | 按住说话 | 双击切换 |
 |---|---|---|
-| **Activate** | Hold key | Double-tap key |
-| **Deactivate** | Release key | Double-tap again |
-| **Best for** | Short dictations, quick notes | Longer dictations, hands-free |
-| **Risk of forgetting** | None | Possible |
-| **Physical effort** | Hold key continuously | Tap twice to start/stop |
+| **开始** | 按住键 | 双击键 |
+| **结束** | 松开键 | 再双击 |
+| **适合** | 短句听写、快速笔记 | 较长听写、免提 |
+| **忘记停止的风险** | 无 | 有可能 |
+| **体力** | 需持续按住 | 开始/结束各点两下 |
 
-Most users prefer Push-to-Talk for its simplicity and reliability. But if you regularly dictate for more than 30 seconds at a time, Double-Tap Toggle might be more comfortable.
+多数人因简单可靠而偏爱按住说话；若经常连续听写超过 30 秒，双击切换可能更舒适。
 
-You can switch between modes anytime in **Settings → General → Activation Mode**.
+可在 **设置 → 通用 → 激活方式** 中随时切换。

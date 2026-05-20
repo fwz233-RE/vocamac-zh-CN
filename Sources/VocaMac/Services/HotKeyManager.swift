@@ -443,11 +443,11 @@ extension HotKeyManager: HotKeyMonitoring {
 /// Used for hotkey configuration UI
 enum KeyCodeReference {
     static let commonHotKeys: [(name: String, keyCode: Int)] = [
-        ("Right Option (⌥)", 61),
-        ("Left Option (⌥)", 58),
-        ("Right Command (⌘)", 54),
-        ("Right Shift (⇧)", 60),
-        ("Right Control (⌃)", 62),
+        ("右 Option (⌥)", 61),
+        ("左 Option (⌥)", 58),
+        ("右 Command (⌘)", 54),
+        ("右 Shift (⇧)", 60),
+        ("右 Control (⌃)", 62),
         ("Fn", 63),
         ("F5", 96),
         ("F6", 97),
@@ -461,6 +461,6 @@ enum KeyCodeReference {
 
     /// Get the display name for a key code
     static func displayName(for keyCode: Int) -> String {
-        commonHotKeys.first(where: { $0.keyCode == keyCode })?.name ?? "Key \(keyCode)"
+        commonHotKeys.first(where: { $0.keyCode == keyCode })?.name ?? "按键 \(keyCode)"
     }
 }

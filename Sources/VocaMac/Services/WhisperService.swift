@@ -18,13 +18,13 @@ enum WhisperError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .modelNotLoaded:
-            return "No whisper model is loaded. Please load a model first."
+            return "未加载 Whisper 模型。请先加载模型。"
         case .initializationFailed(let reason):
-            return "Failed to initialize WhisperKit: \(reason)"
+            return "WhisperKit 初始化失败：\(reason)"
         case .transcriptionFailed(let reason):
-            return "Transcription failed: \(reason)"
+            return "转写失败：\(reason)"
         case .emptyAudio:
-            return "No audio data to transcribe."
+            return "没有可转写的音频数据。"
         }
     }
 }
@@ -72,7 +72,7 @@ final class WhisperService: @unchecked Sendable {
         let startTime = CFAbsoluteTimeGetCurrent()
 
         do {
-            onPhaseChange?("Configuring…")
+            onPhaseChange?("配置中…")
             let config = WhisperKitConfig()
 
             // Set model if specified, otherwise WhisperKit auto-selects
@@ -105,10 +105,10 @@ final class WhisperService: @unchecked Sendable {
                 config.download = false
             }
 
-            onPhaseChange?("Loading model…")
+            onPhaseChange?("加载模型中…")
             let kit = try await WhisperKit(config)
 
-            onPhaseChange?("Compiling neural engine…")
+            onPhaseChange?("编译神经网络引擎…")
             self.whisperKit = kit
             self.loadedModelName = modelName ?? kit.modelVariant.description
 

@@ -15,11 +15,11 @@ final class KeyCodeReferenceTests: XCTestCase {
     }
 
     func testDisplayNameForKnownKeyCode() {
-        XCTAssertEqual(KeyCodeReference.displayName(for: 61), "Right Option (⌥)")
+        XCTAssertEqual(KeyCodeReference.displayName(for: 61), "右 Option (⌥)")
     }
 
     func testDisplayNameForUnknownKeyCode() {
-        XCTAssertEqual(KeyCodeReference.displayName(for: 999), "Key 999")
+        XCTAssertEqual(KeyCodeReference.displayName(for: 999), "按键 999")
     }
 
     func testCommonHotKeysValid() {

@@ -17,7 +17,7 @@ struct UpdateBannerView: View {
             HStack(spacing: 8) {
                 Image(systemName: "arrow.down.circle.fill")
                     .foregroundStyle(.blue)
-                Text("Update \(info.tagName) available")
+                Text("有可用更新 \(info.tagName)")
                     .font(.callout)
                     .fontWeight(.medium)
                     .foregroundStyle(.primary)
@@ -50,7 +50,7 @@ struct UpdateDetailView: View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("VocaMac \(info.tagName) Available")
+                    Text("VocaMac \(info.tagName) 可用")
                         .font(.title2)
                         .fontWeight(.semibold)
                     Text(ByteCountFormatter.string(fromByteCount: Int64(info.dmgSize), countStyle: .file))
@@ -58,7 +58,7 @@ struct UpdateDetailView: View {
                         .foregroundStyle(.secondary)
                 }
                 Spacer()
-                Button("Later (24h)") {
+                Button("稍后（24 小时）") {
                     appState.updateChecker.dismiss()
                     dismiss()
                 }
@@ -72,7 +72,7 @@ struct UpdateDetailView: View {
             Divider()
 
             ScrollView {
-                Text(info.releaseNotes.isEmpty ? "No release notes provided." : info.releaseNotes)
+                Text(info.releaseNotes.isEmpty ? "未提供发行说明。" : info.releaseNotes)
                     .font(.callout)
                     .textSelection(.enabled)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -93,7 +93,7 @@ struct UpdateDetailView: View {
         switch appState.updateChecker.updateState {
         case .updateAvailable:
             HStack {
-                Button("Skip This Version") {
+                Button("跳过此版本") {
                     appState.updateChecker.skipVersion(info.version)
                     dismiss()
                 }
@@ -102,7 +102,7 @@ struct UpdateDetailView: View {
 
                 Spacer()
 
-                Button("Download & Install") {
+                Button("下载并安装") {
                     Task { @MainActor in
                         await appState.updateChecker.downloadUpdate(info)
                     }
@@ -112,7 +112,7 @@ struct UpdateDetailView: View {
         case .downloading(let progress, let bytesDownloaded, let totalBytes, let eta):
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
-                    Text("Downloading update...")
+                    Text("正在下载更新…")
                         .foregroundStyle(.secondary)
                     Spacer()
                     Text("\(Int(progress * 100))%")
@@ -123,7 +123,7 @@ struct UpdateDetailView: View {
                     .progressViewStyle(.linear)
                     .tint(.blue)
                 HStack {
-                    Text("\(ByteCountFormatter.string(fromByteCount: bytesDownloaded, countStyle: .file)) of \(ByteCountFormatter.string(fromByteCount: totalBytes, countStyle: .file))")
+                    Text("\(ByteCountFormatter.string(fromByteCount: bytesDownloaded, countStyle: .file)) / \(ByteCountFormatter.string(fromByteCount: totalBytes, countStyle: .file))")
                         .font(.caption2)
                         .foregroundStyle(.tertiary)
                     Spacer()
@@ -139,18 +139,18 @@ struct UpdateDetailView: View {
                 HStack(spacing: 8) {
                     ProgressView()
                         .controlSize(.small)
-                    Text("Verifying download integrity...")
+                    Text("正在校验下载完整性…")
                         .foregroundStyle(.secondary)
                 }
             }
         case .readyToInstall(let dmgPath):
             VStack(alignment: .leading, spacing: 10) {
-                Label("Download complete", systemImage: "checkmark.circle.fill")
+                Label("下载完成", systemImage: "checkmark.circle.fill")
                     .foregroundStyle(.green)
-                Text("Open the DMG and drag VocaMac to Applications to replace the existing app.")
+                Text("打开 DMG 文件，将 VocaMac 拖入「应用程序」文件夹以替换现有版本。")
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                Button("Open DMG") {
+                Button("打开 DMG") {
                     appState.updateChecker.openDMG(at: dmgPath)
                     dismiss()
                 }
@@ -162,12 +162,12 @@ struct UpdateDetailView: View {
                     .foregroundStyle(.orange)
 
                 HStack {
-                    Button("View Release") {
+                    Button("查看发布页") {
                         NSWorkspace.shared.open(info.releasePageURL)
                     }
                     .buttonStyle(.bordered)
 
-                    Button("Retry") {
+                    Button("重试") {
                         Task { @MainActor in
                             await appState.updateChecker.downloadUpdate(info)
                         }
@@ -184,8 +184,8 @@ struct UpdateDetailView: View {
         let mins = Int(seconds) / 60
         let secs = Int(seconds) % 60
         if mins > 0 {
-            return "\(mins)m \(secs)s remaining"
+            return "剩余 \(mins) 分 \(secs) 秒"
         }
-        return "\(secs)s remaining"
+        return "剩余 \(secs) 秒"
     }
 }

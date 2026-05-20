@@ -20,11 +20,11 @@ enum ModelSize: String, CaseIterable, Codable, Identifiable {
     /// Human-readable display name
     var displayName: String {
         switch self {
-        case .tiny:    return "Tiny (Fastest)"
-        case .base:    return "Base"
-        case .small:   return "Small"
-        case .medium:  return "Medium"
-        case .largeV3: return "Large v3 (Best Quality)"
+        case .tiny:    return "微型（最快）"
+        case .base:    return "基础"
+        case .small:   return "小型"
+        case .medium:  return "中型"
+        case .largeV3: return "Large v3（最佳质量）"
         }
     }
 
@@ -71,11 +71,11 @@ enum ModelSize: String, CaseIterable, Codable, Identifiable {
     /// Accuracy quality descriptor
     var qualityDescription: String {
         switch self {
-        case .tiny:    return "Good"
-        case .base:    return "Better"
-        case .small:   return "Great"
-        case .medium:  return "Excellent"
-        case .largeV3: return "Best"
+        case .tiny:    return "良好"
+        case .base:    return "较好"
+        case .small:   return "很好"
+        case .medium:  return "优秀"
+        case .largeV3: return "最佳"
         }
     }
 }
@@ -106,19 +106,19 @@ struct WhisperModelInfo: Identifiable {
     var isLoading: Bool = false
 
     /// Descriptive loading phase (e.g., "Preparing…", "Compiling…")
-    var loadingStatus: String = "Loading…"
+    var loadingStatus: String = "加载中…"
 
     var id: String { size.id }
 
     /// Human-readable status description
     var statusDescription: String {
-        if isActive { return "Active" }
+        if isActive { return "使用中" }
         if isLoading { return loadingStatus }
         if let progress = downloadProgress {
-            return "Downloading (\(Int(progress * 100))%)"
+            return "下载中（\(Int(progress * 100))%）"
         }
-        if isDownloaded { return "Downloaded" }
-        return "Not Downloaded"
+        if isDownloaded { return "已下载" }
+        return "未下载"
     }
 
     /// SF Symbol name for the status icon

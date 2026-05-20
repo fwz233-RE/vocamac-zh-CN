@@ -1,14 +1,14 @@
-baseURL = "https://vocamac.com/"
-languageCode = "en-us"
-title = "VocaMac - 100% Local Voice-to-Text for macOS"
+baseURL = "https://fwz233-re.github.io/vocamac-zh-CN/"
+languageCode = "zh-cn"
+title = "VocaMac - macOS 全本地语音转文字"
 
 [params]
-  description = "100% offline, open-source voice-to-text for macOS. Powered by WhisperKit + CoreML."
+  description = "macOS 上 100% 离线、开源的语音转文字。由 WhisperKit + CoreML 驱动。"
   author = "Jatin Kumar Malik"
   twitterHandle = "@jatinkrmalik"
-  githubRepo = "https://github.com/jatinkrmalik/vocamac"
+  githubRepo = "https://github.com/fwz233-RE/vocamac-zh-CN"
   gaID = "G-8W6EJV2KP0"
-  ogImage = "https://vocamac.com/og-image.png"
+  ogImage = "https://fwz233-re.github.io/vocamac-zh-CN/og-image.png"
 
 [build]
   [build.buildStats]

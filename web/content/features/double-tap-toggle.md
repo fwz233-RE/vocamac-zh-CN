@@ -1,64 +1,62 @@
 ---
-title: "Double-Tap Toggle"
-subtitle: "Prefer toggle mode? Double-tap to start, double-tap to stop. Your choice."
-description: "Double-Tap Toggle mode in VocaMac lets you start and stop recording with a quick double-tap of your hotkey. Ideal for longer dictation sessions."
-keywords: "double tap dictation, toggle voice recording, hands free dictation mac, voice typing toggle mode, start stop recording hotkey"
+title: "双击切换"
+subtitle: "更喜欢切换模式？双击开始，再双击结束。由你决定。"
+description: "VocaMac 的双击切换模式：快速双击快捷键开始/停止录音，适合较长的听写场景。"
+keywords: "双击听写, 切换语音录音, mac 免提听写, 语音输入切换模式, 快捷键开始停止录音"
 icon: "👆"
 ---
 
-## Two Ways to Control Recording
+## 两种录音控制方式
 
-VocaMac supports two distinct recording modes. Push-to-Talk holds a key to record continuously and releases to stop. Toggle mode lets you double-tap to start, then double-tap again to stop. Choose whichever fits your workflow.
+VocaMac 支持两种录音模式。按住说话需要持续按住按键；切换模式则双击开始、再双击结束。选最适合你工作流的那种。
 
-Toggle mode is perfect for longer dictations or situations where you want hands-free operation. Start your recording with a quick double-tap, then speak freely without holding any keys. Tap again when you're done. No sustained keyboard pressure required.
+切换模式适合较长听写或希望免提操作的场景。快速双击开始录音，无需一直按键，说完再双击结束。
 
-## How Double-Tap Toggle Works
+## 双击切换如何工作
 
-Configure your hotkey and set VocaMac to Toggle mode. When recording begins:
+配置快捷键并将 VocaMac 设为切换模式。录音流程如下：
 
-1. Double-tap your hotkey (press and release, press and release within the threshold window)
-2. VocaMac enters recording mode and begins capturing audio
-3. A visual indicator shows that recording is active
-4. Speak your message, question, email, code comment, or anything else
-5. Double-tap your hotkey again to stop recording and transcribe
+1. 双击快捷键（在阈值窗口内按下并松开两次）
+2. VocaMac 进入录音并开始采集音频
+3. 界面显示正在录音
+4. 说出邮件、问题、代码注释或任何内容
+5. 再次双击停止并转写
 
-The transcription happens instantly. Your text appears at your cursor position. If you double-tap again, VocaMac starts a new recording session.
+转写几乎即时完成，文字出现在光标处。再双击可开始新的录音。
 
-## Configurable Double-Tap Threshold
+## 可配置的双击间隔
 
-VocaMac lets you adjust the time window for recognizing a double-tap. Too short, and accidental double-taps become difficult. Too long, and quick sequential uses feel sluggish.
+VocaMac 允许调整识别双击的时间窗口。太短则不易触发，太长则连续操作显得拖沓。
 
-Fine-tune the double-tap threshold in VocaMac settings to match your typing speed and preferences. Most users find 200-400 milliseconds comfortable. Test different thresholds to discover what feels natural for your hands and hotkey choice.
+在设置中微调双击阈值以匹配你的按键习惯。多数人觉得 200–400 毫秒较舒适，可多试几种找到最自然的手感。
 
-## Toggle vs. Push-to-Talk
+## 切换 vs. 按住说话
 
-Push-to-Talk mode is ideal when you want to dictate frequently throughout your day in short bursts. Hold a key, speak a sentence, release, and continue typing. It provides direct tactile control and instant feedback.
+按住说话适合一天中频繁、短句听写：按住、说一句话、松开、继续打字，触觉反馈直接。
 
-Toggle mode shines when you need to:
+切换模式在以下场景更出色：
 
-- Record longer transcriptions without holding a key
-- Dictate without visible keyboard interaction (in meetings or public settings)
-- Reduce hand strain from sustained key presses
-- Maintain both hands on your home row while speaking
+- 较长转写，不必一直按键
+- 会议或公共场合，减少明显按键动作
+- 减轻长时间按键的手部负担
+- 双手可留在主键位上说话
 
-Both modes support the same keyboard hotkeys. Switch between modes in settings whenever your workflow demands change.
+两种模式使用相同快捷键，需要时在设置中切换即可。
 
-## Real-Time Visual Feedback
+## 实时视觉反馈
 
-While recording in Toggle mode, VocaMac displays a clear visual indicator. The menu bar icon animates, a popover window highlights the recording state, and optional sound cues confirm the start and stop of recording.
+切换模式录音时，菜单栏图标会动画提示，弹出面板高亮录音状态，还可选声音提示开始与结束。
 
-This feedback ensures you always know whether VocaMac is listening. No ambiguity. No accidental partial dictations. You have full confidence in every recording session.
+你始终清楚 VocaMac 是否在听，避免含糊或意外截断，每次录音都有把握。
 
-## Best for Longer Dictations
+## 更适合长听写
 
-Toggle mode suits extended speaking sessions. Drafting an email. Recording notes from a meeting. Describing a complex problem in a bug report. Capturing ideas without interruption.
+切换模式适合连续表达：写长邮件、记会议要点、描述复杂 Bug、捕捉灵感而不被打断。
 
-Start recording once, then speak your entire message. No key management. No distracting hotkey sequences. Just your voice and complete focus on what you're saying.
+双击一次开始，说完再双击结束；VocaMac 转写并注入文字，你可立刻继续工作。
 
-When finished, a simple double-tap completes the recording. VocaMac transcribes and injects your text. Continue working immediately.
+## 模式无缝切换
 
-## Seamless Mode Switching
+数秒内即可在切换与按住说话之间更改。VocaMac 记住偏好并全局应用，无需重启。
 
-Change between Toggle and Push-to-Talk modes in seconds. VocaMac remembers your preference and applies it globally. No restart required. No retraining needed.
-
-Many users employ both modes depending on context. Toggle for focused dictation sessions. Push-to-Talk for quick interjections while typing. VocaMac adapts to however you prefer to work.
+许多人按场景混用：专注听写用切换，边打字边插话用按住说话。VocaMac 适应你的习惯。

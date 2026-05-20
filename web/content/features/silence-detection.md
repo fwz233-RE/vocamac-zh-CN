@@ -1,88 +1,71 @@
 ---
-title: "Silence Detection"
-subtitle: "Auto-stops recording after you stop speaking. Adjustable sensitivity and duration thresholds."
-description: "VocaMac automatically detects silence and stops recording when you finish speaking. Fine-tune sensitivity and duration thresholds in settings."
-keywords: "auto stop recording silence, voice activity detection macOS, silence detection dictation, smart recording stop, adjustable silence threshold, voice typing auto stop"
+title: "静音检测"
+subtitle: "停止说话后自动结束录音。可调节灵敏度与静音时长阈值。"
+description: "VocaMac 自动检测静音并在你说完后停止录音。可在设置中微调灵敏度与持续时间。"
+keywords: "静音自动停止录音, macOS 语音活动检测, 听写静音检测, 智能停止录音, 可调静音阈值, 语音输入自动停止"
 icon: "🤫"
 ---
 
-## How It Works
+## 工作原理
 
-![VocaMac audio settings showing silence detection thresholds](/screenshots/settings-audio.png)
+![VocaMac 音频设置中的静音检测](/screenshots/settings-audio.png)
 
-Silence detection is VocaMac's intelligent feature that automatically stops recording when it detects you've finished speaking. You don't have to manually stop. Just speak, and when you pause, the app listens to the ambient sound in your environment and decides when recording should end.
+静音检测会在你停止说话后自动结束录音，无需手动停止。应用持续测量音频的 **均方根（RMS）能量**，与设定阈值比较；若低于阈值并持续达到设定时长，即停止录音。
 
-Under the hood, silence detection works by measuring the **root mean square (RMS) energy** of incoming audio. RMS energy is a standard measure of audio loudness. VocaMac continuously calculates this value and compares it against a threshold you set. When the audio level drops below that threshold for a configurable duration, recording stops automatically.
+特别适合：
 
-This is particularly useful in two scenarios:
+- **双击切换模式**：双击开始，说完停顿后自动结束  
+- **免提听写**：较长转写时不必一直按键  
 
-- **Double-Tap Toggle mode**: you can start recording with one double-tap, speak freely, and let VocaMac stop automatically when you pause
-- **Hands-free dictation**: ideal for longer transcriptions where holding a key becomes tiring
+## 可调灵敏度
 
-## Configurable Sensitivity
+环境各异，安静办公室与嘈杂咖啡馆背景噪声不同。两项设置：
 
-Every environment is different. A quiet home office has lower background noise than a busy coffee shop. VocaMac lets you tune silence detection to match your surroundings with two settings:
+**静音阈值（0–100%）**  
+控制对安静的敏感程度。阈值越低越激进（更快停止），越高越宽容（需更长时间静音才停）。
 
-**Silence Threshold (0-100%)**
+- **低（20–40%）**：安静环境、希望快速结束  
+- **中（50–60%）**：多数人默认  
+- **高（70–90%）**：嘈杂环境，减少误停  
 
-This controls how sensitive the detector is to quiet sounds. A lower threshold is more aggressive (stops recording sooner), while a higher threshold is more lenient (requires more silence before stopping).
+**静音时长（0.5–3 秒）**  
+检测到静音后等待多久才真正停止。更长可在句间换气时不被截断。
 
-- **Low threshold (20-40%)**: use in quiet environments where you want quick stops
-- **Medium threshold (50-60%)**: the default sweet spot for most users
-- **High threshold (70-90%)**: use in noisy environments to prevent accidental cutoffs
+- **0.5 秒**：几乎立即停止  
+- **1–1.5 秒**：默认，响应与安全平衡  
+- **2–3 秒**：适合自然停顿较多的表达  
 
-**Silence Duration (0.5-3 seconds)**
+在 **设置 → 音频 → 静音检测** 中调节。
 
-This is how long VocaMac waits after detecting silence before actually stopping the recording. A longer duration gives you time to catch your breath between sentences without the recording cutting off unexpectedly.
+## 与两种激活模式的关系
 
-- **0.5 seconds**: aggressive, stops almost immediately after silence
-- **1-1.5 seconds**: the default, balances responsiveness with safety
-- **2-3 seconds**: forgiving, great for natural pauses in speech
+**按住说话**：按住键即停，静音检测冗余，一般不需开启。
 
-You can adjust both settings in **Settings → Audio → Silence Detection**.
+**双击切换**：静音检测发挥最大价值——双击开始，停顿后自动结束，往往无需再双击。
 
-## Silence Detection with Push-to-Talk vs. Double-Tap Toggle
+## 防止误停
 
-The two activation modes interact with silence detection differently:
+担心短暂停顿或环境噪声导致过早结束？VocaMac 通过多种策略降低误停：
 
-**Push-to-Talk Mode**
+- 可调阈值与时长  
+- **最短录音 0.3 秒**：即使检测到静音也不会立刻截断开头  
+- **自适应噪声底**：适应环境，门响、喇叭等突发声不易误触发  
+- **实时电平**：弹出面板可见当前输入电平  
 
-In Push-to-Talk, you're holding a key down. Silence detection is disabled here because it's redundant: releasing the key stops recording instantly. When you need silence detection, switch to Double-Tap Toggle.
+## 近期修复
 
-**Double-Tap Toggle Mode**
+曾存在极少数情况下录音开头因静音检测过于激进而丢失音频的问题，已修复。现保证：
 
-This is where silence detection shines. You double-tap to start recording, and VocaMac monitors silence in the background. When you finish speaking and pause, the silence detector kicks in and stops recording automatically. You never have to double-tap again.
+1. 录音开头不丢音频  
+2. 尊重 0.3 秒最短时长  
+3. 阈值始终考虑检测到的噪声底  
 
-This means you can speak naturally, take breaths between sentences, and let VocaMac handle the timing. It feels effortless.
+可放心依赖静音检测。
 
-## Preventing Accidental Cutoffs
+## 使用建议
 
-One concern with any silence detection system is false positives: stopping recording too early because of a brief pause or background noise. VocaMac protects against this with several strategies:
-
-**Tunable thresholds**: adjust sensitivity and duration to match your environment
-
-**Minimum recording duration**: VocaMac won't stop recording in the first 0.3 seconds, even if silence is detected, to avoid cutting off initial words
-
-**Adaptive thresholds**: the silence detector continuously adapts to the ambient noise floor in your environment, so sudden sounds (a door closing, a car horn) won't trigger a false stop
-
-**Real-time monitoring**: you can see the audio level indicator in the VocaMac popover in real time, so you know exactly how loud the detector thinks your speech is
-
-## Recent Bug Fix
-
-VocaMac recently fixed a critical silence detection bug: in rare cases, audio at the very beginning of a recording could be lost if the silence detector kicked in too aggressively during the initial setup phase. This has been corrected.
-
-Now, VocaMac guarantees that:
-
-1. No audio is lost at the start of recording
-2. The minimum recording duration (0.3 seconds) is respected
-3. The silence threshold always accounts for the detected noise floor
-
-This means you can trust silence detection completely. Your words won't be cut off, and nothing will be lost.
-
-## Tips for Best Results
-
-- In quiet environments, use a lower sensitivity threshold (40-50%)
-- In noisy environments, use a higher threshold (70-80%) to avoid false stops
-- Start with the default 1-second duration and adjust based on your natural speech patterns
-- Use silence detection primarily in Double-Tap Toggle mode
-- Test your settings in a quick voice memo to hear how they feel before relying on them during real work
+- 安静环境用较低阈值（40–50%）  
+- 嘈杂环境用较高阈值（70–80%）  
+- 先从默认 1 秒时长试起，再按说话习惯微调  
+- 主要在双击切换模式使用  
+- 正式工作前可用短句试设置是否合适  

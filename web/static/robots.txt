@@ -1,7 +1,6 @@
 User-agent: *
 Allow: /
 
-# Prevent indexing of GitHub Pages default domain (redirects to vocamac.com)
-Host: https://vocamac.com
+Host: https://fwz233-re.github.io
 
-Sitemap: https://vocamac.com/sitemap.xml
+Sitemap: https://fwz233-re.github.io/vocamac-zh-CN/sitemap.xml

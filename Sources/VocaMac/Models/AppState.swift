@@ -28,17 +28,17 @@ enum ActivationMode: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .pushToTalk:      return "Push to Talk (Hold)"
-        case .doubleTapToggle: return "Double-Tap Toggle"
+        case .pushToTalk:      return "按住说话"
+        case .doubleTapToggle: return "双击切换"
         }
     }
 
     var description: String {
         switch self {
         case .pushToTalk:
-            return "Hold the hotkey to record. Release to stop and transcribe."
+            return "按住快捷键开始录音，松开后停止并转写。"
         case .doubleTapToggle:
-            return "Double-tap the hotkey to start recording. Double-tap again to stop."
+            return "双击快捷键开始录音，再次双击停止。"
         }
     }
 }
@@ -93,18 +93,17 @@ final class AppState: ObservableObject {
     // MARK: - User Settings (persisted via UserDefaults)
 
     @AppStorage("vocamac.hasCompletedOnboarding") var hasCompletedOnboarding: Bool = false
-    @AppStorage("vocamac.activationMode") var activationMode: ActivationMode = .pushToTalk
-    @AppStorage("vocamac.hotKeyCode") var hotKeyCode: Int = 61  // Right Option
+    @AppStorage("vocamac.activationMode") var activationMode: ActivationMode = .doubleTapToggle
+    @AppStorage("vocamac.hotKeyCode") var hotKeyCode: Int = 63  // Fn
     @AppStorage("vocamac.doubleTapThreshold") var doubleTapThreshold: Double = 0.4
     @AppStorage("vocamac.silenceThreshold") var silenceThreshold: Double = 0.01
     @AppStorage("vocamac.silenceDuration") var silenceDuration: Double = 2.0
     @AppStorage("vocamac.maxRecordingDuration") var maxRecordingDuration: Int = 60
     @AppStorage("vocamac.selectedModelSize") var selectedModelSize: String = ModelSize.tiny.rawValue
-    @AppStorage("vocamac.selectedLanguage") var selectedLanguage: String = "auto"
+    @AppStorage("vocamac.selectedLanguage") var selectedLanguage: String = "zh"
     @AppStorage("vocamac.launchAtLogin") var launchAtLogin: Bool = false
     @AppStorage("vocamac.preserveClipboard") var preserveClipboard: Bool = true
     @AppStorage("vocamac.soundEffectsEnabled") var soundEffectsEnabled: Bool = true
-    @AppStorage("vocamac.showCursorIndicator") var showCursorIndicator: Bool = true
     @AppStorage("vocamac.translationEnabled") var translationEnabled: Bool = false
     @AppStorage("vocamac.logLevel") var logLevel: String = "info"
 
@@ -116,7 +115,6 @@ final class AppState: ObservableObject {
     let hotKeyManager: HotKeyMonitoring
     let modelManager: ModelManaging
     let soundManager: SoundPlaying
-    let cursorOverlay: CursorOverlayManaging
     let updateChecker = UpdateChecker()
     let permissionManager: any PermissionManaging
 
@@ -146,7 +144,6 @@ final class AppState: ObservableObject {
         hotKeyManager: HotKeyMonitoring = HotKeyManager(),
         modelManager: ModelManaging = ModelManager(),
         soundManager: SoundPlaying = SoundManager(),
-        cursorOverlay: CursorOverlayManaging,
         permissionManager: (any PermissionManaging)? = nil,
         skipSystemIntegration: Bool = false
     ) {
@@ -156,7 +153,6 @@ final class AppState: ObservableObject {
         self.hotKeyManager = hotKeyManager
         self.modelManager = modelManager
         self.soundManager = soundManager
-        self.cursorOverlay = cursorOverlay
         self.permissionManager = permissionManager ?? PermissionManager(audioEngine: audioEngine, hotKeyManager: hotKeyManager)
         self.skipSystemIntegration = skipSystemIntegration
 
@@ -181,10 +177,9 @@ final class AppState: ObservableObject {
     /// stored-property initialization prevents duplicate service graphs, event
     /// taps, audio observers, and stale SwiftUI environment objects.
     @MainActor
-    private static let sharedProductionInstance = AppState(cursorOverlay: CursorOverlayManager())
+    private static let sharedProductionInstance = AppState()
 
     /// Convenience factory for creating AppState with all real services.
-    /// Needed because CursorOverlayManager is @MainActor and can't be a default parameter.
     @MainActor
     static func production() -> AppState {
         VocaLogger.debug(.appState, "Using production AppState id=\(ObjectIdentifier(sharedProductionInstance))")
@@ -309,7 +304,6 @@ final class AppState: ObservableObject {
         audioEngine.onAudioLevel = { [weak self] level in
             Task { @MainActor in
                 self?.audioLevel = level
-                self?.cursorOverlay.updateAudioLevel(level)
             }
         }
 
@@ -347,7 +341,6 @@ final class AppState: ObservableObject {
                 VocaLogger.warning(.appState, "Audio device changed — recovering from interrupted recording")
                 self.isRecording = false
                 self.audioLevel = 0.0
-                self.cursorOverlay.hide()
                 self.hotKeyManager.resetKeyState()
                 self.appStatus = .idle
                 self.errorMessage = nil
@@ -403,7 +396,7 @@ final class AppState: ObservableObject {
 
     /// Forcibly reset the entire recording pipeline to idle state.
     /// This is a last-resort recovery mechanism callable from the menu bar UI.
-    /// It unconditionally resets the audio engine, hotkey state, cursor overlay,
+    /// It unconditionally resets the audio engine, hotkey state,
     /// and all published state back to idle.
     func forceRecovery() {
         VocaLogger.warning(.appState, "Force recovery: resetting all state to idle (was appStatus=\(appStatus.rawValue), isRecording=\(isRecording))")
@@ -417,7 +410,6 @@ final class AppState: ObservableObject {
         // Reset UI state
         isRecording = false
         audioLevel = 0.0
-        cursorOverlay.hide()
         appStatus = .idle
         errorMessage = nil
     }
@@ -447,7 +439,7 @@ final class AppState: ObservableObject {
             return
         }
         guard micPermission == .granted else {
-            errorMessage = "Microphone permission is required. Please grant access in System Settings."
+            errorMessage = "需要麦克风权限。请在系统设置中授予访问权限。"
             appStatus = .error
             return
         }
@@ -455,11 +447,6 @@ final class AppState: ObservableObject {
         appStatus = .recording
         isRecording = true
         errorMessage = nil
-
-        // Show cursor indicator
-        if showCursorIndicator {
-            cursorOverlay.show()
-        }
 
         // Start recording immediately for instant responsiveness.
         // The start sound is played concurrently — any brief bleed into the
@@ -491,12 +478,7 @@ final class AppState: ObservableObject {
             soundManager.playStopSound()
         }
 
-        // Transition cursor indicator to processing state (red -> purple)
-        // Keeps the overlay visible so the user knows text is on its way
-        cursorOverlay.transitionToProcessing()
-
         guard !audioData.isEmpty else {
-            cursorOverlay.hide()
             appStatus = .idle
             return
         }
@@ -525,11 +507,9 @@ final class AppState: ObservableObject {
                 VocaLogger.info(.appState, "Transcription produced no usable text (silence or blank audio)")
             }
 
-            cursorOverlay.hide()
             appStatus = .idle
         } catch {
-            cursorOverlay.hide()
-            errorMessage = "Transcription failed: \(error.localizedDescription)"
+            errorMessage = "转写失败：\(error.localizedDescription)"
             appStatus = .error
 
             // Auto-recover after 3 seconds
@@ -559,7 +539,7 @@ final class AppState: ObservableObject {
         // Mark the model as loading in the UI
         if let targetSize = targetSize, let idx = availableModels.firstIndex(where: { $0.size == targetSize }) {
             availableModels[idx].isLoading = true
-            availableModels[idx].loadingStatus = "Preparing…"
+            availableModels[idx].loadingStatus = "准备中…"
         }
 
         do {
@@ -575,7 +555,7 @@ final class AppState: ObservableObject {
 
             // Update status: unpacking
             if let targetSize = targetSize, let idx = availableModels.firstIndex(where: { $0.size == targetSize }) {
-                availableModels[idx].loadingStatus = "Unpacking model…"
+                availableModels[idx].loadingStatus = "解压模型中…"
             }
 
             // Load model with status callback
@@ -620,7 +600,7 @@ final class AppState: ObservableObject {
                 let matches = availableModels[i].size == resolvedSize
                 availableModels[i].isActive = matches
                 availableModels[i].isLoading = false
-                availableModels[i].loadingStatus = "Loading…"
+                availableModels[i].loadingStatus = "加载中…"
                 if matches {
                     // Refresh download status in case the auto-select downloaded it
                     availableModels[i].isDownloaded = modelManager.isModelDownloaded(resolvedSize)
@@ -633,9 +613,9 @@ final class AppState: ObservableObject {
             // Clear loading state on error for all models (covers auto-select case)
             for i in availableModels.indices {
                 availableModels[i].isLoading = false
-                availableModels[i].loadingStatus = "Loading…"
+                availableModels[i].loadingStatus = "加载中…"
             }
-            errorMessage = "Failed to load model: \(error.localizedDescription)"
+            errorMessage = "模型加载失败：\(error.localizedDescription)"
             VocaLogger.error(.appState, "Failed to load model: \(error.localizedDescription)")
         }
     }
@@ -669,7 +649,7 @@ final class AppState: ObservableObject {
             if let idx = availableModels.firstIndex(where: { $0.size == size }) {
                 availableModels[idx].downloadProgress = nil
             }
-            errorMessage = "Download failed: \(error.localizedDescription)"
+            errorMessage = "下载失败：\(error.localizedDescription)"
             VocaLogger.error(.appState, "Download failed for \(size.displayName): \(error.localizedDescription)")
         }
     }

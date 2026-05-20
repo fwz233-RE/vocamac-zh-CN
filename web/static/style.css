@@ -467,7 +467,7 @@ a.feature-card:hover {
     border-color: var(--accent);
 }
 a.feature-card::after {
-    content: "Learn more →";
+    content: "了解更多 →";
     display: block;
     margin-top: auto;
     padding-top: 12px;

@@ -30,7 +30,7 @@ final class AppStateRecordingTests: XCTestCase {
                       "Should transition to error when mic permission is denied")
         XCTAssertNotNil(appState.errorMessage,
                        "Should set an error message about microphone permission")
-        XCTAssertTrue(appState.errorMessage?.contains("Microphone") == true,
+        XCTAssertTrue(appState.errorMessage?.contains("麦克风") == true,
                      "Error message should mention microphone")
     }
 
@@ -102,13 +102,6 @@ final class AppStateRecordingTests: XCTestCase {
                      "Sound effects should be enabled by default")
     }
 
-    func testShowCursorIndicatorDefault() {
-        let (appState, _) = AppState.makeTestState()
-
-        XCTAssertTrue(appState.showCursorIndicator,
-                     "Cursor indicator should be shown by default")
-    }
-
     func testTranslationDisabledByDefault() {
         let (appState, _) = AppState.makeTestState()
 
@@ -119,15 +112,22 @@ final class AppStateRecordingTests: XCTestCase {
     func testSelectedLanguageDefault() {
         let (appState, _) = AppState.makeTestState()
 
-        XCTAssertEqual(appState.selectedLanguage, "auto",
-                      "Default language should be 'auto'")
+        XCTAssertEqual(appState.selectedLanguage, "zh",
+                      "Default language should be 'zh' (Chinese)")
     }
 
     func testActivationModeDefault() {
         let (appState, _) = AppState.makeTestState()
 
-        XCTAssertEqual(appState.activationMode, .pushToTalk,
-                      "Default activation mode should be push-to-talk")
+        XCTAssertEqual(appState.activationMode, .doubleTapToggle,
+                      "Default activation mode should be double-tap toggle")
+    }
+
+    func testHotKeyCodeDefault() {
+        let (appState, _) = AppState.makeTestState()
+
+        XCTAssertEqual(appState.hotKeyCode, 63,
+                      "Default hotkey should be Fn (keyCode 63)")
     }
 
     func testDoubleTapThresholdDefault() {
@@ -253,8 +253,6 @@ final class AppStateForceRecoveryTests: XCTestCase {
             "errorMessage should be nil after force recovery")
         XCTAssertEqual(mocks.audioEngine.forceResetCallCount, 1,
             "forceReset should be called on audio engine")
-        XCTAssertEqual(mocks.cursorOverlay.hideCallCount, 1,
-            "cursor overlay should be hidden")
     }
 
     @MainActor

@@ -19,15 +19,15 @@ enum ModelManagerError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .modelNotAvailable(let name):
-            return "Model '\(name)' is not available."
+            return "模型「\(name)」不可用。"
         case .downloadFailed(let reason):
-            return "Model download failed: \(reason)"
+            return "模型下载失败：\(reason)"
         case .deviceNotSupported(let model):
-            return "Model '\(model)' is too large for this device."
+            return "模型「\(model)」对此设备来说过大。"
         case .missingModelDirectory(let path):
-            return "Model files are missing at: \(path)"
+            return "模型文件缺失，路径：\(path)"
         case .tokenizerAssetsUnavailable(let model):
-            return "Tokenizer assets are missing for model '\(model)'."
+            return "模型「\(model)」的分词器资源缺失。"
         }
     }
 }

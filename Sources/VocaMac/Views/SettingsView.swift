@@ -15,27 +15,27 @@ struct SettingsView: View {
         TabView {
             GeneralSettingsTab()
                 .tabItem {
-                    Label("General", systemImage: "gear")
+                    Label("通用", systemImage: "gear")
                 }
 
             ModelSettingsTab()
                 .tabItem {
-                    Label("Models", systemImage: "brain")
+                    Label("模型", systemImage: "brain")
                 }
 
             AudioSettingsTab()
                 .tabItem {
-                    Label("Audio", systemImage: "waveform")
+                    Label("音频", systemImage: "waveform")
                 }
 
             DebugTab()
                 .tabItem {
-                    Label("Debug", systemImage: "ladybug")
+                    Label("调试", systemImage: "ladybug")
                 }
 
             AboutTab()
                 .tabItem {
-                    Label("About", systemImage: "info.circle")
+                    Label("关于", systemImage: "info.circle")
                 }
         }
         .frame(width: 560, height: 520)
@@ -50,8 +50,8 @@ struct GeneralSettingsTab: View {
     var body: some View {
         Form {
             // Activation Mode
-            Section("Activation Mode") {
-                Picker("Mode", selection: $appState.activationMode) {
+            Section("激活方式") {
+                Picker("模式", selection: $appState.activationMode) {
                     ForEach(ActivationMode.allCases) { mode in
                         VStack(alignment: .leading) {
                             Text(mode.displayName)
@@ -70,8 +70,8 @@ struct GeneralSettingsTab: View {
             }
 
             // Hotkey
-            Section("Hotkey") {
-                Picker("Activation Key", selection: $appState.hotKeyCode) {
+            Section("快捷键") {
+                Picker("激活按键", selection: $appState.hotKeyCode) {
                     ForEach(KeyCodeReference.commonHotKeys, id: \.keyCode) { hotKey in
                         Text(hotKey.name).tag(hotKey.keyCode)
                     }
@@ -82,7 +82,7 @@ struct GeneralSettingsTab: View {
 
                 if appState.activationMode == .doubleTapToggle {
                     HStack {
-                        Text("Double-tap speed")
+                        Text("双击速度")
                         Slider(
                             value: $appState.doubleTapThreshold,
                             in: 0.2...0.8,
@@ -96,67 +96,65 @@ struct GeneralSettingsTab: View {
                         appState.hotKeyManager.updateConfiguration(doubleTapThreshold: newVal)
                     }
 
-                    Text("Shorter = faster double-tap required. Longer = more forgiving.")
+                    Text("数值越小，双击间隔要求越短；数值越大，越宽松。")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
             }
 
             // Language
-            Section("Transcription Language") {
-                Picker("Language", selection: $appState.selectedLanguage) {
-                    Text("Auto-detect").tag("auto")
+            Section("转写语言") {
+                Picker("语言", selection: $appState.selectedLanguage) {
+                    Text("自动检测").tag("auto")
                     Divider()
                     Group {
-                        Text("English").tag("en")
-                        Text("Spanish").tag("es")
-                        Text("French").tag("fr")
-                        Text("German").tag("de")
-                        Text("Italian").tag("it")
-                        Text("Portuguese").tag("pt")
-                        Text("Dutch").tag("nl")
+                        Text("英语").tag("en")
+                        Text("西班牙语").tag("es")
+                        Text("法语").tag("fr")
+                        Text("德语").tag("de")
+                        Text("意大利语").tag("it")
+                        Text("葡萄牙语").tag("pt")
+                        Text("荷兰语").tag("nl")
                     }
                     Divider()
                     Group {
-                        Text("Chinese").tag("zh")
-                        Text("Japanese").tag("ja")
-                        Text("Korean").tag("ko")
-                        Text("Hindi").tag("hi")
-                        Text("Arabic").tag("ar")
-                        Text("Russian").tag("ru")
-                        Text("Turkish").tag("tr")
-                        Text("Polish").tag("pl")
-                        Text("Swedish").tag("sv")
-                        Text("Ukrainian").tag("uk")
+                        Text("中文").tag("zh")
+                        Text("日语").tag("ja")
+                        Text("韩语").tag("ko")
+                        Text("印地语").tag("hi")
+                        Text("阿拉伯语").tag("ar")
+                        Text("俄语").tag("ru")
+                        Text("土耳其语").tag("tr")
+                        Text("波兰语").tag("pl")
+                        Text("瑞典语").tag("sv")
+                        Text("乌克兰语").tag("uk")
                     }
                 }
 
-                Text("Auto-detect works well for most cases. Set a specific language for better accuracy.")
+                Text("自动检测适用于大多数场景。指定语言可提高识别准确度。")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
 
             // Translation
-            Section("Translation") {
-                Toggle("Enable translation", isOn: $appState.translationEnabled)
+            Section("翻译") {
+                Toggle("启用翻译", isOn: $appState.translationEnabled)
 
                 Text(appState.translationEnabled
-                    ? "Speech will be translated to the selected language (or English if Auto-detect)."
-                    : "Speech will be transcribed as-is in the spoken language. The language setting is used as a recognition hint only.")
+                    ? "语音将被翻译为所选语言（自动检测时默认为英语）。"
+                    : "语音将按原语言转写。语言设置仅作为识别提示。")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
-            Section("Behavior") {
-                Toggle("Launch at Login", isOn: Binding(
+            Section("行为") {
+                Toggle("登录时启动", isOn: Binding(
                     get: { appState.launchAtLogin },
                     set: { appState.setLaunchAtLogin($0) }
                 ))
 
-                Toggle("Preserve clipboard after text injection", isOn: $appState.preserveClipboard)
+                Toggle("注入文字后保留剪贴板内容", isOn: $appState.preserveClipboard)
 
-                Toggle("Show mic indicator near cursor while recording", isOn: $appState.showCursorIndicator)
-
-                Text("When enabled, your clipboard contents are restored after injecting text.")
+                Text("启用后，注入文字后会恢复你原来的剪贴板内容。")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -186,14 +184,14 @@ struct PermissionRow: View {
             Spacer()
             switch status {
             case .granted:
-                Text("Granted")
+                Text("已授权")
                     .font(.caption)
                     .foregroundStyle(.green)
             case .notDetermined:
-                Button("Grant") { action() }
+                Button("授权") { action() }
                     .controlSize(.small)
             case .denied:
-                Button("Open Settings") { action() }
+                Button("打开设置") { action() }
                     .controlSize(.small)
             }
         }
@@ -229,14 +227,14 @@ struct ModelSettingsTab: View {
                 if let capabilities = appState.systemCapabilities {
                     GroupBox {
                         VStack(alignment: .leading, spacing: 6) {
-                            Label("System Information", systemImage: "cpu")
+                            Label("系统信息", systemImage: "cpu")
                                 .font(.headline)
                                 .padding(.bottom, 4)
 
                             HStack(spacing: 24) {
                                 SystemInfoPill(icon: "cpu", label: "CPU", value: capabilities.processorName)
                                 SystemInfoPill(icon: "memorychip", label: "RAM", value: "\(capabilities.physicalMemoryGB) GB")
-                                SystemInfoPill(icon: "bolt.fill", label: "Metal", value: capabilities.supportsMetalAcceleration ? "Yes" : "No")
+                                SystemInfoPill(icon: "bolt.fill", label: "Metal", value: capabilities.supportsMetalAcceleration ? "是" : "否")
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -248,7 +246,7 @@ struct ModelSettingsTab: View {
                 // Resource usage
                 GroupBox {
                     VStack(alignment: .leading, spacing: 6) {
-                        Label("Resource Usage", systemImage: "gauge.with.dots.needle.bottom.50percent")
+                        Label("资源占用", systemImage: "gauge.with.dots.needle.bottom.50percent")
                             .font(.headline)
                             .padding(.bottom, 4)
 
@@ -260,21 +258,21 @@ struct ModelSettingsTab: View {
                             )
                             SystemInfoPill(
                                 icon: "memorychip",
-                                label: "Memory",
+                                label: "内存",
                                 value: processMonitor.memoryMB >= 1024
                                     ? String(format: "%.1f GB", processMonitor.memoryMB / 1024)
                                     : String(format: "%.0f MB", processMonitor.memoryMB)
                             )
                             SystemInfoPill(
                                 icon: "chart.line.uptrend.xyaxis",
-                                label: "Peak",
+                                label: "峰值",
                                 value: processMonitor.memoryPeakMB >= 1024
                                     ? String(format: "%.1f GB", processMonitor.memoryPeakMB / 1024)
                                     : String(format: "%.0f MB", processMonitor.memoryPeakMB)
                             )
                             SystemInfoPill(
                                 icon: "arrow.triangle.branch",
-                                label: "Threads",
+                                label: "线程",
                                 value: "\(processMonitor.threadCount)"
                             )
                         }
@@ -291,10 +289,10 @@ struct ModelSettingsTab: View {
                                 .foregroundStyle(.green)
                                 .font(.title3)
                             VStack(alignment: .leading) {
-                                Text("Active Model: \(current.size.displayName)")
+                                Text("当前模型：\(current.size.displayName)")
                                     .font(.callout)
                                     .fontWeight(.semibold)
-                                Text("\(current.size.qualityDescription) quality • \(current.size.fileSizeDescription)")
+                                Text("\(current.size.qualityDescription) 质量 • \(current.size.fileSizeDescription)")
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                             }
@@ -307,7 +305,7 @@ struct ModelSettingsTab: View {
                 // Model list
                 GroupBox {
                     VStack(alignment: .leading, spacing: 0) {
-                        Label("Available Models", systemImage: "list.bullet")
+                        Label("可用模型", systemImage: "list.bullet")
                             .font(.headline)
                             .padding(.bottom, 8)
                             .padding(.horizontal, 4)
@@ -328,7 +326,7 @@ struct ModelSettingsTab: View {
                 HStack {
                     Image(systemName: "info.circle")
                         .foregroundStyle(.secondary)
-                    Text("Models are downloaded from HuggingFace and cached locally. Larger models produce better results but are slower and use more memory.")
+                    Text("模型从 HuggingFace 下载并缓存在本地。更大的模型效果更好，但速度更慢、占用内存更多。")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -342,9 +340,9 @@ struct ModelSettingsTab: View {
                         Image(systemName: "sparkles")
                             .foregroundStyle(.blue)
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("Recommended for your device: **\(recommendedSize.displayName)**")
+                            Text("推荐用于你的设备：**\(recommendedSize.displayName)**")
                                 .font(.callout)
-                            Text("Based on WhisperKit's tuned variants for your chip — not your RAM.")
+                            Text("基于 WhisperKit 针对你芯片的优化版本，而非根据内存大小推荐。")
                                 .font(.caption2)
                                 .foregroundStyle(.tertiary)
                         }
@@ -354,7 +352,7 @@ struct ModelSettingsTab: View {
                 HStack {
                     Image(systemName: "internaldrive")
                         .foregroundStyle(.secondary)
-                    Text("Model storage: \(appState.modelManager.diskUsageDescription())")
+                    Text("模型存储：\(appState.modelManager.diskUsageDescription())")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -412,7 +410,7 @@ struct ModelRow: View {
                         // false positives (e.g. "large-v3" matching "large-v3_turbo")
                         let prefix = "openai_whisper-\(model.size.rawValue)"
                         if recommended == prefix || recommended.hasPrefix(prefix + "-") {
-                            Text("Recommended")
+                            Text("推荐")
                                 .font(.caption2)
                                 .padding(.horizontal, 6)
                                 .padding(.vertical, 1)
@@ -423,14 +421,14 @@ struct ModelRow: View {
                     }
 
                     if !model.isSupported {
-                        Text("Experimental")
+                        Text("实验性")
                             .font(.caption2)
                             .padding(.horizontal, 6)
                             .padding(.vertical, 1)
                             .background(.orange.opacity(0.2))
                             .foregroundStyle(.orange)
                             .cornerRadius(4)
-                            .help("WhisperKit hasn't verified this model on your chip family. Your hardware can likely run it — use Load Anyway to try.")
+                            .help("WhisperKit 尚未验证此模型在你的芯片系列上的兼容性。你的硬件很可能可以运行，但可能比优化模型更慢。")
                     }
                 }
 
@@ -439,9 +437,9 @@ struct ModelRow: View {
                     Text("•")
                     Text(model.size.qualityDescription)
                     Text("•")
-                    Text("~\(String(format: "%.0f", model.size.ramRequiredGB)) GB RAM")
+                    Text("约 \(String(format: "%.0f", model.size.ramRequiredGB)) GB 内存")
                     Text("•")
-                    Text("Speed: \(String(repeating: "⚡", count: max(1, 6 - model.size.relativeSpeed)))")
+                    Text("速度：\(String(repeating: "⚡", count: max(1, 6 - model.size.relativeSpeed)))")
                 }
                 .font(.caption2)
                 .foregroundStyle(.secondary)
@@ -472,20 +470,20 @@ struct ModelRow: View {
 
             // Action button
             if model.isActive {
-                Label("Active", systemImage: "checkmark")
+                Label("使用中", systemImage: "checkmark")
                     .font(.caption)
                     .foregroundStyle(.green)
             } else if !model.isSupported {
                 if model.isLoading || model.downloadProgress != nil {
                     EmptyView()
                 } else if model.isDownloaded {
-                    Button("Load Anyway") {
+                    Button("仍要加载") {
                         showForceDownloadAlert = true
                     }
                     .controlSize(.small)
                     .foregroundStyle(.secondary)
                 } else {
-                    Button("Try Anyway") {
+                    Button("仍要尝试") {
                         showForceDownloadAlert = true
                     }
                     .controlSize(.small)
@@ -495,13 +493,13 @@ struct ModelRow: View {
                 // Show nothing - progress indicator handles the feedback
                 EmptyView()
             } else if model.isDownloaded {
-                Button("Load") {
+                Button("加载") {
                     Task { @MainActor in await appState.loadModel(model.size) }
                 }
                 .controlSize(.small)
                 .buttonStyle(.borderedProminent)
             } else {
-                Button("Download & Load") {
+                Button("下载并加载") {
                     Task { @MainActor in
                         await appState.downloadModel(model.size)
                         if appState.availableModels.first(where: { $0.size == model.size })?.isDownloaded == true {
@@ -514,9 +512,9 @@ struct ModelRow: View {
         }
         .padding(.vertical, 8)
         .padding(.horizontal, 4)
-        .alert("Use Experimental Model?", isPresented: $showForceDownloadAlert) {
-            Button("Cancel", role: .cancel) {}
-            Button(model.isDownloaded ? "Load Anyway" : "Download & Load", role: .destructive) {
+        .alert("使用实验性模型？", isPresented: $showForceDownloadAlert) {
+            Button("取消", role: .cancel) {}
+            Button(model.isDownloaded ? "仍要加载" : "下载并加载", role: .destructive) {
                 Task { @MainActor in
                     if !model.isDownloaded {
                         await appState.downloadModel(model.size)
@@ -527,7 +525,7 @@ struct ModelRow: View {
                 }
             }
         } message: {
-            Text("WhisperKit hasn't verified this model on your chip family. It will likely work but may be slower than tuned models.")
+            Text("WhisperKit 尚未验证此模型在你的芯片系列上的兼容性。它很可能可以运行，但可能比优化模型更慢。")
         }
     }
 }
@@ -540,23 +538,23 @@ struct AudioSettingsTab: View {
 
     var body: some View {
         Form {
-            Section("Recording") {
-                Picker("Max recording duration", selection: $appState.maxRecordingDuration) {
-                    Text("15 seconds").tag(15)
-                    Text("30 seconds").tag(30)
-                    Text("60 seconds").tag(60)
-                    Text("120 seconds").tag(120)
-                    Text("300 seconds (5 min)").tag(300)
+            Section("录音") {
+                Picker("最长录音时长", selection: $appState.maxRecordingDuration) {
+                    Text("15 秒").tag(15)
+                    Text("30 秒").tag(30)
+                    Text("60 秒").tag(60)
+                    Text("120 秒").tag(120)
+                    Text("300 秒（5 分钟）").tag(300)
                 }
 
-                Text("Recording will automatically stop after this duration.")
+                Text("超过此时长后录音将自动停止。")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
 
-            Section("Silence Detection") {
+            Section("静音检测") {
                 HStack {
-                    Text("Sensitivity")
+                    Text("灵敏度")
                     Slider(
                         value: $appState.silenceThreshold,
                         in: 0.001...0.05,
@@ -569,7 +567,7 @@ struct AudioSettingsTab: View {
                 }
 
                 HStack {
-                    Text("Auto-stop after silence")
+                    Text("静音后自动停止")
                     Slider(
                         value: $appState.silenceDuration,
                         in: 0.5...5.0,
@@ -580,25 +578,25 @@ struct AudioSettingsTab: View {
                         .frame(width: 35)
                 }
 
-                Text("In double-tap mode, recording auto-stops after this duration of silence. In push-to-talk mode, you control when to stop by releasing the key.")
+                Text("在双击切换模式下，静音超过设定时长后录音自动停止。在按住说话模式下，松开按键即可停止。")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
 
-            Section("Sound Effects") {
-                Toggle("Enable sound effects", isOn: $appState.soundEffectsEnabled)
+            Section("音效") {
+                Toggle("启用音效", isOn: $appState.soundEffectsEnabled)
 
-                Text("Play subtle audio cues when recording starts and stops.")
+                Text("录音开始和停止时播放提示音。")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
 
-            Section("Input Device") {
+            Section("输入设备") {
                 if audioDevices.isEmpty {
                     HStack {
                         Image(systemName: "exclamationmark.triangle")
                             .foregroundStyle(.orange)
-                        Text("No audio input devices found")
+                        Text("未找到音频输入设备")
                             .foregroundStyle(.secondary)
                     }
                 } else {
@@ -610,7 +608,7 @@ struct AudioSettingsTab: View {
                                 Text(device.name)
                                     .font(.callout)
                                 if device.isDefault {
-                                    Text("System Default")
+                                    Text("系统默认")
                                         .font(.caption2)
                                         .foregroundStyle(.blue)
                                 }
@@ -624,12 +622,12 @@ struct AudioSettingsTab: View {
                     }
                 }
 
-                Button("Refresh Devices") {
+                Button("刷新设备") {
                     audioDevices = AudioEngine.availableInputDevices()
                 }
                 .controlSize(.small)
 
-                Text("VocaMac uses your system default input device. Change it in System Settings → Sound → Input.")
+                Text("VocaMac 使用系统默认输入设备。请在系统设置 → 声音 → 输入中更改。")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -641,9 +639,9 @@ struct AudioSettingsTab: View {
     }
 
     private var sensitivityLabel: String {
-        if appState.silenceThreshold < 0.01 { return "High" }
-        if appState.silenceThreshold < 0.03 { return "Medium" }
-        return "Low"
+        if appState.silenceThreshold < 0.01 { return "高" }
+        if appState.silenceThreshold < 0.03 { return "中" }
+        return "低"
     }
 }
 
@@ -655,111 +653,121 @@ struct AboutTab: View {
     @State private var updateInfoForSheet: UpdateInfo?
 
     var body: some View {
-        VStack(spacing: 16) {
-            Spacer()
+        VStack(spacing: 0) {
+            ScrollView {
+                VStack(spacing: 12) {
+                    // App icon
+                    Image(systemName: "mic.circle.fill")
+                        .font(.system(size: 64))
+                        .foregroundStyle(.blue)
+                        .padding(.top, 8)
 
-            // App icon
-            Image(systemName: "mic.circle.fill")
-                .font(.system(size: 64))
-                .foregroundStyle(.blue)
+                    // App name and version
+                    Text("VocaMac")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
 
-            // App name and version
-            Text("VocaMac")
-                .font(.largeTitle)
-                .fontWeight(.bold)
+                    Text("你的声音，你的 Mac，你的隐私。\n由 AI 驱动的开源听写工具。")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: false, vertical: true)
 
-            Text("Your voice, your Mac, your privacy.\nOpen-source dictation powered by AI.")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true)
-
-            Text("Version \(appVersionDisplay) (\(buildChannelLabel))")
-                .font(.caption)
-                .foregroundStyle(.tertiary)
-
-            Button {
-                Task { @MainActor in
-                    await appState.updateChecker.checkForUpdates()
-                    if case .updateAvailable(let info) = appState.updateChecker.updateState {
-                        updateInfoForSheet = info
-                        showingUpdateSheet = true
-                    }
-                }
-            } label: {
-                if case .checking = appState.updateChecker.updateState {
-                    HStack(spacing: 6) {
-                        ProgressView()
-                            .controlSize(.small)
-                        Text("Checking for Updates...")
-                    }
-                    .font(.caption)
-                } else {
-                    Label("Check for Updates...", systemImage: "arrow.triangle.2.circlepath")
+                    Text("版本 \(appVersionDisplay)（\(buildChannelLabel)）")
                         .font(.caption)
-                }
-            }
-            .buttonStyle(.plain)
-            .foregroundStyle(.blue)
+                        .foregroundStyle(.tertiary)
 
-            Text(updateStatusText)
-                .font(.caption2)
-                .foregroundStyle(.secondary)
+                    VStack(spacing: 4) {
+                        Button {
+                            Task { @MainActor in
+                                await appState.updateChecker.checkForUpdates()
+                                if case .updateAvailable(let info) = appState.updateChecker.updateState {
+                                    updateInfoForSheet = info
+                                    showingUpdateSheet = true
+                                }
+                            }
+                        } label: {
+                            if case .checking = appState.updateChecker.updateState {
+                                HStack(spacing: 6) {
+                                    ProgressView()
+                                        .controlSize(.small)
+                                    Text("正在检查更新…")
+                                }
+                                .font(.caption)
+                            } else {
+                                Label("检查更新…", systemImage: "arrow.triangle.2.circlepath")
+                                    .font(.caption)
+                            }
+                        }
+                        .buttonStyle(.plain)
+                        .foregroundStyle(.blue)
 
-            Divider()
-                .frame(width: 200)
-
-            // Tech info
-            GroupBox {
-                VStack(alignment: .leading, spacing: 4) {
-                    if let capabilities = appState.systemCapabilities {
-                        InfoRow2(label: "Device", value: capabilities.processorName)
-                        InfoRow2(label: "Architecture", value: capabilities.isAppleSilicon ? "Apple Silicon (ARM64)" : "Intel (x86_64)")
-                        InfoRow2(label: "Neural Engine", value: capabilities.supportsMetalAcceleration ? "Available" : "Not Available")
+                        if !updateStatusText.isEmpty {
+                            Text(updateStatusText)
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
+                                .multilineTextAlignment(.center)
+                        }
                     }
-                    InfoRow2(label: "Engine", value: "WhisperKit")
-                    InfoRow2(label: "Model", value: appState.whisperService.loadedModelName ?? "Not loaded")
-                    InfoRow2(label: "Storage", value: appState.modelManager.diskUsageDescription())
-                }
-                .font(.caption)
-                .padding(4)
-            }
-            .frame(width: 300)
 
-            Divider()
-                .frame(width: 200)
+                    Divider()
+                        .frame(width: 200)
+                        .padding(.top, 4)
 
-            // Links
-            HStack(spacing: 16) {
-                Link(destination: URL(string: "https://vocamac.com")!) {
-                    Label("Website", systemImage: "globe")
-                }
-                Link(destination: URL(string: "https://github.com/jatinkrmalik/vocamac")!) {
-                    Label("GitHub", systemImage: "chevron.left.forwardslash.chevron.right")
-                }
-                Link(destination: URL(string: "https://github.com/argmaxinc/WhisperKit")!) {
-                    Label("WhisperKit", systemImage: "waveform")
-                }
-            }
-            .font(.caption)
+                    // Tech info
+                    GroupBox {
+                        VStack(alignment: .leading, spacing: 4) {
+                            if let capabilities = appState.systemCapabilities {
+                                InfoRow2(label: "设备", value: capabilities.processorName)
+                                InfoRow2(label: "架构", value: capabilities.isAppleSilicon ? "Apple Silicon (ARM64)" : "Intel (x86_64)")
+                                InfoRow2(label: "神经网络引擎", value: capabilities.supportsMetalAcceleration ? "可用" : "不可用")
+                            }
+                            InfoRow2(label: "引擎", value: "WhisperKit")
+                            InfoRow2(label: "模型", value: appState.whisperService.loadedModelName ?? "未加载")
+                            InfoRow2(label: "存储", value: appState.modelManager.diskUsageDescription())
+                        }
+                        .font(.caption)
+                        .padding(4)
+                    }
+                    .frame(width: 300)
 
-            Divider()
-                .frame(width: 200)
+                    Divider()
+                        .frame(width: 200)
 
-            Button(action: {
-                NotificationCenter.default.post(name: .showOnboarding, object: nil)
-            }) {
-                Label("Show Setup Wizard…", systemImage: "wand.and.stars")
+                    // Links
+                    HStack(spacing: 16) {
+                        Link(destination: URL(string: "https://vocamac.com")!) {
+                            Label("官网", systemImage: "globe")
+                        }
+                        Link(destination: URL(string: "https://github.com/fwz233-RE/vocamac-zh-CN")!) {
+                            Label("GitHub", systemImage: "chevron.left.forwardslash.chevron.right")
+                        }
+                        Link(destination: URL(string: "https://github.com/argmaxinc/WhisperKit")!) {
+                            Label("WhisperKit", systemImage: "waveform")
+                        }
+                    }
                     .font(.caption)
-            }
-            .buttonStyle(.plain)
-            .foregroundStyle(.blue)
-            .help("Re-run the first-launch setup wizard")
 
-            Spacer()
+                    Divider()
+                        .frame(width: 200)
+
+                    Button(action: {
+                        NotificationCenter.default.post(name: .showOnboarding, object: nil)
+                    }) {
+                        Label("显示设置向导…", systemImage: "wand.and.stars")
+                            .font(.caption)
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundStyle(.blue)
+                    .help("重新运行首次启动设置向导")
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal)
+                .padding(.bottom, 8)
+            }
 
             HStack(spacing: 0) {
-                Text("Made with ❤️ by ")
+                Text("由 ")
                     .font(.caption2)
                     .foregroundStyle(.tertiary)
                 Link("Jatin Kumar Malik", destination: URL(string: "https://x.com/intent/user?screen_name=jatinkrmalik")!)
@@ -768,7 +776,6 @@ struct AboutTab: View {
             .padding(.bottom, 8)
         }
         .frame(maxWidth: .infinity)
-        .padding()
         .sheet(isPresented: $showingUpdateSheet) {
             if let info = updateInfoForSheet {
                 UpdateDetailView(info: info)
@@ -778,29 +785,29 @@ struct AboutTab: View {
     }
 
     private var appVersionDisplay: String {
-        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "未知"
     }
 
     private var buildChannelLabel: String {
-        appVersionDisplay.contains("nightly") ? "Nightly" : "Beta"
+        appVersionDisplay.contains("nightly") ? "每夜构建" : "测试版"
     }
 
     private var updateStatusText: String {
         switch appState.updateChecker.updateState {
         case .upToDate:
-            return "You are on the latest version."
+            return "你正在使用最新版本。"
         case .updateAvailable(let info):
-            return "Update available: \(info.tagName)"
+            return "有可用更新：\(info.tagName)"
         case .error(let message):
             return message
         case .downloading(let progress, _, _, _):
-            return "Downloading update... \(Int(progress * 100))%"
+            return "正在下载更新… \(Int(progress * 100))%"
         case .verifying:
-            return "Verifying download integrity..."
+            return "正在校验下载完整性…"
         case .readyToInstall:
-            return "Update downloaded. Open the DMG to install."
+            return "更新已下载。打开 DMG 文件进行安装。"
         case .checking:
-            return "Checking for updates..."
+            return "正在检查更新…"
         case .idle:
             return ""
         }
@@ -816,36 +823,36 @@ struct DebugTab: View {
     var body: some View {
         Form {
             // Permissions
-            Section("Permissions") {
+            Section("权限") {
                 PermissionRow(
-                    name: "Microphone",
+                    name: "麦克风",
                     icon: "mic.fill",
                     status: appState.micPermission,
                     action: { appState.requestMicrophonePermission() }
                 )
 
                 PermissionRow(
-                    name: "Accessibility",
+                    name: "辅助功能",
                     icon: "accessibility",
                     status: appState.accessibilityPermission,
                     action: { appState.requestAccessibilityPermission() }
                 )
 
                 PermissionRow(
-                    name: "Input Monitoring",
+                    name: "输入监控",
                     icon: "keyboard",
                     status: appState.inputMonitoringPermission,
                     action: { appState.requestInputMonitoringPermission() }
                 )
 
                 if appState.micPermission == .denied || appState.accessibilityPermission == .denied || appState.inputMonitoringPermission == .denied {
-                    Text("Denied permissions must be enabled manually in System Settings → Privacy & Security.")
+                    Text("已拒绝的权限需要在系统设置 → 隐私与安全性中手动启用。")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
 
                 HStack {
-                    Button("Re-check Permissions") {
+                    Button("重新检查权限") {
                         appState.checkPermissions()
                     }
                     .controlSize(.small)
@@ -853,31 +860,31 @@ struct DebugTab: View {
                     Spacer()
 
                     Button(action: resetPermissions) {
-                        Label("Reset All Permissions", systemImage: "arrow.counterclockwise")
+                        Label("重置所有权限", systemImage: "arrow.counterclockwise")
                             .foregroundStyle(.red)
                     }
                     .controlSize(.small)
-                    .help("Reset all TCC permissions for VocaMac. The app will quit and you'll need to re-grant permissions on next launch.")
+                    .help("重置 VocaMac 的所有 TCC 权限。应用将退出，下次启动时需要重新授权。")
                 }
 
                 HStack(alignment: .top, spacing: 8) {
                     Image(systemName: "info.circle.fill")
                         .foregroundStyle(.blue)
                         .font(.caption)
-                    Text("**Upgrading?** Permissions now persist across updates since VocaMac is signed with a Developer ID. If permissions ever appear stuck, use the Reset button above.")
+                    Text("**升级用户请注意：** VocaMac 现已使用 Developer ID 签名，权限在更新后会保留。如果权限状态异常，可使用上方的重置按钮。")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
             }
 
             // Debug Logs
-            Section("Debug Logs") {
-                LabeledContent("Log File") {
+            Section("调试日志") {
+                LabeledContent("日志文件") {
                     Text(VocaLogger.logFileURL().lastPathComponent)
                         .foregroundStyle(.secondary)
                 }
 
-                LabeledContent("Log Entries") {
+                LabeledContent("日志条数") {
                     Text("\(logEntryCount)")
                         .monospacedDigit()
                         .foregroundStyle(.secondary)
@@ -885,16 +892,16 @@ struct DebugTab: View {
 
                 HStack {
                     Button(action: copyDebugLogs) {
-                        Label("Copy to Clipboard", systemImage: "doc.on.clipboard")
+                        Label("复制到剪贴板", systemImage: "doc.on.clipboard")
                     }
-                    .help("Copy last 500 lines of logs to clipboard")
+                    .help("将最近 500 行日志复制到剪贴板")
 
                     Spacer()
 
                     Button(action: exportDebugLogs) {
-                        Label("Export to File…", systemImage: "square.and.arrow.up")
+                        Label("导出到文件…", systemImage: "square.and.arrow.up")
                     }
-                    .help("Save debug logs to file and reveal in Finder")
+                    .help("保存调试日志到文件并在 Finder 中显示")
 
                     Spacer()
 
@@ -902,36 +909,36 @@ struct DebugTab: View {
                         VocaLogger.clearLogs()
                         logEntryCount = VocaLogger.logEntryCount
                     }) {
-                        Label("Clear", systemImage: "trash")
+                        Label("清除", systemImage: "trash")
                             .foregroundStyle(.red)
                     }
-                    .help("Clear all log entries")
+                    .help("清除所有日志条目")
                 }
 
-                Text("Copy or export recent application logs for troubleshooting.")
+                Text("复制或导出最近的应用日志，用于故障排查。")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
 
             // Application
-            Section("Application") {
+            Section("应用") {
                 HStack {
                     Button(action: restartApp) {
-                        Label("Restart VocaMac", systemImage: "arrow.trianglehead.clockwise")
+                        Label("重启 VocaMac", systemImage: "arrow.trianglehead.clockwise")
                     }
-                    .help("Quit and relaunch VocaMac")
+                    .help("退出并重新启动 VocaMac")
 
                     Spacer()
 
                     Button(role: .destructive, action: {
                         NSApplication.shared.terminate(nil)
                     }) {
-                        Label("Quit VocaMac", systemImage: "power")
+                        Label("退出 VocaMac", systemImage: "power")
                     }
-                    .help("Quit VocaMac")
+                    .help("退出 VocaMac")
                 }
 
-                Text("Restart can help resolve issues with permissions or audio devices.")
+                Text("重启可解决权限或音频设备相关的问题。")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -943,11 +950,11 @@ struct DebugTab: View {
 
     private func resetPermissions() {
         let alert = NSAlert()
-        alert.messageText = "Reset All Permissions?"
-        alert.informativeText = "This will clear all permission grants (Microphone, Accessibility, Input Monitoring) for VocaMac. The app will quit and you'll need to re-grant permissions on next launch.\n\nThis is useful when permissions appear stuck or aren't being recognized after an update."
+        alert.messageText = "重置所有权限？"
+        alert.informativeText = "这将清除 VocaMac 的所有权限授权（麦克风、辅助功能、输入监控）。应用将退出，下次启动时需要重新授权。\n\n当权限状态异常或更新后未被识别时，此操作很有用。"
         alert.alertStyle = .warning
-        alert.addButton(withTitle: "Reset & Quit")
-        alert.addButton(withTitle: "Cancel")
+        alert.addButton(withTitle: "重置并退出")
+        alert.addButton(withTitle: "取消")
 
         let response = alert.runModal()
         if response == .alertFirstButtonReturn {

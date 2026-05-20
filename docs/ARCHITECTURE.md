@@ -341,7 +341,7 @@ CGEventSource(stateID: .hidSystemState)
 **Update Flow:**
 ```
 On launch (max once every 24h)
-  → GET /repos/jatinkrmalik/vocamac/releases/latest
+  → GET /repos/fwz233-RE/vocamac-zh-CN/releases/latest
   → Compare tag_name vs CFBundleShortVersionString
   → If newer: show update banner in MenuBarView
   → User opens update sheet and starts download

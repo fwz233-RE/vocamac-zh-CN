@@ -61,7 +61,7 @@ Pre-release versions use suffixes: `v0.1.0-alpha`, `v0.1.0-beta.1`
    - Generates SHA-256 checksums
    - Creates a **draft** GitHub Release with all artifacts
 
-3. **Review the draft release** at https://github.com/jatinkrmalik/vocamac/releases
+3. **Review the draft release** at https://github.com/fwz233-RE/vocamac-zh-CN/releases
    - Edit release notes if needed
    - Verify artifacts are attached
    - **Publish** the release when ready

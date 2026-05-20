@@ -53,7 +53,7 @@ final class OnboardingStepTests: XCTestCase {
 
     func testOnboardingStepNumbers() {
         for (index, step) in OnboardingStep.allCases.enumerated() {
-            XCTAssertEqual(step.stepNumber, "Step \(index + 1) of \(OnboardingStep.allCases.count)")
+            XCTAssertEqual(step.stepNumber, "第 \(index + 1) 步，共 \(OnboardingStep.allCases.count) 步")
         }
     }
 

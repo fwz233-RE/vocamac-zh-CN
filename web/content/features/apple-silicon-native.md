@@ -1,53 +1,53 @@
 ---
-title: "Apple Silicon Native"
-subtitle: "CoreML + Metal + Neural Engine acceleration via WhisperKit. Blazing fast on M1/M2/M3/M4."
-description: "VocaMac runs natively on Apple Silicon using CoreML and the Neural Engine for hardware-accelerated speech recognition. No cloud, no CPU bottleneck."
-keywords: "apple silicon speech recognition, coreml voice to text, neural engine dictation, whisperkit macOS, M1 M2 M3 M4 voice typing, hardware accelerated transcription mac"
+title: "Apple Silicon 原生"
+subtitle: "通过 WhisperKit 使用 CoreML + Metal + 神经网络引擎加速，在 M1/M2/M3/M4 上极速运行。"
+description: "VocaMac 在 Apple Silicon 上原生运行，借助 CoreML 与神经网络引擎实现硬件加速语音识别，无需云端、无 CPU 瓶颈。"
+keywords: "apple silicon 语音识别, coreml 语音转文字, 神经网络引擎听写, whisperkit macOS, M1 M2 M3 M4 语音输入, mac 硬件加速转写"
 icon: "⚡"
 ---
 
-## Designed for Modern Mac Hardware
+## 为现代 Mac 硬件而生
 
-VocaMac is built from the ground up for Apple Silicon Macs. Using CoreML and WhisperKit, the app harnesses the dedicated Neural Engine in your M1, M2, M3, or M4 chip for speech recognition that's faster and more efficient than anything running on the CPU alone.
+VocaMac 从底层为 Apple Silicon 打造。借助 CoreML 与 WhisperKit，应用利用 M1、M2、M3、M4 芯片中的神经网络引擎进行语音识别，比仅靠 CPU 更快、更省电。
 
-This isn't just optimization. It's a fundamental architectural advantage. While cloud-based dictation apps send your voice across the internet and wait for responses, VocaMac processes everything locally on your Mac in milliseconds.
+这不仅是优化，更是架构优势。云端听写要把语音传到网上再等回应，VocaMac 则在 Mac 本地毫秒级处理一切。
 
-## Neural Engine Acceleration
+## 神经网络引擎加速
 
-![VocaMac Settings showing model management on Apple Silicon](/screenshots/settings-models.png)
+![Apple Silicon 上的 VocaMac 模型管理设置](/screenshots/settings-models.png)
 
-Apple Silicon's Neural Engine is a specialized processor designed for machine learning tasks. When VocaMac transcribes your voice, it offloads the heavy computational work to this dedicated hardware.
+Apple Silicon 的神经网络引擎专为机器学习设计。VocaMac 转写时将重计算卸载到这块专用硬件。
 
-The result is remarkable. Transcription happens in real time. You finish speaking, and your words appear before you've had time to take your next breath. This responsiveness creates a natural, uninterrupted flow that makes dictation feel less like using an app and more like a natural extension of how you type.
+效果显而易见：转写接近实时，说完话文字往往已出现。听写不再像「用一个 App」，而像打字方式的延伸。
 
-The Neural Engine operates independently from your Mac's CPU and GPU. This means transcription doesn't compete with your other work. You can continue editing documents, reviewing emails, or running complex applications while VocaMac transcribes in the background without any performance impact.
+神经网络引擎与 CPU、GPU 独立工作，转写不会挤占你正在做的其他任务。编辑文档、查邮件或运行复杂应用时，VocaMac 可在后台转写且几乎不影响性能。
 
-## CoreML and Metal Integration
+## CoreML 与 Metal
 
-CoreML is Apple's framework for on-device machine learning. VocaMac uses CoreML to run the Whisper speech recognition model locally, with zero reliance on cloud services. Your voice never leaves your Mac.
+CoreML 是 Apple 的设备端机器学习框架。VocaMac 用它在本地运行 Whisper，零云依赖，语音永不离开 Mac。
 
-Metal, Apple's graphics API, provides additional acceleration for certain computational tasks. Together, CoreML and Metal ensure maximum efficiency while keeping your data private and your Mac responsive.
+Metal 为部分计算提供额外加速。CoreML 与 Metal 协同，在保持隐私与系统流畅的同时追求最高效率。
 
-WhisperKit, the framework powering VocaMac, was specifically engineered to take full advantage of Apple Silicon. It automatically detects your hardware and uses the optimal execution path. CoreML for neural processing. Metal for graphics-related computation. The CPU for coordination. All working in concert.
+WhisperKit 专为 Apple Silicon 优化，自动选择最佳执行路径：CoreML 处理神经网络、Metal 处理图形相关计算、CPU 负责协调，三者配合。
 
-## Unmatched Performance
+## 卓越性能
 
-Benchmark after benchmark shows the same pattern. On an M1 Mac, medium-sized Whisper models transcribe audio roughly 3 to 5 times faster than real time. A 30-second audio clip finishes transcribing in 6 to 10 seconds. Intel-based Macs using CPU-only processing take 90 seconds or more for the same task.
+在 M1 Mac 上，中等 Whisper 模型转写速度约为实时的 3–5 倍：30 秒音频约 6–10 秒完成，而仅靠 CPU 的 Intel Mac 可能要 90 秒以上。
 
-This performance gap only widens with larger, more accurate Whisper models. The base model runs instantly. The small model takes a few seconds. The medium model, which offers near-human accuracy, completes in under a minute on Apple Silicon. Cloud-based services may offer similar speed, but they require internet, demand subscription fees, and raise privacy concerns.
+模型越大、准确度越高，差距越明显。Base 几乎即时，Small 数秒，Medium 在 Apple Silicon 上通常一分钟内完成。云端服务或许也快，但需要网络、订阅，并带来隐私顾虑。
 
-## Battery Efficiency and Thermal Design
+## 续航与发热
 
-Because the Neural Engine is purpose-built for machine learning, it's remarkably power efficient. A task that would consume significant battery power if handled by the CPU uses a fraction of the energy when offloaded to the Neural Engine.
+神经网络引擎为机器学习而生，极其省电。同样任务若由 CPU 承担会明显耗电，交给神经网络引擎则能耗大幅降低。
 
-This efficiency translates to cooler operation. Your Mac's fan rarely needs to spin up. The app runs silently, without adding heat or noise to your workspace.
+Mac 风扇很少需要狂转，应用安静运行，不增加工作区噪音与热量。
 
-On M-series Macs, you can use VocaMac all day without noticing any battery drain. The app is designed to be always available, always responsive, and always respectful of your hardware's resources.
+在 M 系列 Mac 上，可全天使用 VocaMac 而几乎感觉不到电池消耗：始终可用、始终响应、始终尊重硬件资源。
 
-## Why It Matters
+## 为何重要
 
-Apple Silicon isn't just faster. It represents a different philosophy. Apple designed these chips to handle the tasks people actually care about with remarkable efficiency.
+Apple Silicon 不只是更快，更代表一种理念：用极高效率处理用户真正关心的任务。
 
-For dictation, this philosophy makes a difference. Faster transcription means less waiting. Local processing means your voice stays private. Efficient hardware means your Mac stays cool and responsive. Taken together, these advantages make VocaMac the most natural voice-to-text experience on Mac.
+对听写而言：更快意味着少等待；本地意味着语音私密；高效意味着 Mac 保持凉爽流畅。VocaMac 因此成为 Mac 上最自然的语音转文字体验。
 
-Whether you have an M1, M2, M3, or M4 Mac, you're getting the full benefit of your hardware's capabilities. VocaMac is native. It's fast. It's efficient. And it's built specifically for your Mac.
+无论你用的是 M1、M2、M3 还是 M4，都能充分发挥硬件能力。VocaMac 原生、快速、高效，专为你的 Mac 打造。
