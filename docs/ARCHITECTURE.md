@@ -247,6 +247,19 @@ audioData: [Float]
 - Compile flag: `WHISPER_METAL=1` or `CoreML_METAL=1`
 - Falls back to CPU on Intel Macs
 
+#### 3.2.5a `VocaMacPunctuation` — Offline Punctuation Restoration
+
+**Responsibility:** Add punctuation to transcribed text using sherpa-onnx CT-Transformer (zh/en, int8, CPU-only).
+
+**Module layout:**
+- `TextPunctuating` — injectable protocol (`SherpaPunctuationEngine`, `NoOpPunctuationEngine`)
+- `PunctuationModelStore` — resolves bundled ONNX model at `BundledModels/punctuation/model.int8.onnx`
+- `VocaMacSherpaBridge` — clang module linking the vendored `libsherpa-onnx.a`
+
+**Integration:** `TranscriptionTextProcessor` orchestrates punctuation + `ChineseScriptNormalizer`. Controlled by `vocamac.punctuationEnabled` (default on).
+
+**Failure mode:** Inference errors degrade to the original text; text injection is never blocked.
+
 #### 3.2.6 `ModelManager` - Model Lifecycle Management
 
 **Responsibility:** Discover, download, verify, and manage whisper model files.
@@ -382,6 +395,10 @@ AppState (orchestrator)
   ▼
 WhisperService (WhisperKit)
   │ transcribes [Float] → String
+  ▼
+TranscriptionTextProcessor + VocaMacPunctuation
+  │ optional offline punctuation (sherpa-onnx CT-Transformer, CPU)
+  │ ChineseScriptNormalizer (繁简转换)
   ▼
 AppState (orchestrator)
   │ sets status = .idle

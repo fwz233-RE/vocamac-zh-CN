@@ -7,6 +7,7 @@
 import Foundation
 import Combine
 @testable import VocaMac
+import VocaMacPunctuation
 
 // MARK: - MockAudioEngine
 
@@ -298,6 +299,30 @@ final class MockWhisperService: SpeechTranscribing {
     }
 }
 
+// MARK: - MockTextPunctuating
+
+final class MockTextPunctuating: TextPunctuating, @unchecked Sendable {
+    var isReady: Bool = true
+    var isModelAvailable: Bool = true
+    var addPunctuationCallCount = 0
+    var lastLanguage: String?
+    var punctuatedText: String?
+    var shouldThrow = false
+
+    func prepareModel(onProgress: (@Sendable (Double) -> Void)?) async throws {
+        onProgress?(1.0)
+    }
+
+    func addPunctuation(to text: String, language: String?) async throws -> String {
+        addPunctuationCallCount += 1
+        lastLanguage = language
+        if shouldThrow {
+            throw PunctuationError.inferenceFailed(reason: "mock error")
+        }
+        return punctuatedText ?? "\(text)。"
+    }
+}
+
 // MARK: - MockTextInjector
 
 final class MockTextInjector: TextInjecting {
@@ -324,6 +349,7 @@ extension AppState {
         let modelManager = MockModelManager()
         let whisperService = MockWhisperService()
         let textInjector = MockTextInjector()
+        let punctuationEngine = MockTextPunctuating()
 
         let mocks = TestMocks(
             audioEngine: audioEngine,
@@ -332,7 +358,8 @@ extension AppState {
             permissionManager: permissionManager,
             modelManager: modelManager,
             whisperService: whisperService,
-            textInjector: textInjector
+            textInjector: textInjector,
+            punctuationEngine: punctuationEngine
         )
         let appState = AppState(
             audioEngine: audioEngine,
@@ -342,6 +369,7 @@ extension AppState {
             modelManager: modelManager,
             soundManager: soundManager,
             permissionManager: permissionManager,
+            punctuationEngine: punctuationEngine,
             skipSystemIntegration: true
         )
         return (appState, mocks)
@@ -356,4 +384,5 @@ struct TestMocks {
     let modelManager: MockModelManager
     let whisperService: MockWhisperService
     let textInjector: MockTextInjector
+    let punctuationEngine: MockTextPunctuating
 }

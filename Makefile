@@ -5,6 +5,7 @@
 
 ## Build .app bundle in repo root (fast, for development)
 build:
+	@./scripts/vendor-sherpa-onnx.sh
 	@./scripts/build.sh
 
 ## Build and install to /Applications (recommended for first-time setup)
@@ -25,6 +26,7 @@ release:
 
 ## Run tests
 test:
+	@./scripts/vendor-sherpa-onnx.sh
 	@swift test
 
 ## Remove build artifacts

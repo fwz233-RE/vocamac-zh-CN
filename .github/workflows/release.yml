@@ -82,6 +82,9 @@ jobs:
             --password  "$NOTARIZE_PASSWORD"
 
       # ── Bundled Tiny Model ─────────────────────────────────────────────────
+      - name: Vendor sherpa-onnx and bundled punctuation model
+        run: ./scripts/vendor-sherpa-onnx.sh
+
       - name: Set up Python for huggingface-cli
         run: |
           python3 -m venv "$RUNNER_TEMP/hf-venv"

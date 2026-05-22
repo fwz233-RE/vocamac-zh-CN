@@ -8,6 +8,7 @@ import Foundation
 import SwiftUI
 import Combine
 import ServiceManagement
+import VocaMacPunctuation
 
 // MARK: - Enums
 
@@ -105,6 +106,7 @@ final class AppState: ObservableObject {
     @AppStorage("vocamac.preserveClipboard") var preserveClipboard: Bool = true
     @AppStorage("vocamac.soundEffectsEnabled") var soundEffectsEnabled: Bool = true
     @AppStorage("vocamac.simplifiedChineseEnabled") var simplifiedChineseEnabled: Bool = true
+    @AppStorage("vocamac.punctuationEnabled") var punctuationEnabled: Bool = true
     @AppStorage("vocamac.logLevel") var logLevel: String = "info"
 
     // MARK: - Services
@@ -117,6 +119,9 @@ final class AppState: ObservableObject {
     let soundManager: SoundPlaying
     let updateChecker = UpdateChecker()
     let permissionManager: any PermissionManaging
+    let punctuationEngine: TextPunctuating
+
+    private let textProcessor: TranscriptionTextProcessor
 
     // MARK: - Private
 
@@ -145,6 +150,7 @@ final class AppState: ObservableObject {
         modelManager: ModelManaging = ModelManager(),
         soundManager: SoundPlaying = SoundManager(),
         permissionManager: (any PermissionManaging)? = nil,
+        punctuationEngine: TextPunctuating = SherpaPunctuationEngine(),
         skipSystemIntegration: Bool = false
     ) {
         self.audioEngine = audioEngine
@@ -154,6 +160,8 @@ final class AppState: ObservableObject {
         self.modelManager = modelManager
         self.soundManager = soundManager
         self.permissionManager = permissionManager ?? PermissionManager(audioEngine: audioEngine, hotKeyManager: hotKeyManager)
+        self.punctuationEngine = punctuationEngine
+        self.textProcessor = TranscriptionTextProcessor(punctuation: punctuationEngine)
         self.skipSystemIntegration = skipSystemIntegration
 
         VocaLogger.info(.appState, "Initializing... id=\(ObjectIdentifier(self))")
@@ -500,9 +508,11 @@ final class AppState: ObservableObject {
             // Inject text at cursor position (text is already filtered
             // by WhisperService to remove hallucination tokens like [BLANK_AUDIO])
             let trimmedText = result.text.trimmingCharacters(in: .whitespacesAndNewlines)
-            let outputText = ChineseScriptNormalizer.apply(
-                to: trimmedText,
-                simplifiedChineseEnabled: simplifiedChineseEnabled
+            let outputText = await textProcessor.process(
+                text: trimmedText,
+                language: language,
+                simplifiedChineseEnabled: simplifiedChineseEnabled,
+                punctuationEnabled: punctuationEnabled
             )
             lastTranscription = VocaTranscription(
                 text: outputText,

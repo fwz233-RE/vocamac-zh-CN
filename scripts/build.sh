@@ -61,6 +61,11 @@ fi
 
 echo "🔨 Building VocaMac ($CONFIG)..."
 
+if [[ ! -d "Vendor/sherpa-onnx.xcframework" ]]; then
+    echo "📦 Vendoring sherpa-onnx..."
+    ./scripts/vendor-sherpa-onnx.sh
+fi
+
 # ── Build with xcodebuild ───────────────────────────────────────────────────
 #
 # We use xcodebuild instead of swift build because xcodebuild generates a
@@ -104,6 +109,7 @@ echo "📦 Updating app bundle..."
 mkdir -p "${APP_DIR}/Contents/MacOS"
 mkdir -p "${APP_DIR}/Contents/Resources"
 mkdir -p "${APP_DIR}/Contents/Resources/BundledModels/whisperkit-coreml"
+mkdir -p "${APP_DIR}/Contents/Resources/BundledModels/punctuation"
 
 BUNDLED_MODEL_SOURCE="${VOCAMAC_BUNDLED_MODEL_SOURCE:-}"
 if [ -n "$BUNDLED_MODEL_SOURCE" ]; then
@@ -114,6 +120,14 @@ if [ -n "$BUNDLED_MODEL_SOURCE" ]; then
     echo "❌ VOCAMAC_BUNDLED_MODEL_SOURCE does not exist: $BUNDLED_MODEL_SOURCE"
     exit 1
   fi
+fi
+
+PUNCT_SOURCE="${VOCAMAC_BUNDLED_PUNCTUATION_SOURCE:-${PROJECT_DIR}/Vendor/punctuation/model.int8.onnx}"
+if [ -f "$PUNCT_SOURCE" ]; then
+    echo "📦 Staging bundled punctuation model"
+    cp -f "$PUNCT_SOURCE" "${APP_DIR}/Contents/Resources/BundledModels/punctuation/model.int8.onnx"
+else
+    echo "⚠️  Punctuation model not found at $PUNCT_SOURCE — run ./scripts/vendor-sherpa-onnx.sh"
 fi
 
 # Update binary

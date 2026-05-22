@@ -1,4 +1,6 @@
-# Swift / Xcode
+# Vendored native dependencies (downloaded by scripts/vendor-sherpa-onnx.sh)
+Vendor/
+
 .build/
 .xcode-build/
 *.xcodeproj/

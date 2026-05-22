@@ -302,6 +302,8 @@ struct UserSettings {
     var launchAtLogin: Bool = false
     var preserveClipboard: Bool = true          // Restore clipboard after text injection
     var playSoundEffects: Bool = false          // Sound on start/stop recording
+    var simplifiedChineseEnabled: Bool = true     // Convert Traditional → Simplified before injection
+    var punctuationEnabled: Bool = true         // Offline punctuation via VocaMacPunctuation
 }
 ```
 
@@ -311,8 +313,15 @@ vocamac.activationMode     = "pushToTalk"
 vocamac.hotKeyCode         = 61
 vocamac.doubleTapThreshold = 0.4
 vocamac.silenceThreshold   = 0.01
+vocamac.punctuationEnabled = true
 ...
 ```
+
+**Punctuation model** (bundled in app, not UserDefaults):
+```
+Contents/Resources/BundledModels/punctuation/model.int8.onnx
+```
+Staged at build time from `Vendor/punctuation/model.int8.onnx`.
 
 ### 3.8 `SystemCapabilities` — Hardware Detection Result
 

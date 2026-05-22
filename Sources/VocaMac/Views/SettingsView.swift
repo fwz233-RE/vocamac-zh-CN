@@ -144,6 +144,12 @@ struct GeneralSettingsTab: View {
                     : "转写结果按识别原文插入，不进行繁简转换。")
                     .font(.caption)
                     .foregroundStyle(.secondary)
+
+                Toggle("自动添加标点", isOn: $appState.punctuationEnabled)
+
+                Text("使用内置 CT-Transformer 模型为中文/英文听写结果添加标点，完全离线运行。")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
             Section("行为") {
                 Toggle("登录时启动", isOn: Binding(

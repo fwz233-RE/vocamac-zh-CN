@@ -26,11 +26,39 @@ let package = Package(
             path: "Sources/VocaMacObjC",
             publicHeadersPath: "include"
         ),
+        // Clang bridge to the vendored sherpa-onnx static library.
+        .target(
+            name: "VocaMacSherpaBridge",
+            path: "Sources/VocaMacSherpaBridge",
+            publicHeadersPath: "include",
+            cSettings: [
+                .headerSearchPath("../../Vendor/sherpa-onnx.xcframework/macos-arm64_x86_64/Headers"),
+            ],
+            linkerSettings: [
+                .linkedLibrary("c++"),
+                .unsafeFlags(["-L", "Sources/VocaMacSherpaBridge/lib"]),
+                .linkedLibrary("sherpa-onnx"),
+                .linkedLibrary("onnxruntime"),
+            ]
+        ),
+        // Offline punctuation restoration (sherpa-onnx CT-Transformer).
+        .target(
+            name: "VocaMacPunctuation",
+            dependencies: ["VocaMacSherpaBridge"],
+            path: "Sources/VocaMacPunctuation",
+            linkerSettings: [
+                .linkedLibrary("c++"),
+                .unsafeFlags(["-L", "Sources/VocaMacSherpaBridge/lib"]),
+                .linkedLibrary("sherpa-onnx"),
+                .linkedLibrary("onnxruntime"),
+            ]
+        ),
         // Main application target
         .executableTarget(
             name: "VocaMac",
             dependencies: [
                 "VocaMacObjC",
+                "VocaMacPunctuation",
                 .product(name: "WhisperKit", package: "WhisperKit"),
             ],
             path: "Sources/VocaMac",
@@ -46,6 +74,11 @@ let package = Package(
             name: "VocaMacTests",
             dependencies: ["VocaMac"],
             path: "Tests/VocaMacTests"
+        ),
+        .testTarget(
+            name: "VocaMacPunctuationTests",
+            dependencies: ["VocaMacPunctuation"],
+            path: "Tests/VocaMacPunctuationTests"
         )
     ]
 )

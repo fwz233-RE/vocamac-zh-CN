@@ -13,6 +13,7 @@ final class AppStateRecordingTests: XCTestCase {
 
     override func tearDown() {
         UserDefaults.standard.removeObject(forKey: "vocamac.simplifiedChineseEnabled")
+        UserDefaults.standard.removeObject(forKey: "vocamac.punctuationEnabled")
         super.tearDown()
     }
 
@@ -115,6 +116,14 @@ final class AppStateRecordingTests: XCTestCase {
                       "Simplified Chinese normalization should be enabled by default")
     }
 
+    func testPunctuationEnabledByDefault() {
+        UserDefaults.standard.removeObject(forKey: "vocamac.punctuationEnabled")
+        let (appState, _) = AppState.makeTestState()
+
+        XCTAssertTrue(appState.punctuationEnabled,
+                      "Punctuation restoration should be enabled by default")
+    }
+
     @MainActor
     func testStopRecordingConvertsTraditionalChineseWhenEnabled() async {
         let (appState, mocks) = AppState.makeTestState()
@@ -155,6 +164,28 @@ final class AppStateRecordingTests: XCTestCase {
 
         XCTAssertEqual(mocks.textInjector.lastInjectedText, "臺灣")
         XCTAssertEqual(appState.lastTranscription?.text, "臺灣")
+    }
+
+    @MainActor
+    func testStopRecordingAppliesPunctuationWhenEnabled() async {
+        let (appState, mocks) = AppState.makeTestState()
+        mocks.audioEngine.stopRecordingResult = [0.1, 0.2]
+        mocks.whisperService.mockTranscriptionResult = VocaTranscription(
+            text: "你好世界",
+            duration: 0.5,
+            detectedLanguage: "zh",
+            audioLengthSeconds: 0.1,
+            modelUsed: .tiny
+        )
+        mocks.punctuationEngine.punctuatedText = "你好，世界。"
+        appState.punctuationEnabled = true
+        appState.isRecording = true
+        appState.appStatus = .recording
+
+        await appState.stopRecordingAndTranscribe()
+
+        XCTAssertEqual(mocks.punctuationEngine.addPunctuationCallCount, 1)
+        XCTAssertEqual(mocks.textInjector.lastInjectedText, "你好，世界。")
     }
 
     func testSelectedLanguageDefault() {

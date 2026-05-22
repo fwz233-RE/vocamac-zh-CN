@@ -158,6 +158,9 @@ jobs:
           restore-keys: |
             spm-${{ runner.os }}-
 
+      - name: Vendor sherpa-onnx and bundled punctuation model
+        run: ./scripts/vendor-sherpa-onnx.sh
+
       - name: Run tests
         run: swift test
 
