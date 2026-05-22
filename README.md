@@ -127,7 +127,7 @@ VocaMac 需要三项 macOS 权限：
 
 ### 方式一：下载 DMG（推荐）
 
-1. 从 [Releases 页面](https://github.com/fwz233-RE/vocamac-zh-CN/releases) 下载最新的 `VocaMac-x.x.x-arm64.dmg`
+1. 从 [Releases 页面](https://github.com/fwz233-RE/vocamac-zh-CN/releases) 下载最新的 `VocaMac-x.x.x-arm64.dmg`（**已内置 Whisper Tiny 与标点模型，无需额外下载**）
 2. **打开** DMG，将 VocaMac 拖入「应用程序」文件夹
 3. 从「应用程序」**打开** VocaMac
 4. 按提示**授予权限**：麦克风、辅助功能、输入监控
@@ -162,7 +162,7 @@ make install-cli
 
 1. **VocaMac 出现在菜单栏**（麦克风图标，无 Dock 图标）
 2. **授予权限**：麦克风、辅助功能、输入监控（见上方[权限](#权限)）
-3. **首次模型下载**：WhisperKit 会自动为你的设备下载推荐模型（约 40–500 MB，取决于硬件）
+3. **开箱即用**：正式版 DMG 已内置 Whisper Tiny 与标点模型，首次启动即可离线听写；如需更高精度可在 **设置 → 模型** 中可选下载更大模型
 4. **开始听写**：按住 **右 Option** 键说话，松开后文字会出现在光标处！
 
 ---
@@ -243,7 +243,7 @@ VocaMac 通过 WhisperKit 的 CoreML 格式使用 OpenAI Whisper 模型。应用
 
 > 上表为 WhisperKit CoreML（Apple Silicon Neural Engine）的实际占用，**不是** OpenAI 上游基于 PyTorch GPU 给出的 VRAM 估算。CoreML 量化后的模型在 ANE 上跑得更轻量。
 
-模型在首次使用时从 [HuggingFace](https://huggingface.co/argmaxinc/whisperkit-coreml) 自动下载并本地缓存。可在 **设置 → 模型** 中下载更多模型。
+正式版与 Nightly 安装包已内置 **Whisper Tiny**（含分词器）与 **中英文标点模型**。更大模型（Base / Small / Medium 等）可在 **设置 → 模型** 中按需下载。
 
 ---
 

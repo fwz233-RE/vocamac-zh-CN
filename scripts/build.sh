@@ -111,23 +111,35 @@ mkdir -p "${APP_DIR}/Contents/Resources"
 mkdir -p "${APP_DIR}/Contents/Resources/BundledModels/whisperkit-coreml"
 mkdir -p "${APP_DIR}/Contents/Resources/BundledModels/punctuation"
 
-BUNDLED_MODEL_SOURCE="${VOCAMAC_BUNDLED_MODEL_SOURCE:-}"
-if [ -n "$BUNDLED_MODEL_SOURCE" ]; then
-  if [ -d "$BUNDLED_MODEL_SOURCE" ]; then
-    echo "📦 Staging bundled model assets from: $BUNDLED_MODEL_SOURCE"
-    rsync -a --delete --exclude='.git' "$BUNDLED_MODEL_SOURCE"/ "${APP_DIR}/Contents/Resources/BundledModels/whisperkit-coreml/"
-  else
-    echo "❌ VOCAMAC_BUNDLED_MODEL_SOURCE does not exist: $BUNDLED_MODEL_SOURCE"
-    exit 1
-  fi
+REQUIRE_BUNDLED="${VOCAMAC_REQUIRE_BUNDLED_MODELS:-0}"
+BUNDLED_MODEL_SOURCE="${VOCAMAC_BUNDLED_MODEL_SOURCE:-${PROJECT_DIR}/Vendor/whisperkit-coreml}"
+TINY_BUNDLED="${BUNDLED_MODEL_SOURCE}/openai_whisper-tiny"
+PUNCT_SOURCE="${VOCAMAC_BUNDLED_PUNCTUATION_SOURCE:-${PROJECT_DIR}/Vendor/punctuation/model.int8.onnx}"
+
+if [[ -d "${TINY_BUNDLED}/MelSpectrogram.mlmodelc" ]]; then
+    echo "📦 Staging bundled Whisper Tiny from: ${BUNDLED_MODEL_SOURCE}"
+    rsync -a --delete --exclude='.git' --exclude='.cache' \
+        "${BUNDLED_MODEL_SOURCE}/" \
+        "${APP_DIR}/Contents/Resources/BundledModels/whisperkit-coreml/"
+else
+    if [[ "${REQUIRE_BUNDLED}" == "1" ]]; then
+        echo "❌ Bundled Whisper Tiny required but missing at ${TINY_BUNDLED}" >&2
+        echo "   Run: ./scripts/stage-bundled-models.sh" >&2
+        exit 1
+    fi
+    echo "⚠️  Whisper Tiny not bundled — run ./scripts/stage-bundled-models.sh before release builds"
 fi
 
-PUNCT_SOURCE="${VOCAMAC_BUNDLED_PUNCTUATION_SOURCE:-${PROJECT_DIR}/Vendor/punctuation/model.int8.onnx}"
-if [ -f "$PUNCT_SOURCE" ]; then
+if [[ -f "${PUNCT_SOURCE}" ]]; then
     echo "📦 Staging bundled punctuation model"
-    cp -f "$PUNCT_SOURCE" "${APP_DIR}/Contents/Resources/BundledModels/punctuation/model.int8.onnx"
+    cp -f "${PUNCT_SOURCE}" "${APP_DIR}/Contents/Resources/BundledModels/punctuation/model.int8.onnx"
 else
-    echo "⚠️  Punctuation model not found at $PUNCT_SOURCE — run ./scripts/vendor-sherpa-onnx.sh"
+    if [[ "${REQUIRE_BUNDLED}" == "1" ]]; then
+        echo "❌ Bundled punctuation model required but missing at ${PUNCT_SOURCE}" >&2
+        echo "   Run: ./scripts/stage-bundled-models.sh" >&2
+        exit 1
+    fi
+    echo "⚠️  Punctuation model not found at ${PUNCT_SOURCE} — run ./scripts/vendor-sherpa-onnx.sh"
 fi
 
 # Update binary

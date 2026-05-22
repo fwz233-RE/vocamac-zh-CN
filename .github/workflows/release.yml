@@ -81,10 +81,7 @@ jobs:
             --team-id   "$NOTARIZE_TEAM_ID" \
             --password  "$NOTARIZE_PASSWORD"
 
-      # ── Bundled Tiny Model ─────────────────────────────────────────────────
-      - name: Vendor sherpa-onnx and bundled punctuation model
-        run: ./scripts/vendor-sherpa-onnx.sh
-
+      # ── Bundled models (Whisper Tiny + punctuation) ────────────────────────
       - name: Set up Python for huggingface-cli
         run: |
           python3 -m venv "$RUNNER_TEMP/hf-venv"
@@ -92,23 +89,8 @@ jobs:
           pip install -U huggingface_hub
           echo "$RUNNER_TEMP/hf-venv/bin" >> "$GITHUB_PATH"
 
-      - name: Fetch bundled tiny model from Hugging Face
-        run: |
-          MODEL_STAGE="$RUNNER_TEMP/whisperkit-coreml"
-          hf download argmaxinc/whisperkit-coreml \
-            --include "openai_whisper-tiny/*" \
-            --local-dir "$MODEL_STAGE"
-          hf download openai/whisper-tiny \
-            tokenizer.json tokenizer_config.json \
-            --local-dir "$MODEL_STAGE/openai_whisper-tiny"
-          rm -rf "$MODEL_STAGE/.cache" "$MODEL_STAGE/openai_whisper-tiny/.cache"
-          test -d "$MODEL_STAGE/openai_whisper-tiny"
-          test -f "$MODEL_STAGE/openai_whisper-tiny/tokenizer.json"
-          test -f "$MODEL_STAGE/openai_whisper-tiny/tokenizer_config.json"
-          test -d "$MODEL_STAGE/openai_whisper-tiny/MelSpectrogram.mlmodelc"
-          test -d "$MODEL_STAGE/openai_whisper-tiny/AudioEncoder.mlmodelc"
-          test -d "$MODEL_STAGE/openai_whisper-tiny/TextDecoder.mlmodelc"
-          echo "VOCAMAC_BUNDLED_MODEL_SOURCE=$MODEL_STAGE" >> "$GITHUB_ENV"
+      - name: Stage bundled Whisper Tiny and punctuation models
+        run: ./scripts/stage-bundled-models.sh
 
       # ── Build & Package ──────────────────────────────────────────────────────
       - name: Run tests
@@ -117,7 +99,6 @@ jobs:
       - name: Build and create signed, notarized DMG
         run: ./scripts/dist.sh
         env:
-          VOCAMAC_BUNDLED_MODEL_SOURCE: ${{ env.VOCAMAC_BUNDLED_MODEL_SOURCE }}
           APP_VERSION: ${{ steps.version.outputs.VERSION }}
 
       - name: Verify code signature
@@ -184,6 +165,18 @@ jobs:
           fi
           echo "✅ All SPM resource bundles are correctly staged."
 
+      - name: Verify bundled Whisper Tiny and punctuation models
+        run: |
+          RES="VocaMac.app/Contents/Resources/BundledModels"
+          TINY="${RES}/whisperkit-coreml/openai_whisper-tiny"
+          test -d "${TINY}/MelSpectrogram.mlmodelc"
+          test -d "${TINY}/AudioEncoder.mlmodelc"
+          test -d "${TINY}/TextDecoder.mlmodelc"
+          test -f "${TINY}/tokenizer.json"
+          test -f "${TINY}/tokenizer_config.json"
+          test -f "${RES}/punctuation/model.int8.onnx"
+          echo "✅ Release ships with bundled Whisper Tiny + punctuation (no extra download needed)"
+
       - name: Rename artifacts with version
         run: |
           ARCH=$(uname -m)
@@ -222,19 +215,22 @@ jobs:
           body: |
             ## VocaMac ${{ steps.version.outputs.VERSION }}
 
-            ### Installation
+            **开箱即用**：DMG 已内置 Whisper Tiny 语音识别模型（含分词器）与中英文标点模型，安装后无需额外下载即可听写。
 
-            1. Download `VocaMac-${{ steps.version.outputs.VERSION }}-arm64.dmg`
-            2. Open the DMG and drag VocaMac to Applications
-            3. Open VocaMac from Applications
-            4. Grant **Microphone**, **Accessibility**, and **Input Monitoring** permissions when prompted
+            ### 安装
 
-            > This release is **Developer ID signed and notarized** by Apple.
-            > macOS will open it without any security warnings.
+            1. 下载 `VocaMac-${{ steps.version.outputs.VERSION }}-arm64.dmg`
+            2. 打开 DMG，将 VocaMac 拖入「应用程序」
+            3. 首次打开并授予**麦克风**、**辅助功能**、**输入监控**权限
 
-            ### Requirements
-            - macOS 13 (Ventura) or later
+            > 本版本经 **Developer ID 签名并公证**，macOS 可直接打开。
+
+            ### 系统要求
+            - macOS 13 (Ventura) 或更高
             - Apple Silicon (arm64)
 
-            ### Checksums (SHA-256)
-            See `checksums.txt` for verification.
+            ### 可选
+            如需更高识别精度，可在应用内 **设置 → 模型** 下载 Base / Small 等大型模型。
+
+            ### 校验和 (SHA-256)
+            见 `checksums.txt`。

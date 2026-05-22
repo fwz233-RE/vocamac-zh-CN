@@ -52,6 +52,7 @@ echo ""
 
 # ── Step 1: Build ────────────────────────────────────────────────────────────
 echo "▶ Step 1/5: Building VocaMac..."
+export VOCAMAC_REQUIRE_BUNDLED_MODELS=1
 "$SCRIPT_DIR/build.sh" release
 
 if [ ! -d "VocaMac.app" ]; then

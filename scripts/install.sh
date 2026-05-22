@@ -33,7 +33,11 @@ show_help() {
 # ─── App Install (default) ──────────────────────────────────────────────────────
 
 install_app() {
+    echo "📦 Staging bundled models (Whisper Tiny + punctuation)..."
+    "$SCRIPT_DIR/stage-bundled-models.sh"
+    echo ""
     echo "🔨 Building VocaMac.app..."
+    export VOCAMAC_REQUIRE_BUNDLED_MODELS=1
     "$SCRIPT_DIR/build.sh"
     echo ""
 

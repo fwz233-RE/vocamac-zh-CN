@@ -5,8 +5,8 @@
 
 ## Build .app bundle in repo root (fast, for development)
 build:
-	@./scripts/vendor-sherpa-onnx.sh
-	@./scripts/build.sh
+	@./scripts/stage-bundled-models.sh
+	@VOCAMAC_REQUIRE_BUNDLED_MODELS=1 ./scripts/build.sh
 
 ## Build and install to /Applications (recommended for first-time setup)
 install:
