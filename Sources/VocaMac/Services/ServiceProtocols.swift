@@ -69,10 +69,12 @@ protocol PermissionManaging: AnyObject {
     func checkPermissions()
     func startPermissionPolling()
     func stopPermissionPolling()
+    func prepareInitialPermissionSequence()
     func requestMicrophonePermission()
     func openMicrophoneSettings()
     func requestAccessibilityPermission()
     func requestInputMonitoringPermission()
+    func requestInitialPermissionsSequentiallyIfNeeded(isFirstLaunch: Bool)
 }
 
 // MARK: - ModelManaging

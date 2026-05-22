@@ -90,4 +90,42 @@ final class PermissionManagerTests: XCTestCase {
         XCTAssertEqual(manager.micPermission, .notDetermined)
         XCTAssertEqual(manager.accessibilityPermission, .notDetermined)
     }
+
+    func testInitialSequenceDoesNotRunAfterOnboardingComplete() {
+        let audioEngine = MockAudioEngine()
+        let hotKeyManager = MockHotKeyManager()
+        let manager = PermissionManager(audioEngine: audioEngine, hotKeyManager: hotKeyManager)
+
+        manager.requestInitialPermissionsSequentiallyIfNeeded(isFirstLaunch: false)
+
+        XCTAssertEqual(hotKeyManager.accessibilityPromptCallCount, 0)
+    }
+
+    func testInitialSequencePromptsAccessibilityAfterMicrophoneGranted() async {
+        let audioEngine = MockAudioEngine()
+        audioEngine.setPermissionStatus(.granted)
+        let hotKeyManager = MockHotKeyManager()
+        hotKeyManager.setAccessibilityPermission(false)
+        let manager = PermissionManager(audioEngine: audioEngine, hotKeyManager: hotKeyManager)
+
+        manager.requestInitialPermissionsSequentiallyIfNeeded(isFirstLaunch: true)
+
+        try? await Task.sleep(nanoseconds: 600_000_000)
+
+        XCTAssertEqual(hotKeyManager.accessibilityPromptCallCount, 1,
+                       "Accessibility prompt should appear after microphone is granted")
+    }
+
+    func testInitialSequenceStopsWhenMicrophoneDenied() {
+        let audioEngine = MockAudioEngine()
+        audioEngine.setPermissionStatus(.denied)
+        let hotKeyManager = MockHotKeyManager()
+        let manager = PermissionManager(audioEngine: audioEngine, hotKeyManager: hotKeyManager)
+
+        manager.requestInitialPermissionsSequentiallyIfNeeded(isFirstLaunch: true)
+
+        XCTAssertEqual(manager.micPermission, .denied)
+        XCTAssertEqual(hotKeyManager.accessibilityPromptCallCount, 0,
+                       "Accessibility prompt should not appear when microphone is denied")
+    }
 }

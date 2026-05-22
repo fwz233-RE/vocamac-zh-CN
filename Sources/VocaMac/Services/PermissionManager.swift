@@ -35,6 +35,22 @@ final class PermissionManager: ObservableObject {
 
     private var permissionPollTimer: Timer?
 
+    /// Tracks the first-launch permission wizard so prompts appear one at a time.
+    private enum InitialPermissionSequencePhase: Equatable {
+        case inactive
+        case requestingMicrophone
+        case awaitingAccessibilityGrant
+        case awaitingInputMonitoringGrant
+    }
+
+    private var initialSequencePhase: InitialPermissionSequencePhase = .inactive
+    private static let interPromptDelayNanoseconds: UInt64 = 500_000_000
+
+    /// When true, `checkInputMonitoringPermission()` skips creating event taps.
+    /// Event tap probes trigger the "Keystroke Receiving" system dialog, which must
+    /// not appear while the microphone prompt is still on screen.
+    private var suppressInputMonitoringProbe = false
+
     var onAllPermissionsGranted: (() -> Void)?
 
     // MARK: - Initialization
@@ -69,6 +85,10 @@ final class PermissionManager: ObservableObject {
     /// 1. If HotKeyManager created a tap, check if macOS has disabled it (revocation)
     /// 2. Try creating a fresh `.cghidEventTap` (same type HotKeyManager uses)
     private func checkInputMonitoringPermission() -> Bool {
+        if suppressInputMonitoringProbe {
+            return false
+        }
+
         // Strategy 1: If HotKeyManager has an active tap, check if macOS disabled it.
         if hotKeyManager.isListening, let tap = hotKeyManager.eventTap {
             return CGEvent.tapIsEnabled(tap: tap)
@@ -90,6 +110,132 @@ final class PermissionManager: ObservableObject {
             return true
         }
         return false
+    }
+
+    // MARK: - Initial Permission Sequence
+
+    /// Call before any permission checks on first launch so event-tap probes
+    /// (which trigger the "Keystroke Receiving" dialog) are deferred until the
+    /// sequential flow reaches the input-monitoring step.
+    func prepareInitialPermissionSequence() {
+        suppressInputMonitoringProbe = true
+        VocaLogger.debug(.appState, "Prepared initial permission sequence — suppressing input monitoring probes")
+    }
+
+    /// On first launch, request permissions one at a time: microphone first,
+    /// then accessibility, then input monitoring.
+    func requestInitialPermissionsSequentiallyIfNeeded(isFirstLaunch: Bool) {
+        guard isFirstLaunch else { return }
+        guard initialSequencePhase == .inactive else { return }
+
+        checkPermissions()
+        guard !allPermissionsGranted else { return }
+
+        VocaLogger.info(.appState, "Starting sequential initial permission flow")
+
+        if micPermission == .notDetermined {
+            initialSequencePhase = .requestingMicrophone
+            audioEngine.requestPermission { [weak self] granted in
+                Task { @MainActor in
+                    self?.handleInitialMicrophoneResult(granted)
+                }
+            }
+            return
+        }
+
+        if micPermission == .granted {
+            Task { @MainActor in
+                await self.promptAccessibilityIfNeeded()
+            }
+            return
+        }
+
+        // Microphone already denied — don't chain further system prompts.
+        suppressInputMonitoringProbe = false
+        startPermissionPolling()
+    }
+
+    private func handleInitialMicrophoneResult(_ granted: Bool) {
+        micPermission = granted ? .granted : .denied
+
+        guard granted else {
+            VocaLogger.info(.appState, "Microphone denied — stopping initial permission sequence")
+            suppressInputMonitoringProbe = false
+            initialSequencePhase = .inactive
+            startPermissionPolling()
+            return
+        }
+
+        Task { @MainActor in
+            try? await Task.sleep(nanoseconds: Self.interPromptDelayNanoseconds)
+            await self.promptAccessibilityIfNeeded()
+        }
+    }
+
+    private func promptAccessibilityIfNeeded() async {
+        guard initialSequencePhase == .inactive ||
+              initialSequencePhase == .requestingMicrophone else { return }
+
+        checkPermissions()
+
+        if accessibilityPermission == .granted {
+            initialSequencePhase = .awaitingInputMonitoringGrant
+            await promptInputMonitoringIfNeeded()
+            return
+        }
+
+        initialSequencePhase = .awaitingAccessibilityGrant
+        let _ = hotKeyManager.checkAccessibilityPermission(prompt: true)
+        VocaLogger.info(.appState, "Prompted for Accessibility permission")
+        startPermissionPolling()
+    }
+
+    private func promptInputMonitoringIfNeeded() async {
+        guard initialSequencePhase == .awaitingInputMonitoringGrant else { return }
+
+        // Probes were suppressed while microphone/accessibility prompts were active.
+        suppressInputMonitoringProbe = false
+        checkPermissions()
+
+        if inputMonitoringPermission == .granted {
+            finishInitialPermissionSequence()
+            return
+        }
+
+        requestInputMonitoringPermission()
+        VocaLogger.info(.appState, "Prompted for Input Monitoring permission")
+        startPermissionPolling()
+    }
+
+    private func finishInitialPermissionSequence() {
+        VocaLogger.info(.appState, "Initial permission sequence complete")
+        suppressInputMonitoringProbe = false
+        initialSequencePhase = .inactive
+        checkPermissions()
+
+        if accessibilityPermission == .granted,
+           inputMonitoringPermission == .granted,
+           !hotKeyManager.isListening {
+            onAllPermissionsGranted?()
+        }
+    }
+
+    private func handleInitialSequencePollingUpdate() {
+        switch initialSequencePhase {
+        case .inactive, .requestingMicrophone:
+            break
+        case .awaitingAccessibilityGrant:
+            guard accessibilityPermission == .granted else { return }
+            initialSequencePhase = .awaitingInputMonitoringGrant
+            Task { @MainActor in
+                try? await Task.sleep(nanoseconds: Self.interPromptDelayNanoseconds)
+                await self.promptInputMonitoringIfNeeded()
+            }
+        case .awaitingInputMonitoringGrant:
+            if inputMonitoringPermission == .granted {
+                finishInitialPermissionSequence()
+            }
+        }
     }
 
     // MARK: - Permission Requests
@@ -120,7 +266,7 @@ final class PermissionManager: ObservableObject {
 
     /// Prompt the user to grant Accessibility permission.
     func requestAccessibilityPermission() {
-        let _ = HotKeyManager.checkAccessibilityPermission(prompt: true)
+        let _ = hotKeyManager.checkAccessibilityPermission(prompt: true)
         startPermissionPolling()
     }
 
@@ -159,6 +305,7 @@ final class PermissionManager: ObservableObject {
             Task { @MainActor in
                 guard let self = self else { return }
                 self.checkPermissions()
+                self.handleInitialSequencePollingUpdate()
 
                 // Notify when all permissions granted and hotkey can start
                 if self.accessibilityPermission == .granted &&

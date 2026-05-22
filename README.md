@@ -39,7 +39,7 @@
 - **👆 双击切换** - 双击快捷键开始/停止录音。
 - **🧠 智能模型选择** - 自动检测硬件（Apple Silicon/Intel、内存），通过 WhisperKit 推荐最佳 Whisper 模型。
 - **⚡ 原生 Apple 加速** - 在 Apple Silicon 上使用 CoreML + Metal + 神经网络引擎加速，无需手动配置。
-- **📊 可视化反馈** - 录音和处理时菜单栏图标会变色，并显示音频输入电平。
+- **📊 可视化反馈** - 录音时菜单栏图标会隐藏，转写时变色，弹出面板显示音频输入电平。
 - **🔄 自动更新** - 内置更新检查器在启动时查询 GitHub Releases，可在应用内一键下载并安装最新版本。
 - **⚙️ 可配置** - 可自定义快捷键、模型、语言、静音检测阈值等。
 
@@ -58,7 +58,7 @@
   &nbsp;&nbsp;
   <img src="docs/screenshots/menu-bar-recording.png" alt="Menu Bar - Recording" width="250">
   <br>
-  <em>菜单栏图标：空闲（左）与录音中（右）</em>
+  <em>菜单栏图标：空闲（左）；录音时从菜单栏隐藏（右为示意）</em>
 </p>
 
 <p align="center">
@@ -213,7 +213,7 @@ Version 0.5.0-nightly.20260414+abc1234 (Nightly)
 
 | 操作 | 效果 |
 |--------|-------------|
-| **按住右 Option** | 开始录音（菜单栏图标变红） |
+| **按住右 Option** | 开始录音（菜单栏图标从菜单栏消失） |
 | **说话** | 本地采集音频 |
 | **松开右 Option** | 停止录音 → 转写 → 在光标处注入文字 |
 
@@ -233,13 +233,15 @@ Version 0.5.0-nightly.20260414+abc1234 (Nightly)
 
 VocaMac 通过 WhisperKit 的 CoreML 格式使用 OpenAI Whisper 模型。应用会自动检测硬件并推荐最佳模型：
 
-| 模型 | 参数量 | 大小 | 速度 | 质量 | 适用场景 |
-|-------|-----------|------|-------|---------|----------|
-| **Tiny** | 39M | ~0.4 GB | ⚡⚡⚡⚡⚡ | 良好 | 快速笔记、较旧 Mac |
-| **Base** | 74M | ~0.8 GB | ⚡⚡⚡⚡ | 较好 | 8GB 内存 Mac 日常使用 |
-| **Small** | 244M | ~1.5 GB | ⚡⚡⚡ | 很好 | 16GB+ Apple Silicon |
-| **Medium** | 769M | ~2.5 GB | ⚡⚡ | 优秀 | 24GB+ 高精度需求 |
-| **Large v3** | 1550M | ~4.8 GB | ⚡ | 最佳 | 最高精度 |
+| 模型 | 参数量 | 下载大小 | 运行内存 | 速度 | 质量 | 适用场景 |
+|-------|-----------|----------|----------|------|-------|----------|
+| **Tiny** | 39M | ~75 MB | ~150 MB | ⚡⚡⚡⚡⚡ | 良好 | 快速笔记、较旧 Mac |
+| **Base** | 74M | ~140 MB | ~250 MB | ⚡⚡⚡⚡ | 较好 | 8GB 内存 Mac 日常使用 |
+| **Small** | 244M | ~460 MB | ~600 MB | ⚡⚡⚡ | 很好 | 16GB+ Apple Silicon |
+| **Medium** | 769M | ~1.5 GB | ~1.8 GB | ⚡⚡ | 优秀 | 24GB+ 高精度需求 |
+| **Large v3** | 1550M | ~3 GB | ~3.2 GB | ⚡ | 最佳 | 最高精度 |
+
+> 上表为 WhisperKit CoreML（Apple Silicon Neural Engine）的实际占用，**不是** OpenAI 上游基于 PyTorch GPU 给出的 VRAM 估算。CoreML 量化后的模型在 ANE 上跑得更轻量。
 
 模型在首次使用时从 [HuggingFace](https://huggingface.co/argmaxinc/whisperkit-coreml) 自动下载并本地缓存。可在 **设置 → 模型** 中下载更多模型。
 

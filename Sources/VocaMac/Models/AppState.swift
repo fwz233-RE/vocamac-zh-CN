@@ -377,6 +377,11 @@ final class AppState: ObservableObject {
             .sink { [weak self] _ in self?.objectWillChange.send() }
             .store(in: &cancellables)
 
+        // Defer event-tap probes on first launch before the sequential flow runs.
+        if !hasCompletedOnboarding {
+            permissionManager.prepareInitialPermissionSequence()
+        }
+
         // Check permissions
         checkPermissions()
     }
@@ -492,14 +497,19 @@ final class AppState: ObservableObject {
                 language: language
             )
 
-            lastTranscription = result
-
             // Inject text at cursor position (text is already filtered
             // by WhisperService to remove hallucination tokens like [BLANK_AUDIO])
             let trimmedText = result.text.trimmingCharacters(in: .whitespacesAndNewlines)
             let outputText = ChineseScriptNormalizer.apply(
                 to: trimmedText,
                 simplifiedChineseEnabled: simplifiedChineseEnabled
+            )
+            lastTranscription = VocaTranscription(
+                text: outputText,
+                duration: result.duration,
+                detectedLanguage: result.detectedLanguage,
+                audioLengthSeconds: result.audioLengthSeconds,
+                modelUsed: result.modelUsed
             )
             if !outputText.isEmpty {
                 textInjector.inject(
@@ -691,8 +701,10 @@ final class AppState: ObservableObject {
         checkPermissions()
         VocaLogger.info(.appState, "Mic permission: \(micPermission.rawValue) | Accessibility: \(accessibilityPermission.rawValue) | Input Monitoring: \(inputMonitoringPermission.rawValue)")
 
-        // Auto-prompt for microphone permission on first launch
-        if micPermission == .notDetermined {
+        // First launch: microphone → accessibility → input monitoring, one dialog at a time.
+        if !hasCompletedOnboarding {
+            permissionManager.requestInitialPermissionsSequentiallyIfNeeded(isFirstLaunch: true)
+        } else if micPermission == .notDetermined {
             VocaLogger.info(.appState, "Mic permission not determined — requesting...")
             requestMicrophonePermission()
         }
@@ -732,20 +744,25 @@ final class AppState: ObservableObject {
         await loadModel(modelToLoad)
         VocaLogger.info(.appState, "Model loaded: \(whisperService.loadedModelName ?? "none")")
 
-        // 4. Always attempt to start hotkey listener
-        // The event tap creation itself will fail if permissions aren't granted,
-        // and we handle that gracefully in HotKeyManager.
-        VocaLogger.info(.appState, "Attempting to start hotkey listener...")
-        hotKeyManager.startListening(
-            keyCode: hotKeyCode,
-            mode: activationMode,
-            doubleTapThreshold: doubleTapThreshold,
-            safetyTimeout: Double(maxRecordingDuration) + 5.0
-        )
-        if hotKeyManager.isListening {
-            VocaLogger.info(.appState, "Hotkey listener active (keyCode=\(hotKeyCode), mode=\(activationMode.rawValue))")
+        // 4. Start hotkey listener once it is safe to create an event tap.
+        // On first launch, defer until the sequential permission flow finishes;
+        // startListening() triggers the Input Monitoring dialog and must not run
+        // in parallel with the microphone prompt.
+        if hasCompletedOnboarding || allPermissionsGranted {
+            VocaLogger.info(.appState, "Attempting to start hotkey listener...")
+            hotKeyManager.startListening(
+                keyCode: hotKeyCode,
+                mode: activationMode,
+                doubleTapThreshold: doubleTapThreshold,
+                safetyTimeout: Double(maxRecordingDuration) + 5.0
+            )
+            if hotKeyManager.isListening {
+                VocaLogger.info(.appState, "Hotkey listener active (keyCode=\(hotKeyCode), mode=\(activationMode.rawValue))")
+            } else {
+                VocaLogger.warning(.appState, "Hotkey listener failed to start. Check Accessibility & Input Monitoring permissions.")
+            }
         } else {
-            VocaLogger.warning(.appState, "Hotkey listener failed to start. Check Accessibility & Input Monitoring permissions.")
+            VocaLogger.info(.appState, "Deferring hotkey listener until initial permission sequence completes")
         }
 
         await updateChecker.checkOnLaunchIfNeeded()

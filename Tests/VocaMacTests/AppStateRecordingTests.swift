@@ -133,6 +133,7 @@ final class AppStateRecordingTests: XCTestCase {
         await appState.stopRecordingAndTranscribe()
 
         XCTAssertEqual(mocks.textInjector.lastInjectedText, "台湾")
+        XCTAssertEqual(appState.lastTranscription?.text, "台湾")
     }
 
     @MainActor
@@ -153,6 +154,7 @@ final class AppStateRecordingTests: XCTestCase {
         await appState.stopRecordingAndTranscribe()
 
         XCTAssertEqual(mocks.textInjector.lastInjectedText, "臺灣")
+        XCTAssertEqual(appState.lastTranscription?.text, "臺灣")
     }
 
     func testSelectedLanguageDefault() {

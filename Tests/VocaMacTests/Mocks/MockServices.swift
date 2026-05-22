@@ -98,9 +98,13 @@ final class MockHotKeyManager: HotKeyMonitoring {
     var resetKeyStateCallCount = 0
 
     private var accessibilityPermission = false
+    var accessibilityPromptCallCount = 0
 
     func checkAccessibilityPermission(prompt: Bool) -> Bool {
-        accessibilityPermission
+        if prompt {
+            accessibilityPromptCallCount += 1
+        }
+        return accessibilityPermission
     }
 
     func setAccessibilityPermission(_ granted: Bool) {
@@ -144,6 +148,8 @@ final class MockPermissionManager: ObservableObject, PermissionManaging {
     var openMicSettingsCallCount = 0
     var requestAccessibilityCallCount = 0
     var requestInputMonitoringCallCount = 0
+    var requestInitialSequenceCallCount = 0
+    var lastInitialSequenceIsFirstLaunch: Bool?
 
     var objectWillChangePublisher: AnyPublisher<Void, Never> {
         objectWillChange.eraseToAnyPublisher()
@@ -167,6 +173,8 @@ final class MockPermissionManager: ObservableObject, PermissionManaging {
         stopPollingCallCount += 1
     }
 
+    func prepareInitialPermissionSequence() {}
+
     func requestMicrophonePermission() {
         requestMicPermissionCallCount += 1
     }
@@ -181,6 +189,11 @@ final class MockPermissionManager: ObservableObject, PermissionManaging {
 
     func requestInputMonitoringPermission() {
         requestInputMonitoringCallCount += 1
+    }
+
+    func requestInitialPermissionsSequentiallyIfNeeded(isFirstLaunch: Bool) {
+        requestInitialSequenceCallCount += 1
+        lastInitialSequenceIsFirstLaunch = isFirstLaunch
     }
 }
 

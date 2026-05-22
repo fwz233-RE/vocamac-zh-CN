@@ -291,7 +291,7 @@ struct ModelSettingsTab: View {
                                 Text("当前模型：\(current.size.displayName)")
                                     .font(.callout)
                                     .fontWeight(.semibold)
-                                Text("\(current.size.qualityDescription) 质量 • \(current.size.fileSizeDescription)")
+                                Text("\(current.size.qualityDescription) 质量 • 下载 \(current.size.fileSizeDescription) • 运行内存 \(current.size.ramRequiredDescription)")
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                             }
@@ -432,11 +432,11 @@ struct ModelRow: View {
                 }
 
                 HStack(spacing: 4) {
-                    Text(model.size.fileSizeDescription)
+                    Text("下载 \(model.size.fileSizeDescription)")
+                    Text("•")
+                    Text("运行内存 \(model.size.ramRequiredDescription)")
                     Text("•")
                     Text(model.size.qualityDescription)
-                    Text("•")
-                    Text("约 \(String(format: "%.0f", model.size.ramRequiredGB)) GB 内存")
                     Text("•")
                     Text("速度：\(String(repeating: "⚡", count: max(1, 6 - model.size.relativeSpeed)))")
                 }
@@ -863,7 +863,7 @@ struct DebugTab: View {
                             .foregroundStyle(.red)
                     }
                     .controlSize(.small)
-                    .help("重置 VocaMac 的所有 TCC 权限。应用将退出，下次启动时需要重新授权。")
+                    .help("重置 VocaMac 的所有 TCC 权限。应用将退出，下次启动时会重新显示设置向导并逐个请求权限。")
                 }
 
                 HStack(alignment: .top, spacing: 8) {
@@ -950,7 +950,7 @@ struct DebugTab: View {
     private func resetPermissions() {
         let alert = NSAlert()
         alert.messageText = "重置所有权限？"
-        alert.informativeText = "这将清除 VocaMac 的所有权限授权（麦克风、辅助功能、输入监控）。应用将退出，下次启动时需要重新授权。\n\n当权限状态异常或更新后未被识别时，此操作很有用。"
+        alert.informativeText = "这将清除 VocaMac 的所有权限授权（麦克风、辅助功能、输入监控）。应用将退出，下次启动时会重新显示设置向导，并按顺序逐个请求权限。\n\n当权限状态异常或更新后未被识别时，此操作很有用。"
         alert.alertStyle = .warning
         alert.addButton(withTitle: "重置并退出")
         alert.addButton(withTitle: "取消")
@@ -965,6 +965,9 @@ struct DebugTab: View {
             task.waitUntilExit()
 
             VocaLogger.info(.general, "TCC permissions reset via tccutil")
+
+            // Re-run onboarding and sequential permission prompts on next launch.
+            appState.hasCompletedOnboarding = false
 
             // Quit the app so permissions take effect on next launch
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {

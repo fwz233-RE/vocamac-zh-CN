@@ -200,25 +200,26 @@ enum ModelSize: String, CaseIterable, Codable, Identifiable {
         "openai_whisper-\(rawValue)"
     }
 
-    /// Approximate file size on disk
+    /// Approximate file size on disk (WhisperKit CoreML distribution).
     var fileSizeBytes: Int64 {
         switch self {
-        case .tiny:    return 39_000_000
-        case .base:    return 142_000_000
-        case .small:   return 466_000_000
-        case .medium:  return 1_500_000_000
-        case .largeV3: return 3_100_000_000
+        case .tiny:    return 75_000_000     // ~75 MB
+        case .base:    return 140_000_000    // ~140 MB
+        case .small:   return 460_000_000    // ~460 MB
+        case .medium:  return 1_500_000_000  // ~1.5 GB
+        case .largeV3: return 3_000_000_000  // ~3 GB
         }
     }
 
-    /// Approximate RAM required for inference
+    /// Approximate RAM required for inference on Apple Silicon (CoreML/ANE).
+    /// Not to be confused with OpenAI's PyTorch GPU VRAM figures.
     var ramRequiredGB: Double {
         switch self {
-        case .tiny:    return 1.0
-        case .base:    return 1.5
-        case .small:   return 2.0
-        case .medium:  return 5.0
-        case .largeV3: return 10.0
+        case .tiny:    return 0.15  // ~150 MB
+        case .base:    return 0.25  // ~250 MB
+        case .small:   return 0.60  // ~600 MB
+        case .medium:  return 1.80  // ~1.8 GB
+        case .largeV3: return 3.20  // ~3.2 GB
         }
     }
 

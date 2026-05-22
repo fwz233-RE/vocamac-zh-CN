@@ -138,14 +138,33 @@ struct VocaMacApp: App {
     @StateObject private var appState = AppState.production()
     @StateObject private var settingsManager = SettingsWindowManager()
     @StateObject private var onboardingManager = OnboardingWindowManager()
+    /// Tracks whether the user has kept VocaMac in the menu bar (system sets false on removal).
+    @State private var menuBarInserted = true
+    /// Used with `onChange` to detect transitions out of recording (macOS 13 API).
+    @State private var wasRecordingForMenuBar = false
+
+    /// Hides the menu bar item entirely while recording so no placeholder space remains.
+    private var menuBarIsInserted: Binding<Bool> {
+        Binding(
+            get: { menuBarInserted && appState.appStatus != .recording },
+            set: { newValue in
+                // Only persist user-driven removal from the menu bar. When we hide
+                // for recording, macOS may write `false` back through this binding;
+                // ignoring that keeps menuBarInserted true so the icon reappears.
+                if appState.appStatus != .recording {
+                    menuBarInserted = newValue
+                }
+            }
+        )
+    }
 
     var body: some Scene {
         // Menu bar presence — the primary UI for VocaMac
-        MenuBarExtra {
+        MenuBarExtra(isInserted: menuBarIsInserted) {
             MenuBarView(settingsManager: settingsManager)
                 .environmentObject(appState)
         } label: {
-            MenuBarIcon(appStatus: appState.appStatus, audioLevel: appState.audioLevel)
+            MenuBarIcon(appStatus: appState.appStatus)
                 .onAppear {
                     // Trigger startup from the SwiftUI lifecycle so it only runs
                     // on the AppState instance that SwiftUI actually retains.
@@ -156,6 +175,13 @@ struct VocaMacApp: App {
                 }
         }
         .menuBarExtraStyle(.window)
+        .onChange(of: appState.appStatus) { newStatus in
+            // Recover if an older build cleared menuBarInserted while hidden for recording.
+            if wasRecordingForMenuBar, newStatus != .recording, !menuBarInserted {
+                menuBarInserted = true
+            }
+            wasRecordingForMenuBar = (newStatus == .recording)
+        }
     }
 
     @MainActor init() {
@@ -232,13 +258,11 @@ struct VocaMacApp: App {
 /// the actual color in the menu bar.
 ///
 /// States:
-///   • idle       → system template mic (white/black, adapts to menu bar appearance)
-///   • recording  → red filled mic (non-template, colored)
-///   • processing → purple spinner (non-template, colored)
-///   • error      → yellow warning (non-template, colored)
+///   • idle / recording → system template mic (recording hides MenuBarExtra entirely)
+///   • processing       → purple spinner (non-template, colored)
+///   • error            → yellow warning (non-template, colored)
 struct MenuBarIcon: View {
     let appStatus: AppStatus
-    let audioLevel: Float
 
     var body: some View {
         Image(nsImage: makeMenuBarIcon())
@@ -250,12 +274,12 @@ struct MenuBarIcon: View {
         guard let baseImage = NSImage(systemSymbolName: iconName, accessibilityDescription: "VocaMac")?
             .withSymbolConfiguration(config) else {
             let fallback = NSImage(systemSymbolName: "mic", accessibilityDescription: "VocaMac") ?? NSImage()
-            fallback.isTemplate = appStatus == .idle
+            fallback.isTemplate = usesTemplateIcon
             return fallback
         }
 
-        // Idle: use the system template icon so it matches other menu bar items.
-        if appStatus == .idle {
+        // Idle / recording: system template icon (recording never tints red; item is hidden).
+        if usesTemplateIcon {
             baseImage.isTemplate = true
             return baseImage
         }
@@ -274,11 +298,13 @@ struct MenuBarIcon: View {
         return tinted
     }
 
+    private var usesTemplateIcon: Bool {
+        appStatus == .idle || appStatus == .recording
+    }
+
     private var iconName: String {
         switch appStatus {
-        case .idle:
-            return "mic.fill"
-        case .recording:
+        case .idle, .recording:
             return "mic.fill"
         case .processing:
             return "ellipsis.circle"
@@ -289,10 +315,12 @@ struct MenuBarIcon: View {
 
     private var nsColor: NSColor {
         switch appStatus {
-        case .idle:       return .labelColor
-        case .recording:  return .systemRed
-        case .processing: return NSColor(red: 0.749, green: 0.353, blue: 0.949, alpha: 1.0) // #BF5AF2
-        case .error:      return .systemYellow
+        case .idle, .recording:
+            return .labelColor
+        case .processing:
+            return NSColor(red: 0.749, green: 0.353, blue: 0.949, alpha: 1.0) // #BF5AF2
+        case .error:
+            return .systemYellow
         }
     }
 }

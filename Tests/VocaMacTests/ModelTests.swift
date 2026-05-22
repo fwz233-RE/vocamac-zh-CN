@@ -85,6 +85,14 @@ final class ModelSizeTests: XCTestCase {
         }
     }
 
+    func testRAMRequiredDescription() {
+        XCTAssertEqual(ModelSize.tiny.ramRequiredDescription, "约 150 MB")
+        XCTAssertEqual(ModelSize.base.ramRequiredDescription, "约 250 MB")
+        XCTAssertEqual(ModelSize.small.ramRequiredDescription, "约 600 MB")
+        XCTAssertEqual(ModelSize.medium.ramRequiredDescription, "约 1.8 GB")
+        XCTAssertEqual(ModelSize.largeV3.ramRequiredDescription, "约 3.2 GB")
+    }
+
     func testQualityDescriptions() {
         for size in ModelSize.allCases {
             XCTAssertFalse(size.qualityDescription.isEmpty)

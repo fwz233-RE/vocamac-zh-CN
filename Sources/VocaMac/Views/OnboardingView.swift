@@ -159,11 +159,6 @@ struct OnboardingView: View {
             }
         }
         .frame(width: 600, height: 550)
-        .onAppear {
-            Task { @MainActor in
-                await appState.performStartup()
-            }
-        }
     }
 
     // MARK: - Navigation
@@ -477,10 +472,19 @@ struct ModelSelectionCard: View {
 
                     HStack(spacing: 16) {
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("大小")
+                            Text("下载")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                             Text(modelInfo.size.fileSizeDescription)
+                                .font(.caption)
+                                .fontWeight(.medium)
+                        }
+
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("运行内存")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                            Text(modelInfo.size.ramRequiredDescription)
                                 .font(.caption)
                                 .fontWeight(.medium)
                         }

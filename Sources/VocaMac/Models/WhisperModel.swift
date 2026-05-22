@@ -28,14 +28,19 @@ enum ModelSize: String, CaseIterable, Codable, Identifiable {
         }
     }
 
-    /// Approximate file size on disk in bytes
+    /// Approximate file size on disk in bytes.
+    ///
+    /// Figures reflect the WhisperKit CoreML distribution on HuggingFace
+    /// (`argmaxinc/whisperkit-coreml`), not OpenAI's PyTorch checkpoints,
+    /// because that's what VocaMac actually downloads. Verified against the
+    /// WhisperKit model-selection docs and local on-disk measurement.
     var fileSizeBytes: Int64 {
         switch self {
-        case .tiny:    return 39_000_000
-        case .base:    return 142_000_000
-        case .small:   return 466_000_000
-        case .medium:  return 1_500_000_000
-        case .largeV3: return 3_100_000_000
+        case .tiny:    return 75_000_000     // ~75 MB
+        case .base:    return 140_000_000    // ~140 MB
+        case .small:   return 460_000_000    // ~460 MB
+        case .medium:  return 1_500_000_000  // ~1.5 GB
+        case .largeV3: return 3_000_000_000  // ~3 GB
         }
     }
 
@@ -46,15 +51,35 @@ enum ModelSize: String, CaseIterable, Codable, Identifiable {
         return formatter.string(fromByteCount: fileSizeBytes)
     }
 
-    /// Approximate RAM required for inference in GB
+    /// Approximate RAM required for inference, in gigabytes.
+    ///
+    /// Values come from WhisperKit's official model-selection table for the
+    /// CoreML/ANE backend used by VocaMac. These are **much smaller** than the
+    /// PyTorch GPU VRAM figures published by OpenAI because the CoreML models
+    /// are quantized and run on the Neural Engine.
     var ramRequiredGB: Double {
         switch self {
-        case .tiny:    return 1.0
-        case .base:    return 1.5
-        case .small:   return 2.0
-        case .medium:  return 5.0
-        case .largeV3: return 10.0
+        case .tiny:    return 0.15  // ~150 MB
+        case .base:    return 0.25  // ~250 MB
+        case .small:   return 0.60  // ~600 MB
+        case .medium:  return 1.80  // ~1.8 GB
+        case .largeV3: return 3.20  // ~3.2 GB
         }
+    }
+
+    /// Human-readable approximate RAM required for inference.
+    ///
+    /// Renders in MB when below 1 GB (e.g. "约 150 MB") and in GB otherwise
+    /// (e.g. "约 1.8 GB").
+    var ramRequiredDescription: String {
+        if ramRequiredGB < 1.0 {
+            let mb = Int((ramRequiredGB * 1000).rounded())
+            return "约 \(mb) MB"
+        }
+        if ramRequiredGB.truncatingRemainder(dividingBy: 1) == 0 {
+            return "约 \(Int(ramRequiredGB)) GB"
+        }
+        return String(format: "约 %.1f GB", ramRequiredGB)
     }
 
     /// Relative speed indicator (1 = fastest)
